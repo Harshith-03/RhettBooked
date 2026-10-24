@@ -1,0 +1,11 @@
+# Keep the image lean: exclude everything the backend runtime does not need.
+.git
+frontend/
+node_modules
+.env
+secrets/
+backend/tests/
+.pytest_cache
+__pycache__
+docs/
+.kiro/

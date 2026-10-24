@@ -61,11 +61,55 @@ class Settings:
     mbta_api_key: str = ""
     token_key: str = ""
     vault_path: str = "secrets/vault.sqlite"
-    cors_origin: str = "http://localhost:5173"
+    allowed_origins: tuple[str, ...] = ("http://localhost:5173",)
+    eventtwin_db: str = ""              # EVENTTWIN_DB override (e.g. deploy/eventtwin_demo.duckdb)
+    cache_dir: str = ""                # EVENTTWIN_CACHE override for cached API responses
 
     @property
     def llm_enabled(self) -> bool:
         return self.llm_provider.lower() != "none"
+
+    @property
+    def cors_origin(self) -> str:
+        """Back-compat single-origin accessor (first allowed origin)."""
+        return self.allowed_origins[0] if self.allowed_origins else "http://localhost:5173"
+
+
+def active_db_path() -> Path:
+    """DuckDB path the app should read: the EVENTTWIN_DB override, else the default.
+
+    The deploy image sets EVENTTWIN_DB=deploy/eventtwin_demo.duckdb (committed,
+    personal-data-free) so no build step is needed at container startup.
+    """
+    override = os.environ.get("EVENTTWIN_DB", "").strip()
+    if override:
+        p = Path(override)
+        return p if p.is_absolute() else (REPO_ROOT / p)
+    return DUCKDB_PATH
+
+
+def active_cache_dir() -> Path:
+    """Cached external-API response directory: EVENTTWIN_CACHE override, else default."""
+    override = os.environ.get("EVENTTWIN_CACHE", "").strip()
+    if override:
+        p = Path(override)
+        return p if p.is_absolute() else (REPO_ROOT / p)
+    return RAW_LIVE_DIR
+
+
+def _parse_origins(raw: str) -> tuple[str, ...]:
+    """Parse ALLOWED_ORIGINS (comma-separated); always include localhost:5173."""
+    origins = [o.strip() for o in raw.split(",") if o.strip()]
+    if "http://localhost:5173" not in origins:
+        origins.append("http://localhost:5173")
+    # De-dup, preserve order.
+    seen: set[str] = set()
+    out: list[str] = []
+    for o in origins:
+        if o not in seen:
+            seen.add(o)
+            out.append(o)
+    return tuple(out)
 
 
 @lru_cache(maxsize=1)
@@ -80,13 +124,20 @@ def load_assumptions() -> dict:
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
+    # ALLOWED_ORIGINS is the canonical multi-origin var; fall back to the older
+    # single CORS_ORIGIN for local dev convenience.
+    raw_origins = os.environ.get("ALLOWED_ORIGINS", "").strip()
+    if not raw_origins:
+        raw_origins = os.environ.get("CORS_ORIGIN", "http://localhost:5173").strip()
     return Settings(
         llm_provider=os.environ.get("LLM_PROVIDER", "none").strip() or "none",
         llm_api_key=os.environ.get("LLM_API_KEY", "").strip(),
         mbta_api_key=os.environ.get("MBTA_API_KEY", "").strip(),
         token_key=os.environ.get("TOKEN_KEY", "").strip(),
         vault_path=os.environ.get("VAULT_PATH", "secrets/vault.sqlite").strip(),
-        cors_origin=os.environ.get("CORS_ORIGIN", "http://localhost:5173").strip(),
+        allowed_origins=_parse_origins(raw_origins),
+        eventtwin_db=os.environ.get("EVENTTWIN_DB", "").strip(),
+        cache_dir=os.environ.get("EVENTTWIN_CACHE", "").strip(),
     )
 
 

@@ -126,14 +126,14 @@ prior waves completing.
   - Test: air-wall exclusivity holds in every returned assignment.
   - _Requirements: 3.1-3.10_
 
-- [ ] 6. [P0] Budget (thin) and plan orchestrator
+- [x] 6. [P0] Budget (thin) and plan orchestrator
   - budget.estimate: Monte Carlo over turnout + rate-card ranges -> line items + total p10/p50/p90,
     cost/attendee, sponsorship gap = p50 - budget.
   - plan.build: orchestrate attendance -> venue -> budget; assemble summary (building, cost band,
     readiness placeholder, top-3-risks placeholder).
   - _Requirements: 8.1, 8.2, 8.4_
 
-- [ ] 7. [P0] Drill core + verdict (limited: occupancy + power + getting-home)
+- [x] 7. [P0] Drill core + verdict (limited: occupancy + power + getting-home)
   - twin.run: 15-min steps for occupancy, power, and getting-home/mobility only (no air/CO2, network,
     or food/restroom queues in the P0 core - those move to P1 task 20).
   - Auto-include any planned MBTA disruption whose window overlaps the event dates (from transport.plan,
@@ -143,19 +143,19 @@ prior waves completing.
   - Test: an Oct 31 2026 event triggers the Green Line risk and the drill auto-includes the closure.
   - _Requirements: 9.1, 9.4, 9.5, 9.6, 9.7, 15.5_
 
-- [ ] 8. [P0] API endpoints + CORS
+- [x] 8. [P0] API endpoints + CORS
   - Implement POST /brief/parse, /plan, /plan/options, /drill/run, /drill/compare, /privacy/upload,
     GET /provenance, /assumptions, /live/alerts; CORS for localhost:5173; works with LLM_PROVIDER=none.
   - _Requirements: 12.1-12.3_
 
-- [ ] 8a. [P0] Thin acceptance checkpoint (post-API)
+- [x] 8a. [P0] Thin acceptance checkpoint (post-API)
   - Smoke test right after the API lands: app boots, and with LLM_PROVIDER=none the acceptance brief
     flows POST /brief/parse -> POST /plan and returns a 200 with a non-empty plan summary (venue + budget
     present; drill/food/transport may be labelled stubs at this point).
   - Purpose: catch wiring/CORS/serialization breakage before building the frontend on top.
   - _Requirements: 12.1-12.3_
 
-- [ ] 9. [P0] Frontend thin slice: Intake, Plan, Drill
+- [x] 9. [P0] Frontend thin slice: Intake, Plan, Drill (ONE page, Vercel-ready)
   - Intake: text box + example chip + optional CSV upload + up to 3 inline follow-ups.
   - Plan: summary bar + 7 tiles with one-line status and details drawers + MapLibre base map.
   - Drill: floor/room grid by worst system, time scrubber + play, first-failure timeline, narration,

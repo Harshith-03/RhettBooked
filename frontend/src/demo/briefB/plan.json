@@ -1,0 +1,598 @@
+{
+  "summary": {
+    "recommended_building": "GSU",
+    "cost_p10": 20557,
+    "cost_p50": 25782,
+    "cost_p90": 31320,
+    "cost_per_attendee": 140.89,
+    "sponsorship_gap": 10782,
+    "turnout_p50": 183,
+    "turnout_p90": 238,
+    "readiness": 70,
+    "top_risks": [
+      "Green Line closure; Route 57 shuttle (fare-free)",
+      "Power failing from 10:15"
+    ]
+  },
+  "venue": {
+    "recommended": "GSU",
+    "options": [
+      {
+        "building_code": "GSU",
+        "feasible": true,
+        "reason": "fits all 3 blocks; avg utilization 47%, room cost $1100/hr; 100% real BU event-space data",
+        "measured_share": 1.0,
+        "total_cost": 1100,
+        "avg_utilization": 0.47,
+        "assignments": [
+          {
+            "block": "Main hall",
+            "room_id": "GSU-ZIS",
+            "room_name": "Ziskind Lounge",
+            "layout": "work",
+            "capacity": 575,
+            "utilization": 0.421
+          },
+          {
+            "block": "Meals",
+            "room_id": "GSU-219B",
+            "room_name": "Metcalf Hall Large Ballroom",
+            "layout": "meal",
+            "capacity": 630,
+            "utilization": 0.384
+          },
+          {
+            "block": "Opening keynote",
+            "room_id": "GSU-219A",
+            "room_name": "Metcalf Hall Small Ballroom",
+            "layout": "keynote",
+            "capacity": 400,
+            "utilization": 0.605
+          }
+        ],
+        "action_items": [
+          "Confirm overnight access for this building with BU Reservations",
+          "Confirm AV level (projector/sound/mic) with BU Reservations"
+        ],
+        "unmet_constraint": null
+      },
+      {
+        "building_code": "KHC",
+        "feasible": true,
+        "reason": "fits all 3 blocks; avg utilization 58%, room cost $800/hr; placeholder room data, verify with BU Reservations",
+        "measured_share": 0.0,
+        "total_cost": 800,
+        "avg_utilization": 0.589,
+        "assignments": [
+          {
+            "block": "Main hall",
+            "room_id": "RM0078",
+            "room_name": "959",
+            "layout": "work",
+            "capacity": 597,
+            "utilization": 0.405
+          },
+          {
+            "block": "Meals",
+            "room_id": "RM0075",
+            "room_name": "216",
+            "layout": "meal",
+            "capacity": 451,
+            "utilization": 0.537
+          },
+          {
+            "block": "Opening keynote",
+            "room_id": "RM0080",
+            "room_name": "868",
+            "layout": "keynote",
+            "capacity": 293,
+            "utilization": 0.826
+          }
+        ],
+        "action_items": [
+          "Confirm overnight access for this building with BU Reservations",
+          "Confirm AV level (projector/sound/mic) with BU Reservations",
+          "Verify placeholder room details (capacity, rate, AV) with BU Reservations"
+        ],
+        "unmet_constraint": null
+      },
+      {
+        "building_code": "PHO",
+        "feasible": false,
+        "reason": "infeasible - no room offers layout 'work' at capacity >= 266 for block 'Main hall'",
+        "measured_share": 0.0,
+        "total_cost": 0,
+        "avg_utilization": 0.0,
+        "assignments": [],
+        "action_items": [],
+        "unmet_constraint": "no room offers layout 'work' at capacity >= 266 for block 'Main hall'"
+      }
+    ]
+  },
+  "budget": {
+    "total_p10": 20557,
+    "total_p50": 25782,
+    "total_p90": 31320,
+    "cost_per_attendee": 140.89,
+    "sponsorship_gap": 10782,
+    "line_items": [
+      {
+        "name": "Catering - breakfast",
+        "p10": 1387,
+        "p50": 2009,
+        "p90": 2717
+      },
+      {
+        "name": "Catering - lunch",
+        "p10": 2418,
+        "p50": 3447,
+        "p90": 4579
+      },
+      {
+        "name": "Catering - snack",
+        "p10": 863,
+        "p50": 1233,
+        "p90": 1681
+      },
+      {
+        "name": "Catering - dinner",
+        "p10": 3469,
+        "p50": 5056,
+        "p90": 6799
+      },
+      {
+        "name": "Water",
+        "p10": 226,
+        "p50": 324,
+        "p90": 456
+      },
+      {
+        "name": "Wi-Fi AP rental",
+        "p10": 375,
+        "p50": 497,
+        "p90": 623
+      },
+      {
+        "name": "Power stations",
+        "p10": 236,
+        "p50": 319,
+        "p90": 422
+      },
+      {
+        "name": "AV tech",
+        "p10": 687,
+        "p50": 900,
+        "p90": 1126
+      },
+      {
+        "name": "Security",
+        "p10": 773,
+        "p50": 898,
+        "p90": 1040
+      },
+      {
+        "name": "Custodial",
+        "p10": 433,
+        "p50": 545,
+        "p90": 641
+      },
+      {
+        "name": "Insurance",
+        "p10": 251,
+        "p50": 369,
+        "p90": 490
+      },
+      {
+        "name": "Prizes",
+        "p10": 2851,
+        "p50": 5475,
+        "p90": 8010
+      },
+      {
+        "name": "Printing",
+        "p10": 135,
+        "p50": 235,
+        "p90": 330
+      },
+      {
+        "name": "Swag",
+        "p10": 1325,
+        "p50": 2181,
+        "p90": 3110
+      },
+      {
+        "name": "Contingency",
+        "p10": 1587,
+        "p50": 2304,
+        "p90": 3283
+      }
+    ]
+  },
+  "attendance": {
+    "turnout_p50": 183,
+    "turnout_p90": 238,
+    "peak_p90": 242,
+    "blocks": 132
+  },
+  "tiles": [
+    {
+      "name": "Venue",
+      "status": "GSU - fits all 3 blocks; avg utilization 47%, room cost $1100/hr; 100% real BU event-space data",
+      "details": {
+        "recommended": "GSU",
+        "measured_share": 1.0,
+        "assignments": [
+          {
+            "block": "Main hall",
+            "room_id": "GSU-ZIS",
+            "room_name": "Ziskind Lounge",
+            "capacity": 575,
+            "utilization": 0.421
+          },
+          {
+            "block": "Meals",
+            "room_id": "GSU-219B",
+            "room_name": "Metcalf Hall Large Ballroom",
+            "capacity": 630,
+            "utilization": 0.384
+          },
+          {
+            "block": "Opening keynote",
+            "room_id": "GSU-219A",
+            "room_name": "Metcalf Hall Small Ballroom",
+            "capacity": 400,
+            "utilization": 0.605
+          }
+        ]
+      },
+      "action_items": [
+        "Confirm overnight access for this building with BU Reservations",
+        "Confirm AV level (projector/sound/mic) with BU Reservations"
+      ]
+    },
+    {
+      "name": "Budget",
+      "status": "p50 $25,782 (p10 $20,557 - p90 $31,320)",
+      "details": {
+        "total_p10": 20557,
+        "total_p50": 25782,
+        "total_p90": 31320,
+        "cost_per_attendee": 140.89,
+        "sponsorship_gap": 10782,
+        "line_items": [
+          {
+            "name": "Catering - breakfast",
+            "p10": 1387,
+            "p50": 2009,
+            "p90": 2717
+          },
+          {
+            "name": "Catering - lunch",
+            "p10": 2418,
+            "p50": 3447,
+            "p90": 4579
+          },
+          {
+            "name": "Catering - snack",
+            "p10": 863,
+            "p50": 1233,
+            "p90": 1681
+          },
+          {
+            "name": "Catering - dinner",
+            "p10": 3469,
+            "p50": 5056,
+            "p90": 6799
+          },
+          {
+            "name": "Water",
+            "p10": 226,
+            "p50": 324,
+            "p90": 456
+          },
+          {
+            "name": "Wi-Fi AP rental",
+            "p10": 375,
+            "p50": 497,
+            "p90": 623
+          },
+          {
+            "name": "Power stations",
+            "p10": 236,
+            "p50": 319,
+            "p90": 422
+          },
+          {
+            "name": "AV tech",
+            "p10": 687,
+            "p50": 900,
+            "p90": 1126
+          },
+          {
+            "name": "Security",
+            "p10": 773,
+            "p50": 898,
+            "p90": 1040
+          },
+          {
+            "name": "Custodial",
+            "p10": 433,
+            "p50": 545,
+            "p90": 641
+          },
+          {
+            "name": "Insurance",
+            "p10": 251,
+            "p50": 369,
+            "p90": 490
+          },
+          {
+            "name": "Prizes",
+            "p10": 2851,
+            "p50": 5475,
+            "p90": 8010
+          },
+          {
+            "name": "Printing",
+            "p10": 135,
+            "p50": 235,
+            "p90": 330
+          },
+          {
+            "name": "Swag",
+            "p10": 1325,
+            "p50": 2181,
+            "p90": 3110
+          },
+          {
+            "name": "Contingency",
+            "p10": 1587,
+            "p50": 2304,
+            "p90": 3283
+          }
+        ]
+      },
+      "action_items": []
+    },
+    {
+      "name": "Tech",
+      "status": "sized in task 14",
+      "details": {},
+      "action_items": []
+    },
+    {
+      "name": "Food & Water",
+      "status": "planned in task 15",
+      "details": {},
+      "action_items": []
+    },
+    {
+      "name": "Getting There",
+      "status": "Green Line closure; Route 57 shuttle (fare-free)",
+      "details": {
+        "planned_disruptions": [
+          {
+            "lines": [
+              "Green Line"
+            ],
+            "start_date": "2026-10-31",
+            "end_date": "2026-11-01",
+            "shuttle_note": "Route 57 shuttle",
+            "fare_free": true,
+            "label": "Green Line closure; Route 57 shuttle (fare-free)"
+          }
+        ]
+      },
+      "action_items": []
+    },
+    {
+      "name": "People",
+      "status": "P1 (task 18)",
+      "details": {},
+      "action_items": []
+    },
+    {
+      "name": "Drill",
+      "status": "readiness 70/100 (failing)",
+      "details": {
+        "readiness": 70,
+        "worst_status": "failing",
+        "systems": [
+          {
+            "system": "occupancy",
+            "status": "ok",
+            "first_failure_clock": null,
+            "note": "peak occupancy vs assigned capacity 400"
+          },
+          {
+            "system": "power",
+            "status": "failing",
+            "first_failure_clock": "10:15",
+            "note": "charging load vs 10 circuits"
+          },
+          {
+            "system": "getting_home",
+            "status": "ok",
+            "first_failure_clock": null,
+            "note": "late-night departures vs transit (planned rail closure in effect)"
+          }
+        ],
+        "top_risks": [
+          "Green Line closure; Route 57 shuttle (fare-free)",
+          "Power failing from 10:15"
+        ],
+        "fixes": {
+          "do_now": [
+            "Use the Route 57 shuttle (fare-free) during the closure",
+            "Rent additional power stations / distribute charging across rooms"
+          ],
+          "plan_for": [
+            "Pre-position power strips and label circuits before doors open"
+          ],
+          "improve_later": [
+            "Choose rooms with more branch circuits"
+          ]
+        },
+        "disruptions": [
+          "Green Line closure; Route 57 shuttle (fare-free)"
+        ]
+      },
+      "action_items": [
+        "Use the Route 57 shuttle (fare-free) during the closure",
+        "Rent additional power stations / distribute charging across rooms"
+      ]
+    }
+  ],
+  "provenance": [
+    {
+      "output_key": "attendance.show_up_prior",
+      "label": "ASSUMED",
+      "source": "ASSUMED - typical student hackathon no-show experience",
+      "value_summary": "Beta(alpha=6.0, beta=4.0)"
+    },
+    {
+      "output_key": "attendance.turnout",
+      "label": "SIMULATED",
+      "source": "Monte Carlo 500 draws over the Beta show-up prior",
+      "value_summary": "p50=183, p90=238"
+    },
+    {
+      "output_key": "attendance.concurrency_curve",
+      "label": "SIMULATED",
+      "source": "Monte Carlo 500 draws x trapezoidal shape + overnight decay",
+      "value_summary": "132 blocks of 15 min; peak p90=242"
+    },
+    {
+      "output_key": "venue.recommended_building",
+      "label": "MEASURED",
+      "source": "bu_event_spaces.csv via DuckDB rooms (layout capacities)",
+      "value_summary": "GSU: 3 blocks assigned"
+    },
+    {
+      "output_key": "venue.av_capability",
+      "label": "ASSUMED",
+      "source": "AV level not in dataset; assumed available",
+      "value_summary": "AV assumed available"
+    },
+    {
+      "output_key": "budget.catering.breakfast",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.breakfast (placeholder range)",
+      "value_summary": "$9-14/head"
+    },
+    {
+      "output_key": "budget.catering.lunch",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.lunch (placeholder range)",
+      "value_summary": "$15-24/head"
+    },
+    {
+      "output_key": "budget.catering.snack",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.snack (placeholder range)",
+      "value_summary": "$5-9/head"
+    },
+    {
+      "output_key": "budget.catering.dinner",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.dinner (placeholder range)",
+      "value_summary": "$22-35/head"
+    },
+    {
+      "output_key": "budget.water",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml bottled_water_each",
+      "value_summary": "~3 bottles/head"
+    },
+    {
+      "output_key": "budget.wifi",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml temporary_wifi_ap_rental_per_ap_per_day",
+      "value_summary": "6 APs"
+    },
+    {
+      "output_key": "budget.power",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml power_strip_station_rental_each",
+      "value_summary": "20 stations"
+    },
+    {
+      "output_key": "budget.av_tech_per_hour",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml av_tech_per_hour",
+      "value_summary": "12 hrs"
+    },
+    {
+      "output_key": "budget.security_police_detail_per_hour",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml security_police_detail_per_hour",
+      "value_summary": "12 hrs"
+    },
+    {
+      "output_key": "budget.custodial_per_hour",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml custodial_per_hour",
+      "value_summary": "12 hrs"
+    },
+    {
+      "output_key": "budget.event_insurance_flat",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml event_insurance_flat",
+      "value_summary": "flat"
+    },
+    {
+      "output_key": "budget.prizes_total",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml prizes_total",
+      "value_summary": "flat"
+    },
+    {
+      "output_key": "budget.printing_flat",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml printing_flat",
+      "value_summary": "flat"
+    },
+    {
+      "output_key": "budget.swag",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml swag_per_head",
+      "value_summary": "per head"
+    },
+    {
+      "output_key": "budget.contingency",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml contingency_percent",
+      "value_summary": "% of subtotal"
+    },
+    {
+      "output_key": "budget.total",
+      "label": "SIMULATED",
+      "source": "Monte Carlo 500 draws over turnout + rate-card ranges",
+      "value_summary": "p10=20557, p50=25782, p90=31320"
+    },
+    {
+      "output_key": "budget.sponsorship_gap",
+      "label": "SIMULATED",
+      "source": "p50 total minus stated budget",
+      "value_summary": "gap=10782"
+    },
+    {
+      "output_key": "drill.disruption.planned",
+      "label": "MEASURED",
+      "source": "mbta_stations_bu.csv service_alert",
+      "value_summary": "Green Line closure; Route 57 shuttle (fare-free)"
+    },
+    {
+      "output_key": "drill.run",
+      "label": "SIMULATED",
+      "source": "15-min twin stepping (occupancy, power, getting-home)",
+      "value_summary": "worst=failing; disruptions=1"
+    },
+    {
+      "output_key": "drill.readiness",
+      "label": "SIMULATED",
+      "source": "weighted share of P0 systems ok (occupancy/power/getting-home)",
+      "value_summary": "70/100"
+    }
+  ]
+}

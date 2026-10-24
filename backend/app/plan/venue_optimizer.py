@@ -39,10 +39,13 @@ from typing import Any
 
 from ortools.sat.python import cp_model
 
-from ..config import DUCKDB_PATH
+from ..config import active_db_path
 from ..provenance import Label, ProvenanceRow
 
 CAP_SAFETY = 1.1  # capacity must be >= p90 * 1.1
+# Flat per-room penalty for PLACEHOLDER rooms so even free placeholder rooms are
+# dispreferred vs a free MEASURED room (in the same cost-weighted units).
+PLACEHOLDER_FLAT_PENALTY = 20
 
 # Block layout -> ordered list of acceptable capacity columns (first = preferred).
 LAYOUT_COLUMNS: dict[str, list[str]] = {
@@ -106,6 +109,9 @@ class BuildingOption:
     total_cost: int
     avg_utilization: float
     reason: str
+    measured_share: float = 0.0           # fraction of assigned rooms that are MEASURED
+    action_items: list[str] = field(default_factory=list)  # Venue "Do now" items
+    adjusted_cost: int = 0                # cost + data-confidence penalty, for ranking
     unmet_constraint: str | None = None
 
 
@@ -133,7 +139,7 @@ def load_rooms(db_path: Path | str | None = None) -> tuple[list[Room], dict[str,
     """Return (rooms, building_attrs) from DuckDB."""
     import duckdb
 
-    con = duckdb.connect(str(db_path or DUCKDB_PATH))
+    con = duckdb.connect(str(db_path or active_db_path()))
     try:
         cols = ["room_id", "building_code", "name", "floor", *_LAYOUT_COLS,
                 "rate_per_hour", "air_wall_group", "label"]
@@ -288,11 +294,16 @@ def _solve_building(
         if wi in room_used and pi in room_used:
             model.Add(room_used[wi] + room_used[pi] <= 1)
 
-    # Objective: cost + unused capacity (walking distance approximated by floor
-    # spread). Minimise.
+    # Objective: cost + unused capacity + walking distance (floor spread proxy)
+    # + a DATA-CONFIDENCE penalty on PLACEHOLDER rooms. The penalty is ~25% of
+    # the room's hourly cost (scaled by the same weight as cost), so real
+    # MEASURED spaces win when reasonably close on cost, without excluding
+    # placeholders. We add a small flat floor so even free placeholder rooms
+    # carry some penalty versus a free real room.
     cost_terms = []
     unused_terms = []
     floor_terms = []
+    confidence_terms = []
     for bi, block in enumerate(blocks):
         need = int(round(block.headcount * CAP_SAFETY))
         for ri in feasible_rooms_per_block[bi]:
@@ -301,11 +312,15 @@ def _solve_building(
             cost_terms.append(room.rate_per_hour * x[(bi, ri)])
             unused_terms.append(max(0, cap - need) * x[(bi, ri)])
             floor_terms.append(_floor_num(room.floor) * x[(bi, ri)])
+            if room.label == Label.PLACEHOLDER.value:
+                penalty = int(round(0.25 * room.rate_per_hour)) + PLACEHOLDER_FLAT_PENALTY
+                confidence_terms.append(penalty * x[(bi, ri)])
 
     model.Minimize(
         10 * sum(cost_terms)
         + sum(unused_terms)
         + 5 * sum(floor_terms)   # proxy for inter-block walking distance
+        + 10 * sum(confidence_terms)  # data-confidence: prefer real MEASURED rooms
     )
 
     solver = cp_model.CpSolver()
@@ -325,13 +340,18 @@ def _solve_building(
 
     assignments: list[Assignment] = []
     total_cost = 0
+    adjusted_cost = 0
     utils: list[float] = []
+    measured_count = 0
     for bi, block in enumerate(blocks):
         for ri in feasible_rooms_per_block[bi]:
             if solver.Value(x[(bi, ri)]) == 1:
                 room = rooms[ri]
                 cap = room.capacity_for(block.layout) or 0
                 util = block.headcount / cap if cap else 0.0
+                adjusted_cost += room.rate_per_hour
+                if room.label == Label.PLACEHOLDER.value:
+                    adjusted_cost += int(round(0.25 * room.rate_per_hour)) + PLACEHOLDER_FLAT_PENALTY
                 assignments.append(
                     Assignment(
                         block=block.name,
@@ -345,16 +365,44 @@ def _solve_building(
                 )
                 total_cost += room.rate_per_hour
                 utils.append(util)
+                if room.label == Label.MEASURED.value:
+                    measured_count += 1
                 break
 
     avg_util = round(sum(utils) / len(utils), 3) if utils else 0.0
-    caveat = ""
-    if overnight and str(attrs.get("overnight_allowed", "unknown")).lower() == "unknown":
-        caveat = " (overnight permission unconfirmed - verify)"
+    measured_share = round(measured_count / len(assignments), 3) if assignments else 0.0
+
+    # Data-confidence phrasing in the reason.
+    if measured_share >= 0.999:
+        data_phrase = "100% real BU event-space data"
+    elif measured_share <= 0.001:
+        data_phrase = "placeholder room data, verify with BU Reservations"
+    else:
+        data_phrase = (
+            f"{int(round(measured_share * 100))}% real BU event-space data, "
+            f"rest placeholder - verify with BU Reservations"
+        )
+
     reason = (
         f"fits all {len(blocks)} blocks; avg utilization {int(avg_util * 100)}%, "
-        f"room cost ${total_cost}/hr{caveat}"
+        f"room cost ${total_cost}/hr; {data_phrase}"
     )
+
+    # Venue "Do now" action items surfaced into the plan (overnight + AV are not
+    # in the dataset).
+    action_items: list[str] = []
+    if overnight and str(attrs.get("overnight_allowed", "unknown")).lower() == "unknown":
+        action_items.append(
+            "Confirm overnight access for this building with BU Reservations"
+        )
+    action_items.append(
+        "Confirm AV level (projector/sound/mic) with BU Reservations"
+    )
+    if measured_share < 0.999:
+        action_items.append(
+            "Verify placeholder room details (capacity, rate, AV) with BU Reservations"
+        )
+
     return BuildingOption(
         building_code=building_code,
         feasible=True,
@@ -362,6 +410,9 @@ def _solve_building(
         total_cost=total_cost,
         avg_utilization=avg_util,
         reason=reason,
+        measured_share=measured_share,
+        action_items=action_items,
+        adjusted_cost=adjusted_cost,
     )
 
 
@@ -412,8 +463,28 @@ def optimize(
             )
         )
 
-    # Rank: feasible first, then lower cost, then higher utilization.
-    options.sort(key=lambda o: (not o.feasible, o.total_cost, -o.avg_utilization))
+    # Rank: feasible first. Among feasible options, prefer higher real-data
+    # confidence (MEASURED share) in coarse tiers, then lowest
+    # data-confidence-adjusted cost (PLACEHOLDER rooms carry a ~25% + flat
+    # penalty), then higher utilization. Tiering the measured share means a
+    # fully-real option wins over a placeholder one, while the adjusted cost
+    # still orders options within the same confidence tier.
+    def _confidence_tier(share: float) -> int:
+        # 0 = fully real, 1 = mostly real, 2 = mixed/placeholder (lower is better)
+        if share >= 0.999:
+            return 0
+        if share >= 0.5:
+            return 1
+        return 2
+
+    options.sort(
+        key=lambda o: (
+            not o.feasible,
+            _confidence_tier(o.measured_share),
+            o.adjusted_cost,
+            -o.avg_utilization,
+        )
+    )
     top = options[:top_n]
 
     prov: list[ProvenanceRow] = []

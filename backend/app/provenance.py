@@ -29,7 +29,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Iterable
 
-from .config import DUCKDB_PATH
+from .config import active_db_path
 
 
 class Label(str, Enum):
@@ -129,7 +129,7 @@ class ProvenanceStore:
     """
 
     def __init__(self, db_path: str | Path | None = None) -> None:
-        self.db_path = ":memory:" if db_path == ":memory:" else Path(db_path or DUCKDB_PATH)
+        self.db_path = ":memory:" if db_path == ":memory:" else Path(db_path or active_db_path())
         if self.db_path != ":memory:":
             Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
         self._ensure_schema()

@@ -1,0 +1,24 @@
+# Secrets and env
+.env
+secrets/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Node / frontend build
+node_modules/
+frontend/dist/
+
+# Generated DuckDB (keep the committed deploy snapshot)
+data/processed/*.duckdb
+!deploy/eventtwin_demo.duckdb
+
+# Cached external-API responses (regenerated at runtime)
+data/raw/live/
+
+# NOTE: data/raw/bu/ and data/raw/v3..v5/ ARE committed on purpose - they are
+# public datasets the Docker image needs at startup. Do not ignore them.

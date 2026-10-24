@@ -1,0 +1,25 @@
+# Render blueprint: one web service running the EventTwin backend.
+# Health check hits /health; the service uses the committed demo DuckDB and
+# offline cache, so no build step or external calls are needed at startup.
+services:
+  - type: web
+    name: eventtwin-api
+    runtime: docker
+    # Build context is the REPO ROOT so the Dockerfile can COPY config/, data/,
+    # and deploy/ (which live outside backend/).
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: LLM_PROVIDER
+        value: none
+      - key: EVENTTWIN_DB
+        value: deploy/eventtwin_demo.duckdb
+      - key: EVENTTWIN_CACHE
+        value: deploy/cache
+      # Comma-separated list of allowed CORS origins. localhost:5173 is always
+      # allowed by the app; set your deployed frontend origin here.
+      - key: ALLOWED_ORIGINS
+        value: https://eventtwin.vercel.app,http://localhost:5173

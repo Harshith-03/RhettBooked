@@ -1,0 +1,55 @@
+{
+  "readiness": 70,
+  "worst_status": "failing",
+  "systems": [
+    {
+      "system": "occupancy",
+      "status": "ok",
+      "first_failure_clock": null,
+      "note": "peak occupancy vs assigned capacity 400",
+      "fixes": {
+        "do_now": "Split the main block across a second room or add overflow seating",
+        "plan_for": "Stagger arrivals / add a second session to flatten the peak",
+        "improve_later": "Book a larger primary room next time"
+      }
+    },
+    {
+      "system": "power",
+      "status": "failing",
+      "first_failure_clock": "10:15",
+      "note": "charging load vs 10 circuits",
+      "fixes": {
+        "do_now": "Rent additional power stations / distribute charging across rooms",
+        "plan_for": "Pre-position power strips and label circuits before doors open",
+        "improve_later": "Choose rooms with more branch circuits"
+      }
+    },
+    {
+      "system": "getting_home",
+      "status": "ok",
+      "first_failure_clock": null,
+      "note": "late-night departures vs transit",
+      "fixes": {
+        "do_now": "Publish the shuttle plan and stagger the late-night departure",
+        "plan_for": "Arrange a buddy-walk and extra rideshare pickup window",
+        "improve_later": "Schedule the end time before the last reliable train"
+      }
+    }
+  ],
+  "top_risks": [
+    "Power failing from 10:15"
+  ],
+  "fixes": {
+    "do_now": [
+      "Rent additional power stations / distribute charging across rooms"
+    ],
+    "plan_for": [
+      "Pre-position power strips and label circuits before doors open"
+    ],
+    "improve_later": [
+      "Choose rooms with more branch circuits"
+    ]
+  },
+  "disruptions": [],
+  "planned_disruptions": []
+}

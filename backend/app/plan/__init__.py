@@ -1,5 +1,5 @@
 """Planning services: attendance, venue, tech, food/water, transport, budget, orchestrator."""
 
-from . import attendance, venue_optimizer
+from . import attendance, budget, plan, venue_optimizer
 
-__all__ = ["attendance", "venue_optimizer"]
+__all__ = ["attendance", "budget", "plan", "venue_optimizer"]

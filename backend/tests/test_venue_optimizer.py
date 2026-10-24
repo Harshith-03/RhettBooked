@@ -181,3 +181,45 @@ def test_optimize_against_real_duckdb(tmp_path):
         # Provenance records the recommended building (MEASURED) + AV assumption.
         keys = {p.output_key for p in res.provenance}
         assert "venue.recommended_building" in keys
+
+
+def test_brief_a_top_option_uses_measured_rooms(tmp_path):
+    """Data-confidence penalty: on Brief A the top feasible option is real spaces."""
+    from backend.app.data import build_db
+
+    db = tmp_path / "real.duckdb"
+    build_db.build(db_path=db, write_reference=False)
+
+    brief = EventBrief(
+        type=EventType.hackathon,
+        description="300-person overnight AI hackathon",
+        overnight=True,
+        expected_registrations=300,
+    )
+    blocks = [
+        ScheduleBlock("Main hall", "work", 180),
+        ScheduleBlock("Keynote", "keynote", 180),
+        ScheduleBlock("Meals", "meal", 180),
+    ]
+    res = optimize(brief, 180, blocks, db_path=db)
+    rec = res.recommended
+    assert rec is not None and rec.feasible
+    # The recommended option is fully MEASURED (real BU event spaces).
+    assert rec.measured_share >= 0.999
+    assert all(a.room_id for a in rec.assignments)
+    assert "100% real BU event-space data" in rec.reason
+    # Overnight + AV confirmation action items are surfaced.
+    assert any("overnight access" in a.lower() for a in rec.action_items)
+    assert any("av level" in a.lower() for a in rec.action_items)
+
+
+def test_data_confidence_penalty_prefers_measured_when_close_on_cost():
+    # A MEASURED room slightly pricier than a PLACEHOLDER room should still win
+    # once the ~25% + flat confidence penalty is applied to the placeholder.
+    rooms = [
+        _room("REAL", "A", {"cap_classroom": 200}, rate=110, label="MEASURED"),
+        _room("PLACE", "B", {"cap_classroom": 200}, rate=100, label="PLACEHOLDER"),
+    ]
+    blocks = [ScheduleBlock("W", "work", 150)]
+    res = optimize(_brief(), 150, blocks, rooms=rooms, building_attrs={})
+    assert res.recommended.building_code == "A"  # MEASURED wins despite +$10/hr

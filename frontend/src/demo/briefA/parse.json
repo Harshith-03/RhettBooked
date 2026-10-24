@@ -1,0 +1,35 @@
+{
+  "brief": {
+    "name": null,
+    "type": "hackathon",
+    "description": "300-person overnight AI hackathon at BU, Oct 24-25, students, budget $15k, needs lunch, dinner, midnight snack, breakfast",
+    "start": "2026-10-24",
+    "end": "2026-10-25",
+    "start_time": null,
+    "end_time": null,
+    "overnight": true,
+    "expected_registrations": 300,
+    "audience": "students",
+    "budget_usd": 15000,
+    "meals": [
+      "breakfast",
+      "lunch",
+      "snack",
+      "dinner"
+    ],
+    "accessibility_needs": [],
+    "preferred_area": null,
+    "topics": [
+      "ai"
+    ],
+    "needs": {
+      "wifi_heavy": true,
+      "av": false,
+      "stage": false,
+      "breakout_rooms": false,
+      "quiet_room": false,
+      "sleeping_rooms": true
+    }
+  },
+  "questions": []
+}

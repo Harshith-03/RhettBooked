@@ -1,0 +1,26 @@
+# EventTwin runtime dependencies for deployment (Render), no dev/test packages.
+#
+# This is the minimal set the running P0 API imports: FastAPI + server, the
+# models (pydantic), data (duckdb/pandas), and the math/optimization stack
+# (numpy/scipy/ortools). SimPy is used by the food queue model (task 15).
+#
+# Privacy (Presidio + spaCy) is intentionally NOT installed here yet: the
+# scrubber (task 10) is not loaded at startup. When it is added, load the model
+# lazily and use the SMALL spaCy model in deploy to keep startup fast and the
+# image small:
+#     pip install presidio-analyzer presidio-anonymizer spacy
+#     python -m spacy download en_core_web_sm   # NOT en_core_web_lg
+# and lazy-import Presidio inside the scrubber so container boot stays fast.
+
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+pydantic>=2.6
+duckdb>=0.10
+pandas>=2.2
+numpy>=1.26
+scipy>=1.12
+ortools>=9.9
+simpy>=4.1
+PyYAML>=6.0
+httpx>=0.27
