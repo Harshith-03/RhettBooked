@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Kiro log",
+      "trigger": "PostTaskExec",
+      "action": {
+        "type": "agent",
+        "prompt": "A spec task was just completed. If the completed task belongs to .kiro/specs/eventtwin-core/tasks.md, append an entry to docs/KIRO_USAGE.md (create the file and its docs/ directory if they do not exist). The appended entry must contain: the completion timestamp (current local date and time), the task identifier and its title/description as written in tasks.md, and the list of files that were changed while completing the task (determine this from `git status --short` and/or `git diff --name-only HEAD`). Format the entry as a Markdown section so entries accumulate chronologically. Only append — never overwrite or remove existing content. If the completed task does not belong to .kiro/specs/eventtwin-core/tasks.md, do nothing."
+      }
+    }
+  ]
+}

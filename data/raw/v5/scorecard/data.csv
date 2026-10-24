@@ -1,0 +1,141 @@
+unitid,name,city,control,highest_degree,admission_rate,undergraduates,net_price_public,net_price_private,cost,in_state_tuition,median_debt,earnings_10yr,completion_4yr,completion_under_4yr
+166629,University of Massachusetts-Amherst,Amherst,Public,Graduate,0.5973,23671,22857,,36842,18487,19500,80486,0.8121,
+164988,Boston University,Boston,Private nonprofit,Graduate,0.1111,18248,,36503,90106,71372,16173,89087,0.8954,
+167358,Northeastern University,Boston,Private nonprofit,Graduate,0.0522,17326,,29060,88412,69289,18500,99371,0.9067,
+166638,University of Massachusetts-Boston,Boston,Public,Graduate,0.8378,11512,22548,,36898,16558,15000,70597,0.5113,
+166513,University of Massachusetts-Lowell,Lowell,Public,Graduate,0.8304,11434,17362,,31226,17664,18250,77989,0.6871,
+164924,Boston College,Chestnut Hill,Private nonprofit,Graduate,0.1643,10085,,38930,93039,73508,18078,112178,0.8981,
+165112,Bunker Hill Community College,Boston,Public,Associate,,8612,5976,,14497,6288,5500,51734,,0.2116
+165024,Bridgewater State University,Bridgewater,Public,Graduate,0.8781,7829,18061,,28736,12194,18334,61441,0.5206,
+166027,Harvard University,Cambridge,Private nonprofit,Graduate,0.0365,7601,,19148,89279,64796,13000,121957,0.9708,
+164748,Berklee College of Music,Boston,Private nonprofit,Graduate,0.4353,7468,,47587,75678,54000,19000,43451,0.7298,
+168148,Tufts University,Medford,Private nonprofit,Graduate,0.1149,7061,,38797,92054,73616,14499,89187,0.9361,
+167534,Quinsigamond Community College,Worcester,Public,Associate,,6447,6588,,15297,6376,10747,51435,,0.2327
+165033,Bristol Community College,Fall River,Public,Associate,,6083,10095,,19009,5952,7716,47512,,0.2332
+168421,Worcester Polytechnic Institute,Worcester,Private nonprofit,Graduate,0.6016,5447,,43885,80569,63246,26000,113513,0.8997,
+166887,Middlesex Community College,Bedford,Public,Associate,,5412,3970,,11861,6168,4950,54021,,0.2571
+167987,University of Massachusetts-Dartmouth,North Dartmouth,Public,Graduate,0.9064,5221,20319,,34295,16233,16553,68878,0.4923,
+167905,Springfield Technical Community College,Springfield,Public,Associate,,4759,2020,,17166,6004,5221,45410,,0.3594
+166683,Massachusetts Institute of Technology,Cambridge,Private nonprofit,Graduate,0.0455,4535,,14815,85960,64730,12000,152553,0.9573,
+164739,Bentley University,Waltham,Private nonprofit,Graduate,0.4505,4474,,38969,83072,63390,23250,126427,0.8791,
+167312,North Shore Community College,Danvers,Public,Associate,,4393,5287,,13890,5448,5500,51866,,0.2404
+167729,Salem State University,Salem,Public,Graduate,0.9588,4291,12921,,26037,12708,17225,62762,0.4885,
+168005,Suffolk University,Boston,Private nonprofit,Graduate,0.8233,4268,,40008,69359,49556,19723,75345,0.5854,
+166823,Massasoit Community College,Brockton,Public,Associate,,4235,6492,,14401,5472,5500,50480,,0.25
+168430,Worcester State University,Worcester,Public,Graduate,0.8799,3930,13866,,23740,12344,13007,65784,0.5711,
+166850,Merrimack College,North Andover,Private nonprofit,Graduate,0.7002,3916,,39219,73750,55852,22250,74412,0.691,
+165662,Emerson College,Boston,Private nonprofit,Graduate,0.5131,3870,,49215,82669,59044,20500,67317,0.8041,
+166647,Massachusetts Bay Community College,Wellesley Hills,Public,Associate,,3837,1756,,9983,5976,4388,55472,,0.2591
+168227,Wentworth Institute of Technology,Boston,Private nonprofit,Graduate,0.9121,3747,,30134,61915,45460,19000,94995,0.6307,
+167376,Northern Essex Community College,Haverhill,Public,Associate,,3685,6427,,14354,7452,4931,49727,,0.2762
+165015,Brandeis University,Waltham,Private nonprofit,Graduate,0.405,3618,,30606,90169,70957,15500,85519,0.81,
+168263,Westfield State University,Westfield,Public,Graduate,0.8141,3615,16484,,28223,12616,15000,63082,0.486,
+166133,Holyoke Community College,Holyoke,Public,Associate,,3591,6427,,15397,6090,6900,44609,,0.3501
+166656,Massachusetts College of Pharmacy and Health Sciences,Boston,Private nonprofit,Graduate,0.8521,3451,,43891,68004,42480,20811,103156,0.6134,
+165699,Endicott College,Beverly,Private nonprofit,Graduate,0.7121,3125,,39219,61060,42650,25000,77059,0.7376,
+166124,College of the Holy Cross,Worcester,Private nonprofit,Bachelor's,0.1761,3106,,38829,84988,68090,19916,100485,0.8637,
+166957,Mount Wachusett Community College,Gardner,Public,Associate,,3059,4452,,14617,6350,5500,46748,,0.3318
+165194,Cape Cod Community College,West Barnstable,Public,Associate,,2911,7964,,16466,6120,7000,48297,,0.242
+165820,Fitchburg State University,Fitchburg,Public,Graduate,0.8693,2752,13803,,26437,11886,15250,63428,0.5276,
+164580,Babson College,Wellesley,Private nonprofit,Graduate,0.1709,2728,,34096,82076,58560,17631,138950,0.915,
+168254,Western New England University,Springfield,Private nonprofit,Graduate,0.8348,2603,,27077,61896,49490,19500,81107,0.6368,
+165866,Framingham State University,Framingham,Public,Graduate,0.8361,2566,15951,,28878,12220,17500,63249,0.4565,
+167835,Smith College,Northampton,Private nonprofit,Graduate,0.21,2544,,25519,91062,67448,8000,69936,0.8578,
+167996,Stonehill College,Easton,Private nonprofit,Graduate,0.6628,2528,,36082,76631,59300,20000,84633,0.7377,
+167525,Quincy College,Quincy,Public,Bachelor's,,2300,16530,,22974,9186,9500,55527,0.1681,
+168218,Wellesley College,Wellesley,Private nonprofit,Bachelor's,0.1405,2300,,23995,90250,70144,8700,90458,0.9085,
+165334,Clark University,Worcester,Private nonprofit,Graduate,0.3954,2214,,29446,72489,61140,24421,67223,0.7654,
+166939,Mount Holyoke College,South Hadley,Private nonprofit,Graduate,0.3603,2169,,30861,88644,68054,19000,66117,0.8226,
+168342,Williams College,Williamstown,Private nonprofit,Graduate,0.0825,2076,,15157,89520,72510,6500,95954,0.9525,
+167631,Roxbury Community College,Roxbury Crossing,Public,Associate,,1977,12552,,16903,7755,PS,46578,,0.3333
+164465,Amherst College,Amherst,Private nonprofit,Bachelor's,0.0901,1911,,19536,90670,73830,12000,95161,0.9255,
+165671,Emmanuel College,Boston,Private nonprofit,Graduate,0.7565,1854,,27196,66314,50694,21500,73794,0.6392,
+166674,Massachusetts College of Art and Design,Boston,Public,Graduate,0.7627,1831,26397,,35893,15860,19000,52923,0.5873,
+482705,Northeastern University Professional Programs,Boston,Private nonprofit,Graduate,,1802,,,,,18500,99371,,
+165529,Curry College,Milton,Private nonprofit,Graduate,0.8765,1780,,30155,66355,49420,15750,69321,0.5009,
+168281,Wheaton College (Massachusetts),Norton,Private nonprofit,Bachelor's,0.6773,1773,,31147,81287,65700,19500,71967,0.7238,
+167899,Springfield College,Springfield,Private nonprofit,Graduate,0.7189,1751,,28053,62210,46700,25196,59623,0.7081,
+167783,Simmons University,Boston,Private nonprofit,Graduate,0.6998,1670,,23444,64601,48240,20125,79784,0.7714,
+164562,Assumption University,Worcester,Private nonprofit,Graduate,0.8298,1669,,28788,66847,53420,25000,73712,0.73,
+165981,Greenfield Community College,Greenfield,Public,Associate,,1395,7949,,17573,5906,4750,47015,,0.4382
+166692,Massachusetts Maritime Academy,Buzzards Bay,Public,Graduate,0.947,1395,23759,,37397,13340,20500,104098,0.7345,
+164775,Berkshire Community College,Pittsfield,Public,Associate,,1358,8257,,17889,5972,6891,44851,,0.3077
+165936,Gordon College,Wenham,Private nonprofit,Graduate,0.6923,1278,,25227,45497,34300,19500,59863,0.7062,
+166391,Lasell University,Newton,Private nonprofit,Graduate,0.8122,1226,,26341,44041,28392,20500,64330,0.6446,
+165802,Fisher College,Boston,Private nonprofit,Graduate,0.7068,1167,,22042,50888,36724,12000,52749,0.3966,
+167260,Nichols College,Dudley,Private nonprofit,Graduate,0.8084,1163,,31983,61425,44950,18750,66716,0.5351,
+166452,Lesley University,Cambridge,Private nonprofit,Graduate,0.9687,1122,,31777,54152,35822,15336,57844,0.4182,
+164632,Bay Path University,Longmeadow,Private nonprofit,Graduate,0.852,1108,,16390,49627,39061,20758,57958,0.4194,
+165574,Dean College,Franklin,Private nonprofit,Bachelor's,0.7371,1089,,32629,68042,48378,15000,47982,0.5323,
+164447,American International College,Springfield,Private nonprofit,Graduate,0.9957,1017,,24178,60555,45530,20000,66151,0.3836,
+167598,Regis College,Weston,Private nonprofit,Graduate,0.6978,956,,25506,66335,51420,20500,69534,0.7103,
+167394,College of Our Lady of the Elms,Chicopee,Private nonprofit,Graduate,0.8526,949,,16237,53037,44626,18725,64534,0.6348,
+164492,Anna Maria College,Paxton,Private nonprofit,Graduate,0.503,906,,26309,63504,45920,18173,67751,0.4572,
+166018,Hampshire College,Amherst,Private nonprofit,Bachelor's,0.7528,839,,23030,77250,61124,9991,47422,0.5789,
+167288,Massachusetts College of Liberal Arts,North Adams,Public,Graduate,0.8974,713,11402,,23524,12748,15064,52507,0.4664,
+164368,Hult International Business School,Cambridge,Private nonprofit,Graduate,0.6048,618,,47733,80405,58860,15375,PS,0.6038,
+165167,Cambridge College,Boston,Private nonprofit,Graduate,,532,,31462,34578,14778,15604,58665,1,
+165264,Laboure College of Healthcare,Milton,Private nonprofit,Bachelor's,0.5,525,,,,30637,20000,84123,,
+165884,Benjamin Franklin Cummings Institute of Technology,Boston,Private nonprofit,Bachelor's,,483,,18833,30856,19900,5500,60106,0.3065,
+429128,Urban College of Boston,Boston,Private nonprofit,Associate,,438,,12358,19046,7608,PS,37211,,
+468963,New England Tractor Trailer Training School of Massachusetts,North Andover,Private for-profit,Certificate,,430,,15086,,,6967,57895,,0.7393
+167057,The New England Conservatory of Music,Boston,Private nonprofit,Graduate,0.411,393,,50840,84200,63410,19500,40481,0.7436,
+441982,Franklin W Olin College of Engineering,Needham,Private nonprofit,Bachelor's,0.252,377,,17057,89669,69378,13077,138832,0.9643,
+414124,Motoring Technical Training Institute,Seekonk,Private for-profit,Certificate,,312,,39271,,,5500,50283,,0.8808
+164872,Boston Architectural College,Boston,Private nonprofit,Graduate,,280,,30907,39870,30216,23250,72049,0.3684,
+167871,Southeastern Technical Institute,South Easton,Public,Certificate,0.7057,260,13664,,,,6490,55272,,0.6111
+165635,National Aviation Academy of New England,Concord,Private for-profit,Certificate,,241,,31132,,,13666,72372,,0.8165
+445656,Spa Tech Institute-Plymouth,Plymouth,Private for-profit,Certificate,,233,,41410,,,6333,34472,,0.8571
+166911,Montserrat College of Art,Beverly,Private nonprofit,Bachelor's,,226,,35385,62372,42520,27000,40733,0.6311,
+484057,Jupiter Beauty Academy,Boston,Private for-profit,Certificate,,201,,,,,3402,PS,,0.92
+434344,COLLECTIV Academy-Worcester,Worcester,Private for-profit,Certificate,,192,,29930,,,6222,32595,,0.84
+436599,FINE Mortuary College,Norwood,Private for-profit,Associate,,185,,27510,27510,19650,12173,62057,,0.3333
+445647,Spa Tech Institute-Westboro,Westborough,Private for-profit,Certificate,,182,,34403,,,6333,34472,,0.9444
+475273,Springfield College-Regional Online and Continuing Education,Springfield,Private nonprofit,Graduate,,176,,,,,25196,59623,,
+165255,Catherine Hinds Institute of Esthetics,Woburn,Private for-profit,Certificate,,174,,15842,,,6293,36616,,0.9559
+166407,Lawrence Memorial Hospital School of Nursing,Medford,Private nonprofit,Associate,,174,,,,28783,10000,87823,,
+166869,MGH Institute of Health Professions,Boston,Private nonprofit,Graduate,,164,,,,,13750,89549,,
+167297,North Bennet Street School,Boston,Private nonprofit,Certificate,,155,,34051,,,9500,53769,,0.75
+165060,Signature Healthcare Brockton Hospital School of Nursing,Brockton,Private nonprofit,Certificate,0.3415,146,,22139,,,12000,75046,,0
+497888,Spa Tech Institute-North Andover,North Andover,Private for-profit,Certificate,,118,,30773,,,6333,34472,,0.7692
+373696,Rob Roy Academy-Worcester,Worcester,Private for-profit,Certificate,,109,,25302,,,5500,30890,,0.725
+165750,Rob Roy Academy-Fall River,Fall River,Private for-profit,Certificate,,97,,28634,,,5500,28435,,0.75
+407179,Empire Beauty School-Malden,Malden,Private for-profit,Certificate,,95,,17590,,,8028,32104,,0.7037
+373678,New England Hair Academy,Malden,Private for-profit,Certificate,,87,,21671,,,5500,31091,,0.7692
+217606,Northpoint Bible College,Haverhill,Private nonprofit,Graduate,,86,,20550,27836,14160,9500,44520,0.1667,
+382416,Greater Lowell Technical School,Tyngsboro,Public,Certificate,0.75,80,30662,,,,5049,78185,,0.6923
+459408,Tri County Regional Vocational Technical High School,Franklin,Public,Certificate,,72,9805,,,,,69316,,1
+373711,Upper Cape Cod Regional Technical School,Bourne,Public,Certificate,0.7143,70,15847,,,,7000,71936,,0.8824
+166498,Lowell Academy Hairstyling Institute,Lowell,Private for-profit,Certificate,,66,,17071,,,5500,37383,,1
+166054,Hellenic College-Holy Cross Greek Orthodox School of Theology,Brookline,Private nonprofit,Graduate,0.7963,64,,19821,41282,22490,15876,62251,0.3846,
+494542,Sattler College,Boston,Private nonprofit,Bachelor's,0.6905,57,,,,787,,,0.6842,
+433040,Monty Tech,Fitchburg,Public,Certificate,0.8305,48,38117,,,,9500,66820,,1
+164535,Assabet Valley Regional Technical School,Marlborough,Public,Non-degree,0.8548,47,18521,,,,6000,70787,,0.0625
+410964,EINE Inc,Tewksbury,Private for-profit,Certificate,,47,,40351,,,6333,40687,,1
+166805,Massachusetts School of Barbering,Quincy,Private for-profit,Certificate,,44,,16942,,,8141,28638,,0.75
+457615,Blackstone Valley Vocational Regional School District,Upton,Public,Certificate,,42,,,,,9500,68400,,
+419095,Charles H McCann Technical School,North Adams,Public,Certificate,,41,13465,,,,,44105,,0.9167
+166717,William James College,Newton,Private nonprofit,Graduate,,39,,,,,9788,PS,,
+476735,Alexander Academy,Lunenburg,Private for-profit,Certificate,,39,,32762,,,9500,33440,,0.7632
+412535,Shawsheen Valley School of Practical Nursing,Billerica,Public,Certificate,,37,37114,,,,7001,77527,,0.7
+497499,Technology Learning Center,Oxford,Private for-profit,Certificate,,31,,,,,2901,,,
+168032,Rob Roy Academy-Taunton,Taunton,Private for-profit,Certificate,,23,,23209,,,5500,25128,,0.4444
+451255,DiGrigoli School of Cosmetology,West Springfield,Private for-profit,Certificate,,21,,14132,,,7555,34570,,0.6452
+164614,Boston Baptist College,Boston,Private nonprofit,Bachelor's,0.9091,19,,16125,29195,14304,PS,42516,0.6364,
+165608,Diman Regional Technical Institute,Fall River,Public,Certificate,0.3923,17,,,,,PS,72084,,0.1429
+167039,Rob Roy Academy-New Bedford,New Bedford,Private for-profit,Certificate,,15,,27076,,,5500,31145,,0.8462
+166489,Longy School of Music of Bard College,Cambridge,Private nonprofit,Graduate,,10,,,,,17188,54555,0.5556,
+167677,Saint John's Seminary,Brighton,Private nonprofit,Graduate,,7,,,,31561,,PS,,
+166045,Hebrew College,Newton,Private nonprofit,Graduate,,0,,,,,,PS,,
+164915,Boston Graduate School of Psychoanalysis Inc,Brookline,Private nonprofit,Graduate,,,,,,,,PS,,
+165495,Conway School of Landscape Design,Northampton,Private nonprofit,Graduate,,,,,,,,,,
+165945,Gordon-Conwell Theological Seminary,South Hamilton,Private nonprofit,Graduate,,,,,,,PS,PS,,
+166708,University of Massachusetts Chan Medical School,Worcester,Public,Graduate,,,,,,,PS,PS,,
+167093,New England College of Optometry,Boston,Private nonprofit,Graduate,,,,,,,,PS,,
+167215,New England Law-Boston,Boston,Private nonprofit,Graduate,,,,,,,,PS,,
+369002,Massachusetts School of Law,Andover,Private nonprofit,Graduate,,,,,,,,PS,,
+12429201,Thomas Aquinas College - New England,Northfield,Private nonprofit,Non-degree,,,,,,31000,18750,59595,,
+13017405,Porter and Chester Institute of Worcester,Worcester,Private for-profit,Non-degree,,,,,,15856,10379,48942,,
+13017408,Porter and Chester Institute - Brockton,Brockton,Private for-profit,Non-degree,,,,,,15856,10379,48942,,
+13017409,Porter and Chester Institute - Chicopee,Chicopee,Private for-profit,Non-degree,,,,,,15856,10379,48942,,
+18908801,Bard College - Holyoke Microcollege,Holyoke,Private nonprofit,Non-degree,,,,,,,17188,54555,,

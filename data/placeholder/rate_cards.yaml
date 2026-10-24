@@ -1,0 +1,79 @@
+# PLACEHOLDER - illustrative values, not official BU data
+_note: PLACEHOLDER - illustrative ASSUMED unit costs, not official BU or vendor data.
+currency: USD
+catering_per_head:
+  lean:
+    breakfast:
+      low: 6
+      high: 10
+    lunch:
+      low: 10
+      high: 16
+    dinner:
+      low: 14
+      high: 22
+    snack:
+      low: 3
+      high: 6
+  balanced:
+    breakfast:
+      low: 9
+      high: 14
+    lunch:
+      low: 15
+      high: 24
+    dinner:
+      low: 22
+      high: 35
+    snack:
+      low: 5
+      high: 9
+  premium:
+    breakfast:
+      low: 14
+      high: 22
+    lunch:
+      low: 24
+      high: 40
+    dinner:
+      low: 38
+      high: 65
+    snack:
+      low: 8
+      high: 14
+bottled_water_each:
+  low: 0.35
+  high: 0.9
+water_refill_station_rental_per_day:
+  low: 75
+  high: 200
+temporary_wifi_ap_rental_per_ap_per_day:
+  low: 45
+  high: 120
+power_strip_station_rental_each:
+  low: 8
+  high: 25
+av_tech_per_hour:
+  low: 45
+  high: 110
+security_police_detail_per_hour:
+  low: 55
+  high: 95
+custodial_per_hour:
+  low: 30
+  high: 60
+event_insurance_flat:
+  low: 150
+  high: 600
+swag_per_head:
+  low: 5
+  high: 20
+prizes_total:
+  low: 500
+  high: 10000
+printing_flat:
+  low: 50
+  high: 400
+contingency_percent:
+  low: 5
+  high: 15

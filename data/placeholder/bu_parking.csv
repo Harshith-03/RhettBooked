@@ -1,0 +1,10 @@
+# PLACEHOLDER - illustrative values, not official BU data
+parking_id,name,lat,lon,spaces,weekend_rate_usd,overnight,accessible_spaces
+PRK01,Agganis Arena Garage,42.3522,-71.117,450,8,true,16
+PRK02,Granby Lot,42.349,-71.0989,120,10,false,6
+PRK03,Warren Towers Service Lot,42.35,-71.103,90,12,true,3
+PRK04,CDS Underground Garage,42.3499,-71.1032,120,25,false,3
+PRK05,Buick Street Garage,42.3515,-71.115,240,12,false,7
+PRK06,Essex Street Lot,42.3488,-71.096,240,8,true,6
+PRK07,St. Mary's Street Lot,42.3491,-71.1045,240,10,false,9
+PRK08,Babcock Street Lot,42.352,-71.12,240,12,true,9

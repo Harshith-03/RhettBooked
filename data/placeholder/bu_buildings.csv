@@ -1,0 +1,17 @@
+# PLACEHOLDER - illustrative values, not official BU data
+building_id,name,address,lat,lon,floors,accessible_entrance,elevators,loading_dock,overnight_allowed,nearest_mbta_stop,building_wifi_tier
+BLD01,Center for Computing & Data Sciences,665 Commonwealth Ave,42.3499,-71.103,19,true,6,true,true,BU Central,high
+BLD02,George Sherman Union,775 Commonwealth Ave,42.3505,-71.1066,4,true,3,true,false,BU Central,high
+BLD03,Photonics Center,8 Saint Mary's St,42.349,-71.1041,9,true,3,true,false,BU Central,high
+BLD04,College of Arts & Sciences,725 Commonwealth Ave,42.3503,-71.105,6,true,4,false,false,BU Central,standard
+BLD05,Questrom School of Business,595 Commonwealth Ave,42.3496,-71.0995,6,true,5,true,false,BU East,high
+BLD06,Metcalf Science Center,590 Commonwealth Ave,42.3492,-71.0993,5,true,3,true,false,BU East,standard
+BLD07,Agganis Arena,925 Commonwealth Ave,42.3524,-71.1177,3,true,4,true,true,Saint Paul St,high
+BLD08,Fitness & Recreation Center,915 Commonwealth Ave,42.3519,-71.1162,4,true,4,true,false,Saint Paul St,standard
+BLD09,Kilachand Hall,91 Bay State Rd,42.3497,-71.0978,9,true,2,false,true,BU East,standard
+BLD10,Law Tower,765 Commonwealth Ave,42.3505,-71.1058,18,true,5,false,false,BU Central,high
+BLD11,Mugar Memorial Library,771 Commonwealth Ave,42.3505,-71.1063,6,true,3,true,false,BU Central,standard
+BLD12,Engineering Product Innovation Center,750 Commonwealth Ave,42.3496,-71.1055,3,true,2,true,true,BU Central,high
+BLD13,Rajen Kilachand Center,610 Commonwealth Ave,42.3494,-71.1006,9,true,4,true,false,BU East,high
+BLD14,Booth Theatre,855 Commonwealth Ave,42.3513,-71.1125,3,true,2,false,false,Pleasant St,standard
+BLD15,1 Silber Way,1 Silber Way,42.3498,-71.1016,10,true,4,false,false,BU East,standard

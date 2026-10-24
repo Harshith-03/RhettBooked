@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Privacy guard",
+      "trigger": "PostFileSave",
+      "matcher": "(data[\\\\/]processed|frontend[\\\\/]src)[\\\\/].*",
+      "action": {
+        "type": "command",
+        "command": "pwsh -NoProfile -Command \"$in = [Console]::In.ReadToEnd(); try { $j = $in | ConvertFrom-Json } catch { $j = $null }; $fp = $null; if ($j) { foreach ($k in 'filePath','path','file','savedFile') { if ($j.PSObject.Properties.Name -contains $k -and $j.$k) { $fp = [string]$j.$k; break } } }; if (-not $fp -or -not (Test-Path $fp)) { exit 0 }; $text = Get-Content -Raw -LiteralPath $fp; $findings = @(); $pats = [ordered]@{ 'Email' = '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}'; 'BU ID (U######## / #########)' = '\\b[Uu]\\d{8}\\b|\\b\\d{9}\\b'; 'MAC address' = '\\b([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\\b'; 'Phone number' = '(\\+?1[\\s.-]?)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}\\b' }; foreach ($name in $pats.Keys) { $m = [regex]::Matches($text, $pats[$name]); if ($m.Count -gt 0) { $samples = ($m | Select-Object -First 3 | ForEach-Object { $_.Value }) -join ', '; $findings += ('  ' + $name + ': ' + $m.Count + ' match(es) e.g. ' + $samples) } }; if ($findings.Count -gt 0) { Write-Output ('PRIVACY WARNING - possible PII in ' + $fp + ':'); $findings | ForEach-Object { Write-Output $_ } } else { Write-Output ('Privacy guard: no PII patterns found in ' + $fp) }; exit 0\""
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Test on save",
+      "trigger": "PostFileSave",
+      "matcher": "backend[\\\\/]app[\\\\/](plan|drill|privacy)[\\\\/].*\\.py$",
+      "action": {
+        "type": "command",
+        "command": "pwsh -NoProfile -Command \"$in = [Console]::In.ReadToEnd(); try { $j = $in | ConvertFrom-Json } catch { $j = $null }; $fp = $null; if ($j) { foreach ($k in 'filePath','path','file','savedFile') { if ($j.PSObject.Properties.Name -contains $k -and $j.$k) { $fp = [string]$j.$k; break } } }; if (-not $fp) { Write-Error 'No file path in hook payload'; exit 1 }; $fp = $fp -replace '\\\\','/'; $dir = Split-Path -Parent $fp; $base = [IO.Path]::GetFileNameWithoutExtension($fp); if ($base -like 'test_*' -or $base -like '*_test') { $test = $fp } else { $cand = @((Join-Path $dir ('test_' + $base + '.py')), (Join-Path $dir ($base + '_test.py'))); $test = $cand | Where-Object { Test-Path $_ } | Select-Object -First 1 }; if (-not $test) { Write-Output ('No pytest file found for ' + $fp); exit 0 }; Write-Output ('Running pytest: ' + $test); python -m pytest $test -q; exit $LASTEXITCODE\""
+      }
+    }
+  ]
+}

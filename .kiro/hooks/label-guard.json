@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Label guard",
+      "trigger": "PostFileSave",
+      "matcher": "backend[\\\\/]app[\\\\/]plan[\\\\/].*\\.py$",
+      "action": {
+        "type": "agent",
+        "prompt": "A file under backend/app/plan/ was just saved. Inspect the saved file. For every numeric output field the code produces (values returned, emitted, or serialized into outputs/results/responses — not internal intermediate math), verify that each one carries BOTH: (1) a provenance label whose value is one of MEASURED, ASSUMED, PLACEHOLDER, or SIMULATED, and (2) a source attribution. List every numeric output field that is missing a label, missing a source, or carries a label value outside that allowed set. For each problem, give the field name and the line number. If every numeric output field is properly labeled and sourced, say so in one line. Do not modify any files — this is a report only."
+      }
+    }
+  ]
+}

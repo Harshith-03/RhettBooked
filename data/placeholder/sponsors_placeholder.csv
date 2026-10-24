@@ -1,0 +1,42 @@
+# PLACEHOLDER - illustrative values, not official BU data
+sponsor_id,label,industry,typical_ask,typical_range_usd,topic_tags
+SPN01,Boston AI startup,AI/ML,mentors,1000-5000,computer-vision|nlp
+SPN02,Biotech company - Kendall Sq,Biotech,swag,5000-20000,product|machine-learning
+SPN03,Wearables/health-tech company,Health-tech,swag,1000-5000,robotics|genomics|cloud
+SPN04,Cloud provider,Cloud,swag,2500-10000,computer-vision|nlp|iot
+SPN05,Local bank,Finance,mentors,500-2500,analytics|fintech|health
+SPN06,Design tool company,Design,credits,1000-5000,hardware|mobility|fintech
+SPN07,Robotics startup,Robotics,swag,250-1000,hardware|sustainability
+SPN08,Fintech company,Finance,cash,250-1000,analytics|sustainability|computer-vision
+SPN09,Edtech company,Edtech,credits,1000-5000,design|product|cloud
+SPN10,Climate-tech startup,Climate,mentors,2500-10000,fintech|health|sustainability
+SPN11,Cybersecurity firm,Security,cash,2500-10000,robotics|genomics|machine-learning
+SPN12,Data analytics company,Data,food,250-1000,sustainability|fintech|robotics
+SPN13,Semiconductor company,Hardware,mentors,2500-10000,robotics|genomics
+SPN14,Electric vehicle startup,Mobility,credits,1000-5000,machine-learning|cloud|fintech
+SPN15,Pharma company,Pharma,swag,250-1000,design|mobility|machine-learning
+SPN16,Developer tools company,DevTools,cash,2500-10000,mobility|robotics
+SPN17,Consumer app startup,Consumer,cash,2500-10000,security|cloud|computer-vision
+SPN18,Logistics/supply-chain company,Logistics,credits,500-2500,hardware|mobility|design
+SPN19,Aerospace company,Aerospace,cash,500-2500,iot|nlp|machine-learning
+SPN20,Gaming studio,Gaming,mentors,5000-20000,genomics|analytics|computer-vision
+SPN21,Boston AI startup,AI/ML,credits,2500-10000,hardware|iot
+SPN22,Biotech company - Kendall Sq,Biotech,mentors,1000-5000,hardware|genomics|mobility
+SPN23,Wearables/health-tech company,Health-tech,cash,2500-10000,machine-learning|mobility|health
+SPN24,Cloud provider,Cloud,mentors,5000-20000,machine-learning|genomics|data-engineering
+SPN25,Local bank,Finance,credits,5000-20000,nlp|genomics
+SPN26,Design tool company,Design,mentors,250-1000,data-engineering|sustainability|machine-learning
+SPN27,Robotics startup,Robotics,food,2500-10000,machine-learning|analytics
+SPN28,Fintech company,Finance,swag,5000-20000,product|fintech
+SPN29,Edtech company,Edtech,credits,5000-20000,nlp|data-engineering|security
+SPN30,Climate-tech startup,Climate,credits,2500-10000,genomics|design|health
+SPN31,Cybersecurity firm,Security,swag,500-2500,mobility|security|robotics
+SPN32,Data analytics company,Data,credits,1000-5000,security|robotics
+SPN33,Semiconductor company,Hardware,swag,1000-5000,fintech|genomics|health
+SPN34,Electric vehicle startup,Mobility,mentors,2500-10000,robotics|cloud|iot
+SPN35,Pharma company,Pharma,cash,1000-5000,mobility|data-engineering|genomics
+SPN36,Developer tools company,DevTools,food,2500-10000,mobility|analytics
+SPN37,Consumer app startup,Consumer,mentors,1000-5000,fintech|security
+SPN38,Logistics/supply-chain company,Logistics,credits,250-1000,cloud|sustainability
+SPN39,Aerospace company,Aerospace,cash,2500-10000,sustainability|nlp
+SPN40,Gaming studio,Gaming,credits,250-1000,genomics|cloud|hardware
