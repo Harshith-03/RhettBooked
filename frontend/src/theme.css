@@ -1,0 +1,84 @@
+/* EventTwin design tokens (from .kiro/steering/design.md). */
+
+:root {
+  --bg: #f7f6f3;
+  --card: #ffffff;
+  --card-alt: #f7f6f3;
+  --border: #e6e3de;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --red: #cc0000;
+  --red-hover: #a30000;
+  --red-soft: #fce8e8;
+  --red-text: #cc0000;
+  --ok-bg: #e3f4e6;
+  --ok-text: #1e7a34;
+  --warn-bg: #f6d58e;
+  --warn-text: #5a3e00;
+  --final-bar: #1a1a1a;
+  --header-bg: var(--red);
+  --header-border: transparent;
+}
+
+[data-theme="dark"] {
+  --bg: #141414;
+  --card: #1e1e1e;
+  --card-alt: #252525;
+  --border: #2e2e2e;
+  --text: #f2f2f2;
+  --muted: #a3a3a3;
+  --red: #cc0000;
+  --red-hover: #a30000;
+  --red-soft: #3a1a1a;
+  --red-text: #ff6b6b;
+  --ok-bg: #16351d;
+  --ok-text: #6fd98a;
+  --warn-bg: #4a3c14;
+  --warn-text: #f6d58e;
+  --final-bar: #cc0000;
+  --header-bg: #1e1e1e;
+  --header-border: var(--red);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Fira Sans", system-ui, sans-serif;
+  /* Theme colour transition (200ms) */
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Small caps labels */
+.caps-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.big-number {
+  font-size: 30px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+/* Visible focus ring: 2px red offset */
+:where(button, a, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
