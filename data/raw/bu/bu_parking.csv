@@ -1,0 +1,25 @@
+lot_id,name,address,type,campus,public_or_visitor,height_clearance,ev_charging_spaces,notes,source_url
+A,Agganis Arena Lot/Garage,925 Commonwealth Avenue,garage+lot,Charles River,yes,6 ft 6 in,4,"Enter via Buick St or Agganis Way. Visitors and FitRec members can park on non-event dates. Arena controls 1,400+ event spaces.",https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/
+B,Langsam Garage,142 Gardner Street,garage,Charles River,yes,8 ft 2 in,4,Some sources list 278 Babcock St,https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/
+C,Harry Agganis Way Lot,33 Harry Agganis Way,lot,Charles River,no,,,Enter behind building,https://www.bu.edu/transportation/parking/lots-locations/
+D,Buick Street Garage & Lot,25 Buick Street,garage+lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+E,CFA Lot,855 Commonwealth Avenue,lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+F,Essex Street Garage & Lot,"148 Essex Street, Brookline",garage+lot,Charles River,no,Lot 8 ft / Garage 6 ft,,Some sources list 143 Essex St,https://www.bu.edu/transportation/parking/lots-locations/
+G,Lower Bridge Lot,3 University Road,lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+H,Upper Bridge Lot,1 University Road,lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+J,CAS Lot,240 Bay State Road,lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+K,Warren Towers Garage,700 Commonwealth Avenue,garage,Charles River,no,,,Entrance on Hinsdale Mall,https://www.bu.edu/transportation/commencement/family-guest-parking
+L,575 Commonwealth Ave Lot,575 Commonwealth Avenue,lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+M,Hariri Building Garage,595 Commonwealth Avenue,garage,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+O,Kenmore Lot,549 Commonwealth Avenue,lot,Charles River,yes,,,Visitors pay via PayByPhone #41962 until 6 pm; closed during Red Sox and other blackouts,https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/
+Q,730/750 Commonwealth Ave Garage,730 Commonwealth Avenue,garage,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+R,766 Commonwealth Ave Lot,766 Commonwealth Avenue,lot,Charles River,no,,,,https://www.bu.edu/transportation/commencement/family-guest-parking
+S,890 Commonwealth Ave Garage,890 Commonwealth Avenue,garage,Charles River,no,,,,https://www.bu.edu/transportation/parking/lots-locations/
+FEN-1,25 Pilgrim Road Lot,25 Pilgrim Road,lot,Fenway,no,,,,https://www.bu.edu/transportation/parking/lots-locations/
+FEN-2,55 Pilgrim Road Garage,55 Pilgrim Road,garage,Fenway,no,,,,https://www.bu.edu/transportation/parking/lots-locations/
+FEN-3,65 Pilgrim Road Garage,65 Pilgrim Road,garage,Fenway,no,,,,https://www.bu.edu/transportation/parking/lots-locations/
+FEN-4,85 Pilgrim Road Lot,85 Pilgrim Road,lot,Fenway,no,,,,https://www.bu.edu/grad/grad-student-life/living-in-boston/transportation
+FEN-5,43 Hawes Street Lot,"43 Hawes Street, Brookline",lot,Fenway,no,,,,https://www.bu.edu/transportation/parking/lots-locations/
+MED-1,710 Albany Street Garage,710 Albany Street,garage,Medical,yes,,,Day parking available,https://www.bu.edu/transportation/parking/lots-locations/
+MED-2,Crosstown Center Garage,801 Massachusetts Avenue,garage,Medical,no,,,Address = Crosstown Center; verify garage entrance,https://www.bu.edu/transportation/parking/lots-locations/
+MED-3,610 Albany Street Garage,610 Albany Street,garage,Medical,no,,,,https://www.bu.edu/transportation/parking/lots-locations/

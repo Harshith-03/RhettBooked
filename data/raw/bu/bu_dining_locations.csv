@@ -1,0 +1,6 @@
+dining_id,name,building_code,address,type,hours_mon_thu,hours_fri,hours_sat_sun,hours_source,notes
+DIN-WTW,Warren Towers Dining Hall,RES-WTW,700 Commonwealth Avenue,residential_dining,08:00-22:00,08:00-21:00,10:00-21:00,team-provided (Oct 2026),
+DIN-MAR,Marciano Commons,YAW,100 Bay State Road (Yawkey Center),residential_dining,08:00-22:00,08:00-21:00,10:00-21:00,team-provided (Oct 2026),CORRECTED: was wrongly placed at StuVi 2 in earlier sample
+DIN-WCA,West Campus Dining Hall,RES-RICH,Babcock Street (West Campus),residential_dining,08:00-22:00,08:00-21:00,10:00-21:00,team-provided (Oct 2026),verify_exact_address
+DIN-GSU,GSU Food Court,GSU,775 Commonwealth Avenue,retail_dining,,,,not provided - check GSU hours,
+DIN-FEN,Fenway Campus Dining,FCC,150 The Riverway,residential_dining,08:00-22:00,08:00-21:00,10:00-21:00,team-provided (Oct 2026),verify

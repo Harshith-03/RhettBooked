@@ -1,0 +1,13 @@
+route,name,bu_campus_served,status_oct_2026,bu_area_stops,notes,source_url
+57,Watertown Yard - Kenmore via Newton Corner & Brighton Center,Charles River (entire Comm Ave),active,Comm Ave @ Blandford St (EB); @ Silber Way (WB); @ Hinsdale St (EB); @ Granby St (WB); @ St Mary's St (EB+WB); @ Pleasant St (EB); @ Buick St (WB); @ Babcock St (WB); Kenmore,Parallels the Green Line B; used as the shuttle route during Green Line closures and fare-free Oct 31-Nov 1 2026,https://www.mbta.com/stops/place-bucen
+47,Central Sq (Cambridge) - Broadway via BU Bridge & BU Medical Campus,Charles River (BU Bridge / Mountfort St) + Medical Campus,active - consolidation with 42/91 planned (early 2027),Stops near BU Bridge; Medical Campus,Direct link between Charles River and Medical campuses,https://www.cambridgema.gov/-/media/Files/CDD/Transportation/transitcommittee/2026/07jul/tacimplementationplan_2026_07_active.pdf
+85,Assembly - Ruggles via Kendall/MIT (replaced CT2),Charles River (BU Bridge),active - CT2 retired Apr 5 2026,All former CT2 stops (BU Bridge area),Now serves every stop instead of CT2's limited stops,https://www.mbta.com/service-changes/spring-2026-better-bus-network-service-changes
+8,Harbor Point/UMass - Kenmore via BU Medical Campus,Kenmore + Medical Campus,active,Kenmore,Second Charles River-Medical link,https://www.bu.edu/sthlibrary/about/map-directions
+19,Fields Corner - Kenmore,Kenmore,active,Kenmore,,https://www.bu.edu/sthlibrary/about/map-directions
+60,Chestnut Hill - Kenmore via Brookline Village,Kenmore,active,Kenmore,,https://www.bu.edu/sthlibrary/about/map-directions
+65,Brighton Center - Kenmore,Kenmore,active,Kenmore,,https://www.bu.edu/sthlibrary/about/map-directions
+66,Harvard - Nubian,West edge (Allston/Brookline),active - upgraded to frequent route Winter 2026,Verify nearest stop,,https://www.cambridgema.gov/-/media/Files/CDD/Transportation/transitcommittee/2026/04april/2025_04_08_tacslides_upload.pdf
+1,Harvard - Nubian via Mass Ave,Medical Campus,active,Mass Ave near Medical Campus,Absorbed former CT1,https://www.bumc.bu.edu/busm/about/contact-us
+10,City Point - Back Bay,Medical Campus,active,Medical Campus,,https://www.bu.edu/grad/grad-student-life/living-in-boston/transportation
+171,Verify terminals,Medical Campus,verify,Medical Campus,Listed by BU Medical Campus,https://www.bumc.bu.edu/busm/about/contact-us
+SL4/SL5,Silver Line - Washington St,Medical Campus,active,Washington St near Medical Campus,,https://www.bumc.bu.edu/busm/about/contact-us

@@ -1,0 +1,27 @@
+building_code,name,address,lat,lon,overnight_allowed,accessible_entrance,label
+AGG,Agganis Arena,925 Commonwealth Ave,42.3524,-71.1177,unknown,true,PLACEHOLDER
+BTH,Booth Theatre,855 Commonwealth Ave,42.3513,-71.1125,unknown,true,PLACEHOLDER
+CAS,College of Arts & Sciences,725 Commonwealth Ave,42.3503,-71.105,unknown,true,PLACEHOLDER
+CASTLE,Dahod Family Alumni Center at the Castle,"225 Bay State Rd, Boston MA",,,unknown,true,ASSUMED
+CDS,Center for Computing & Data Sciences,665 Commonwealth Ave,42.3499,-71.103,unknown,true,PLACEHOLDER
+COM,COM Lawn,"640 Commonwealth Ave, Boston MA",,,unknown,true,ASSUMED
+EPIC,Engineering Product Innovation Center,750 Commonwealth Ave,42.3496,-71.1055,unknown,true,PLACEHOLDER
+FCC,Fenway Campus Dining,150 The Riverway,,,unknown,true,ASSUMED
+FRC,Fitness & Recreation Center,915 Commonwealth Ave,42.3519,-71.1162,unknown,true,PLACEHOLDER
+GSU,George Sherman Union,775 Commonwealth Avenue,42.3505,-71.1066,unknown,true,PLACEHOLDER
+HAW,Wightman Mansion Living Room (43 Hawes St),"43 Hawes Street, Brookline MA",,,unknown,true,ASSUMED
+KHC,Kilachand Hall,91 Bay State Rd,42.3497,-71.0978,unknown,true,PLACEHOLDER
+LAW,Law Tower,765 Commonwealth Ave,42.3505,-71.1058,unknown,true,PLACEHOLDER
+MCH,Warren Alpert Mall / BU Beach,"735 Commonwealth Ave, Boston MA",,,unknown,true,ASSUMED
+MUG,Mugar Memorial Library,771 Commonwealth Ave,42.3505,-71.1063,unknown,true,PLACEHOLDER
+OSW,Metcalf Trustee Ballroom,"One Silber Way, Boston MA",,,unknown,true,ASSUMED
+PHO,Photonics Center,8 Saint Mary's St,42.349,-71.1041,unknown,restricted,PLACEHOLDER
+QST,Questrom School of Business,595 Commonwealth Ave,42.3496,-71.0995,unknown,true,PLACEHOLDER
+RES-RICH,West Campus Dining Hall,Babcock Street (West Campus),,,unknown,true,ASSUMED
+RES-SV1,"10 Buick Street, 18th Floor","10 Buick Street, Boston MA",,,unknown,true,ASSUMED
+RES-SV2,"33 Harry Agganis Way, 26th Floor","33 Harry Agganis Way, Boston MA",,,unknown,true,ASSUMED
+RES-WTW,Warren Towers Dining Hall,700 Commonwealth Avenue,,,unknown,true,ASSUMED
+RKC,Rajen Kilachand Center,610 Commonwealth Ave,42.3494,-71.1006,unknown,true,PLACEHOLDER
+SCI,Metcalf Science Center,590 Commonwealth Ave,42.3492,-71.0993,unknown,true,PLACEHOLDER
+SLB,1 Silber Way,1 Silber Way,42.3498,-71.1016,unknown,true,PLACEHOLDER
+YAW,Marciano Commons,100 Bay State Road (Yawkey Center),,,unknown,true,ASSUMED

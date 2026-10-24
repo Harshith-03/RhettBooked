@@ -1,0 +1,194 @@
+# EventTwin ASSUMED parameters.
+#
+# Every entry carries value, range [low, high], and source. These are ASSUMED
+# planning priors (not measured BU data); services that read them MUST record an
+# ASSUMED provenance label citing the source string.
+#
+# Units are noted per parameter. Ranges feed the Monte Carlo draws.
+
+currency: USD
+
+# Beta show-up priors: fraction of registrations that actually attend.
+# Encoded as Beta(alpha, beta); `value` is the prior mean alpha/(alpha+beta).
+show_up_rate:
+  description: Fraction of registrations that attend, by event type and price.
+  by_type:
+    hackathon:
+      free:
+        alpha: 6
+        beta: 4
+        value: 0.60
+        range: [0.45, 0.75]
+        source: ASSUMED - typical student hackathon no-show experience
+      paid:
+        alpha: 8
+        beta: 2
+        value: 0.80
+        range: [0.65, 0.92]
+        source: ASSUMED - paid registration raises commitment
+    conference:
+      free:
+        alpha: 7
+        beta: 3
+        value: 0.70
+        range: [0.55, 0.85]
+        source: ASSUMED - free professional events
+      paid:
+        alpha: 17
+        beta: 3
+        value: 0.85
+        range: [0.75, 0.95]
+        source: ASSUMED - paid conferences
+    career_fair:
+      free:
+        alpha: 5
+        beta: 5
+        value: 0.50
+        range: [0.35, 0.70]
+        source: ASSUMED - drop-in style attendance
+    workshop:
+      free:
+        alpha: 13
+        beta: 7
+        value: 0.65
+        range: [0.50, 0.80]
+        source: ASSUMED - capped workshops
+    social:
+      free:
+        alpha: 11
+        beta: 9
+        value: 0.55
+        range: [0.40, 0.72]
+        source: ASSUMED - social RSVP volatility
+    other:
+      free:
+        alpha: 6
+        beta: 4
+        value: 0.60
+        range: [0.40, 0.80]
+        source: ASSUMED - generic default
+
+# Devices carried per attendee (Poisson mean), by event type.
+devices_per_person:
+  description: Mean simultaneously-connected devices per attendee (Poisson lambda).
+  by_type:
+    hackathon:
+      value: 2.3
+      range: [1.8, 3.0]
+      source: ASSUMED - laptop + phone, often a second device
+    conference:
+      value: 1.6
+      range: [1.2, 2.1]
+      source: ASSUMED - phone + occasional laptop
+    career_fair:
+      value: 1.3
+      range: [1.0, 1.7]
+      source: ASSUMED - mostly phones
+    workshop:
+      value: 1.8
+      range: [1.3, 2.3]
+      source: ASSUMED - laptop-driven sessions
+    social:
+      value: 1.2
+      range: [1.0, 1.5]
+      source: ASSUMED - phones
+    other:
+      value: 1.6
+      range: [1.2, 2.1]
+      source: ASSUMED - generic default
+
+# Network throughput per active device.
+mbps_per_device:
+  description: Peak sustained Mbps demand per active device, by event type.
+  by_type:
+    hackathon:
+      value: 5.0
+      range: [3.0, 8.0]
+      source: ASSUMED - builds, package pulls, video calls
+    conference:
+      value: 3.0
+      range: [1.5, 5.0]
+      source: ASSUMED - streaming + web
+    career_fair:
+      value: 2.0
+      range: [1.0, 3.5]
+      source: ASSUMED - light browsing
+    workshop:
+      value: 4.0
+      range: [2.0, 6.0]
+      source: ASSUMED - downloads + screen share
+    social:
+      value: 2.0
+      range: [1.0, 3.0]
+      source: ASSUMED - social/media use
+    other:
+      value: 3.0
+      range: [1.5, 5.0]
+      source: ASSUMED - generic default
+
+# Electrical load per device (for circuit sizing).
+watts_per_device:
+  description: Average sustained wattage drawn per charging device.
+  value: 65
+  range: [45, 95]
+  source: ASSUMED - laptop charger average incl. phone top-up
+
+# Wi-Fi access point comfort limit.
+ap_comfortable_clients:
+  description: Clients per access point before service degrades (comfortable limit).
+  value: 40
+  range: [25, 60]
+  source: ASSUMED - enterprise AP comfortable concurrency
+
+# Circuit model constants used for power_circuits = load / (0.8 * amps * volts).
+power_circuit:
+  amps:
+    value: 20
+    range: [15, 20]
+    source: ASSUMED - standard US branch circuit
+  volts:
+    value: 120
+    range: [110, 125]
+    source: ASSUMED - US mains nominal
+  safety_factor:
+    value: 0.8
+    range: [0.8, 0.8]
+    source: ASSUMED - NEC continuous-load derating
+
+# Drinking water demand.
+water_litres_per_person_per_hour:
+  description: Drinking water per attendee per active hour.
+  value: 0.25
+  range: [0.15, 0.40]
+  source: ASSUMED - indoor event hydration guidance
+
+# Dietary category shares (fractions, sum ~1.0) used when no uploaded aggregate exists.
+dietary_shares:
+  description: Fallback dietary split when registration aggregates are unavailable.
+  omnivore:
+    value: 0.60
+    range: [0.50, 0.70]
+    source: ASSUMED - general campus population
+  vegetarian:
+    value: 0.22
+    range: [0.15, 0.30]
+    source: ASSUMED - general campus population
+  vegan:
+    value: 0.08
+    range: [0.04, 0.14]
+    source: ASSUMED - general campus population
+  halal:
+    value: 0.06
+    range: [0.03, 0.10]
+    source: ASSUMED - general campus population
+  gluten_free:
+    value: 0.04
+    range: [0.02, 0.08]
+    source: ASSUMED - general campus population
+
+# Budget contingency added to the point estimate.
+contingency_percent:
+  description: Contingency applied on top of modelled costs.
+  value: 10
+  range: [5, 15]
+  source: ASSUMED - event budgeting rule of thumb
