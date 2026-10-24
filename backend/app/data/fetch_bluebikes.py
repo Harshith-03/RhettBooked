@@ -91,14 +91,18 @@ def _pick(colmap: dict[str, int], names: tuple[str, ...]) -> int | None:
     return None
 
 
-def _parse_hour(value: str) -> tuple[str, int] | None:
-    """Return (daytype, hour) from a timestamp string, or None."""
+def _parse_hour(value: str) -> tuple[str, str, int] | None:
+    """Return (daytype, half, hour) from a timestamp string, or None.
+
+    half = 'h1' for days 1-15, 'h2' for days 16+ (for temporal holdout validation).
+    """
     value = (value or "").strip()
     for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S"):
         try:
             dt = datetime.strptime(value[:26], fmt)
             daytype = "weekend" if dt.weekday() >= 5 else "weekday"
-            return daytype, dt.hour
+            half = "h1" if dt.day <= 15 else "h2"
+            return daytype, half, dt.hour
         except ValueError:
             continue
     return None
@@ -130,9 +134,9 @@ def aggregate(zip_path: Path) -> Path:
         print("ERROR: no building reference points; run build_db first.", file=sys.stderr)
         raise SystemExit(1)
 
-    # starts[(daytype, hour)] and ends[(daytype, hour)]
-    starts: dict[tuple[str, int], int] = defaultdict(int)
-    ends: dict[tuple[str, int], int] = defaultdict(int)
+    # starts[(daytype, half, hour)] and ends[(daytype, half, hour)]
+    starts: dict[tuple[str, str, int], int] = defaultdict(int)
+    ends: dict[tuple[str, str, int], int] = defaultdict(int)
     rows_seen = 0
     rows_kept = 0
 
@@ -192,10 +196,13 @@ def aggregate(zip_path: Path) -> Path:
     with OUT_CSV.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["# Bluebikes 202411 trips within 600 m of BU buildings; hourly starts/ends"])
-        w.writerow(["daytype", "hour", "starts", "ends"])
+        w.writerow(["# half: h1=days 1-15, h2=days 16-30 (temporal holdout split)"])
+        w.writerow(["daytype", "half", "hour", "starts", "ends"])
         for daytype in ("weekday", "weekend"):
-            for hour in range(24):
-                w.writerow([daytype, hour, starts[(daytype, hour)], ends[(daytype, hour)]])
+            for half in ("h1", "h2"):
+                for hour in range(24):
+                    w.writerow([daytype, half, hour,
+                                starts[(daytype, half, hour)], ends[(daytype, half, hour)]])
 
     print(f"Scanned {rows_seen:,} trips; kept {rows_kept:,} near BU.")
     print(f"Wrote {OUT_CSV}")

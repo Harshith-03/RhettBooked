@@ -1,6 +1,6 @@
 {
   "before": {
-    "readiness": 70,
+    "readiness": 69,
     "worst_status": "failing",
     "top_risks": [
       "Green Line closure; Route 57 shuttle (fare-free)",
@@ -8,7 +8,7 @@
     ]
   },
   "after": {
-    "readiness": 85,
+    "readiness": 84,
     "worst_status": "strained",
     "top_risks": [
       "Green Line closure; Route 57 shuttle (fare-free)",

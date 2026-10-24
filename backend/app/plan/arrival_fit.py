@@ -43,8 +43,12 @@ class FittedShape:
     numina_blended: bool = False
 
 
-def _read_hourly(daytype: str) -> tuple[np.ndarray, np.ndarray] | None:
-    """Return (starts, ends) arrays of length 24 for the day type, or None."""
+def _read_hourly(daytype: str, half: str | None = None) -> tuple[np.ndarray, np.ndarray] | None:
+    """Return (starts, ends) arrays of length 24 for the day type.
+
+    half=None sums both halves of the month; half='h1'/'h2' restricts to that
+    half (used for temporal holdout validation).
+    """
     if not BLUEBIKES_CSV.exists():
         return None
     starts = np.zeros(24)
@@ -52,24 +56,24 @@ def _read_hourly(daytype: str) -> tuple[np.ndarray, np.ndarray] | None:
     import csv
 
     with BLUEBIKES_CSV.open(encoding="utf-8") as f:
-        for line in f:
-            if line.startswith("#"):
-                continue
-            break  # consumed header via first non-comment line below
-        f.seek(0)
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
-    # rows[0] is the header.
+    if not rows:
+        return None
     header = rows[0]
     try:
         idx = {name: header.index(name) for name in ("daytype", "hour", "starts", "ends")}
     except ValueError:
         return None
+    has_half = "half" in header
+    i_half = header.index("half") if has_half else None
     for r in rows[1:]:
         if r[idx["daytype"]] != daytype:
             continue
+        if half is not None and has_half and r[i_half] != half:
+            continue
         h = int(r[idx["hour"]])
-        starts[h] = float(r[idx["starts"]])
-        ends[h] = float(r[idx["ends"]])
+        starts[h] += float(r[idx["starts"]])
+        ends[h] += float(r[idx["ends"]])
     if starts.sum() == 0:
         return None
     return starts, ends
@@ -167,6 +171,58 @@ def fit(daytype: str = "weekend") -> FittedShape | None:
         daytype=daytype,
         numina_blended=numina_blended,
     )
+
+
+def _spearman(a: np.ndarray, b: np.ndarray) -> float:
+    """Spearman rank correlation without scipy (rank then Pearson)."""
+    def _rank(x):
+        order = np.argsort(x, kind="mergesort")
+        ranks = np.empty(len(x))
+        ranks[order] = np.arange(len(x))
+        return ranks
+    ra, rb = _rank(a), _rank(b)
+    ra = ra - ra.mean()
+    rb = rb - rb.mean()
+    denom = np.sqrt((ra ** 2).sum() * (rb ** 2).sum())
+    return float((ra * rb).sum() / denom) if denom else 0.0
+
+
+def holdout_validation(daytype: str = "weekend") -> dict | None:
+    """Temporal holdout: fit presence on Nov 1-15 (h1), test on Nov 16-30 (h2).
+
+    Returns RMSE and Spearman of BOTH the fitted curve and the trapezoid baseline
+    against the held-out second-half presence profile.
+    """
+    train = _read_hourly(daytype, half="h1")
+    test = _read_hourly(daytype, half="h2")
+    if train is None or test is None:
+        return None
+
+    # Fitted presence shape from the training half (smoothed, normalized).
+    train_presence = _presence_from_flows(*train)
+    fitted = _smooth(train_presence, window=3)
+    if fitted.max() > 0:
+        fitted = fitted / fitted.max()
+
+    # Held-out truth: second-half presence, normalized.
+    test_presence = _presence_from_flows(*test)
+    if test_presence.max() > 0:
+        test_presence = test_presence / test_presence.max()
+
+    # Trapezoid baseline over 24 "hours" (non-overnight daytime shape).
+    from .attendance import concurrency_shape
+    trap = concurrency_shape(24, overnight=False, is_hackathon=False)
+
+    def rmse(pred):
+        return float(np.sqrt(np.mean((pred - test_presence) ** 2)))
+
+    return {
+        "daytype": daytype,
+        "fitted_rmse": rmse(fitted),
+        "fitted_spearman": _spearman(fitted, test_presence),
+        "trapezoid_rmse": rmse(trap),
+        "trapezoid_spearman": _spearman(trap, test_presence),
+    }
 
 
 def shape_for_blocks(n_blocks: int, daytype: str = "weekend") -> np.ndarray | None:

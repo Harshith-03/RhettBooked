@@ -1,13 +1,13 @@
 {
   "before": {
-    "readiness": 70,
+    "readiness": 69,
     "worst_status": "failing",
     "top_risks": [
       "Power failing from 09:00"
     ]
   },
   "after": {
-    "readiness": 85,
+    "readiness": 84,
     "worst_status": "strained",
     "top_risks": [
       "Power strained from 14:30"

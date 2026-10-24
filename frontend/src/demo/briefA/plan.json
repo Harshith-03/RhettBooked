@@ -8,7 +8,7 @@
     "sponsorship_gap": 10782,
     "turnout_p50": 183,
     "turnout_p90": 238,
-    "readiness": 70,
+    "readiness": 69,
     "top_risks": [
       "Power failing from 09:00"
     ]
@@ -242,7 +242,46 @@
             "capacity": 400,
             "utilization": 0.603
           }
-        ]
+        ],
+        "consumption": {
+          "peak_devices": {
+            "p10": 293.9,
+            "p50": 437.58,
+            "p90": 577.16,
+            "unit": "devices"
+          },
+          "peak_mbps": {
+            "p10": 1469.51,
+            "p50": 2187.88,
+            "p90": 2885.82,
+            "unit": "Mbps"
+          },
+          "total_gb": {
+            "p10": 9.51,
+            "p50": 14.02,
+            "p90": 18.29,
+            "unit": "GB"
+          },
+          "peak_circuits": {
+            "p10": 10.0,
+            "p50": 15.0,
+            "p90": 20.0,
+            "unit": "circuits"
+          },
+          "total_kwh": {
+            "p10": 287.97,
+            "p50": 424.73,
+            "p90": 554.04,
+            "unit": "kWh"
+          },
+          "assumptions_used": {
+            "devices_per_person": 2.3,
+            "mbps_per_device": 5.0,
+            "watts_per_device": 65.0,
+            "circuit_watts": 1920.0
+          },
+          "note": "Wi-Fi and power are consumption figures; no dollar cost."
+        }
       },
       "action_items": [
         "Confirm overnight access for this building with BU Reservations",
@@ -355,8 +394,46 @@
     },
     {
       "name": "Tech",
-      "status": "sized in task 14",
-      "details": {},
+      "status": "peak 438 devices / 2188 Mbps (p50); no $ cost",
+      "details": {
+        "peak_devices": {
+          "p10": 293.9,
+          "p50": 437.58,
+          "p90": 577.16,
+          "unit": "devices"
+        },
+        "peak_mbps": {
+          "p10": 1469.51,
+          "p50": 2187.88,
+          "p90": 2885.82,
+          "unit": "Mbps"
+        },
+        "total_gb": {
+          "p10": 9.51,
+          "p50": 14.02,
+          "p90": 18.29,
+          "unit": "GB"
+        },
+        "peak_circuits": {
+          "p10": 10.0,
+          "p50": 15.0,
+          "p90": 20.0,
+          "unit": "circuits"
+        },
+        "total_kwh": {
+          "p10": 287.97,
+          "p50": 424.73,
+          "p90": 554.04,
+          "unit": "kWh"
+        },
+        "assumptions_used": {
+          "devices_per_person": 2.3,
+          "mbps_per_device": 5.0,
+          "watts_per_device": 65.0,
+          "circuit_watts": 1920.0
+        },
+        "note": "Wi-Fi and power are consumption figures; no dollar cost."
+      },
       "action_items": []
     },
     {
@@ -664,9 +741,9 @@
     },
     {
       "name": "Drill",
-      "status": "readiness 70/100 (failing)",
+      "status": "readiness 69/100 (failing)",
       "details": {
-        "readiness": 70,
+        "readiness": 69,
         "worst_status": "failing",
         "systems": [
           {
@@ -1341,6 +1418,18 @@
       "value_summary": "610 Albany Street Garage"
     },
     {
+      "output_key": "tech.consumption",
+      "label": "SIMULATED",
+      "source": "attendance Monte Carlo draws x per-device assumptions",
+      "value_summary": "peak devices p50=438, peak Mbps p50=2188, total kWh p50=425"
+    },
+    {
+      "output_key": "tech.per_device_params",
+      "label": "ASSUMED",
+      "source": "assumptions.yaml devices_per_person / mbps_per_device / watts_per_device",
+      "value_summary": "dpp=2.3, mbps=5.0, watts=65.0"
+    },
+    {
       "output_key": "drill.run",
       "label": "SIMULATED",
       "source": "15-min twin stepping (occupancy, power, getting-home)",
@@ -1350,7 +1439,7 @@
       "output_key": "drill.readiness",
       "label": "SIMULATED",
       "source": "weighted share of P0 systems ok (occupancy/power/getting-home)",
-      "value_summary": "70/100"
+      "value_summary": "69/100"
     }
   ]
 }

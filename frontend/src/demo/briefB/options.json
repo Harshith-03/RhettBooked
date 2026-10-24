@@ -1,0 +1,34 @@
+{
+  "options": [
+    {
+      "name": "Lean",
+      "tier": "lean",
+      "total_p10": 16378,
+      "total_p50": 20871,
+      "total_p90": 25051,
+      "cost_per_attendee": 114.05,
+      "sponsorship_gap": 5871,
+      "tradeoffs": "Cheapest catering; minimal AV/security/custodial hours"
+    },
+    {
+      "name": "Balanced",
+      "tier": "balanced",
+      "total_p10": 20557,
+      "total_p50": 25782,
+      "total_p90": 31320,
+      "cost_per_attendee": 140.89,
+      "sponsorship_gap": 10782,
+      "tradeoffs": "Mid catering; standard staffing"
+    },
+    {
+      "name": "Premium",
+      "tier": "premium",
+      "total_p10": 28233,
+      "total_p50": 36071,
+      "total_p90": 43736,
+      "cost_per_attendee": 197.11,
+      "sponsorship_gap": 21071,
+      "tradeoffs": "Top catering; extended AV/security/custodial"
+    }
+  ]
+}

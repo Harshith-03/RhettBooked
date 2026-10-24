@@ -46,6 +46,24 @@ def test_attendance_uses_measured_shape_for_dated_event():
     assert "Bluebikes" in by_key["attendance.arrival_shape"].source
 
 
+def test_holdout_fitted_beats_trapezoid_weekend():
+    r = arrival_fit.holdout_validation("weekend")
+    assert r is not None, "expected half-split Bluebikes data for holdout"
+    # The fitted curve generalizes to the held-out second half far better than
+    # the flat trapezoid baseline.
+    assert r["fitted_rmse"] < r["trapezoid_rmse"]
+    assert r["fitted_spearman"] > r["trapezoid_spearman"]
+    assert r["fitted_spearman"] > 0.8        # strong rank agreement
+    assert 0.0 <= r["fitted_rmse"] <= 1.0
+
+
+def test_holdout_available_for_both_daytypes():
+    for daytype in ("weekday", "weekend"):
+        r = arrival_fit.holdout_validation(daytype)
+        assert r is not None
+        assert r["fitted_rmse"] < r["trapezoid_rmse"]
+
+
 def test_attendance_still_produces_ordered_percentiles_with_fit():
     brief = EventBrief(
         type=EventType.hackathon, description="weekend hackathon",

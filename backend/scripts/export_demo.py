@@ -91,7 +91,16 @@ def export(base_url: str | None = None) -> None:
         )
         _write(out_dir / "drill_fixes.json", drill_fixes)
 
-        print(f"  {key}: parse, plan, drill, drill_fixes")
+        _write(out_dir / "options.json",
+               caller.post("/plan/options", {"brief": parse["brief"], "draws": 500}))
+        _write(out_dir / "people.json",
+               caller.post("/people", {"brief": parse["brief"]}))
+        _write(out_dir / "sponsors.json",
+               caller.post("/sponsors", {"brief": parse["brief"], "draws": 500}))
+        _write(out_dir / "trust.json",
+               caller.post("/trust", {"brief": parse["brief"], "draws": 500}))
+
+        print(f"  {key}: parse, plan, drill, drill_fixes, options, people, sponsors, trust")
 
     print(f"Demo snapshots written to {DEMO_DIR}")
 

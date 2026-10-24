@@ -28,6 +28,8 @@ from . import attendance as attendance_mod
 from . import budget as budget_mod
 from . import food_water as food_mod
 from . import options as options_mod
+from . import people as people_mod
+from . import sponsors as sponsors_mod
 from . import tech as tech_mod
 from . import transport as transport_mod
 from . import venue_optimizer as venue_mod

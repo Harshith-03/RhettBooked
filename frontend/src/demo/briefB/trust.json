@@ -1,0 +1,687 @@
+{
+  "label_counts": {
+    "MEASURED": 62,
+    "ASSUMED": 41,
+    "PLACEHOLDER": 0,
+    "SIMULATED": 7
+  },
+  "provenance": [
+    {
+      "output_key": "attendance.show_up_prior",
+      "label": "ASSUMED",
+      "source": "ASSUMED - typical student hackathon no-show experience",
+      "value_summary": "Beta(alpha=6.0, beta=4.0)"
+    },
+    {
+      "output_key": "attendance.turnout",
+      "label": "SIMULATED",
+      "source": "Monte Carlo 500 draws over the Beta show-up prior",
+      "value_summary": "p50=183, p90=238"
+    },
+    {
+      "output_key": "attendance.concurrency_curve",
+      "label": "SIMULATED",
+      "source": "Monte Carlo 500 draws x Bluebikes 202411 hourly trips within 600 m of BU (MEASURED-derived); blended 70/30 with Boston Numina sensor zones, 2020-21, not BU-specific + overnight decay",
+      "value_summary": "132 blocks of 15 min; peak p90=241"
+    },
+    {
+      "output_key": "attendance.arrival_shape",
+      "label": "MEASURED",
+      "source": "Bluebikes 202411 hourly trips within 600 m of BU (MEASURED-derived); blended 70/30 with Boston Numina sensor zones, 2020-21, not BU-specific",
+      "value_summary": "daytype=weekend"
+    },
+    {
+      "output_key": "venue.recommended_building",
+      "label": "MEASURED",
+      "source": "bu_event_spaces.csv via DuckDB rooms (layout capacities)",
+      "value_summary": "GSU: 3 blocks assigned"
+    },
+    {
+      "output_key": "venue.av_capability",
+      "label": "ASSUMED",
+      "source": "AV level not in dataset; assumed available",
+      "value_summary": "AV assumed available"
+    },
+    {
+      "output_key": "budget.catering.breakfast",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.breakfast (placeholder range)",
+      "value_summary": "$9-14/head"
+    },
+    {
+      "output_key": "budget.catering.lunch",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.lunch (placeholder range)",
+      "value_summary": "$15-24/head"
+    },
+    {
+      "output_key": "budget.catering.snack",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.snack (placeholder range)",
+      "value_summary": "$5-9/head"
+    },
+    {
+      "output_key": "budget.catering.dinner",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.dinner (placeholder range)",
+      "value_summary": "$22-35/head"
+    },
+    {
+      "output_key": "budget.water",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml bottled_water_each",
+      "value_summary": "~3 bottles/head"
+    },
+    {
+      "output_key": "budget.wifi",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml temporary_wifi_ap_rental_per_ap_per_day",
+      "value_summary": "6 APs"
+    },
+    {
+      "output_key": "budget.power",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml power_strip_station_rental_each",
+      "value_summary": "20 stations"
+    },
+    {
+      "output_key": "budget.av_tech_per_hour",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml av_tech_per_hour",
+      "value_summary": "12 hrs"
+    },
+    {
+      "output_key": "budget.security_police_detail_per_hour",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml security_police_detail_per_hour",
+      "value_summary": "12 hrs"
+    },
+    {
+      "output_key": "budget.custodial_per_hour",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml custodial_per_hour",
+      "value_summary": "12 hrs"
+    },
+    {
+      "output_key": "budget.event_insurance_flat",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml event_insurance_flat",
+      "value_summary": "flat"
+    },
+    {
+      "output_key": "budget.prizes_total",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml prizes_total",
+      "value_summary": "flat"
+    },
+    {
+      "output_key": "budget.printing_flat",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml printing_flat",
+      "value_summary": "flat"
+    },
+    {
+      "output_key": "budget.swag",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml swag_per_head",
+      "value_summary": "per head"
+    },
+    {
+      "output_key": "budget.contingency",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml contingency_percent",
+      "value_summary": "% of subtotal"
+    },
+    {
+      "output_key": "budget.total",
+      "label": "SIMULATED",
+      "source": "Monte Carlo 500 draws over turnout + rate-card ranges",
+      "value_summary": "p10=20557, p50=25782, p90=31320"
+    },
+    {
+      "output_key": "budget.sponsorship_gap",
+      "label": "SIMULATED",
+      "source": "p50 total minus stated budget",
+      "value_summary": "gap=10782"
+    },
+    {
+      "output_key": "dining.DIN-WTW",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "dining.DIN-MAR",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "dining.DIN-WCA",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "dining.DIN-GSU",
+      "label": "MEASURED",
+      "source": "not provided - check GSU hours",
+      "value_summary": "hours unknown"
+    },
+    {
+      "output_key": "dining.DIN-FEN",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "food.breakfast.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.breakfast",
+      "value_summary": "$2142-3332 for 238"
+    },
+    {
+      "output_key": "food.lunch.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.lunch",
+      "value_summary": "$3570-5712 for 238"
+    },
+    {
+      "output_key": "food.snack.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.snack",
+      "value_summary": "$1190-2142 for 238"
+    },
+    {
+      "output_key": "food.dinner.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.dinner",
+      "value_summary": "$5236-8330 for 238"
+    },
+    {
+      "output_key": "water.demand",
+      "label": "ASSUMED",
+      "source": "assumptions.yaml water_litres_per_person_per_hour",
+      "value_summary": "2142 L total"
+    },
+    {
+      "output_key": "mbta_stops.place-kencl",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B,C,D"
+    },
+    {
+      "output_key": "mbta_stops.place-kencl.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "6 min"
+    },
+    {
+      "output_key": "mbta_stops.place-bland",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-bland.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "1 min"
+    },
+    {
+      "output_key": "mbta_stops.place-buest",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-buest.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "3 min"
+    },
+    {
+      "output_key": "mbta_stops.place-bucen",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-bucen.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "1 min"
+    },
+    {
+      "output_key": "mbta_stops.place-amory",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-amory.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "4 min"
+    },
+    {
+      "output_key": "mbta_stops.place-babck",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-babck.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "4 min"
+    },
+    {
+      "output_key": "mbta_stops.place-brico",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-brico.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "10 min"
+    },
+    {
+      "output_key": "mbta_stops.place-hymnl",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B,C,D"
+    },
+    {
+      "output_key": "mbta_stops.place-hymnl.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "15 min"
+    },
+    {
+      "output_key": "mbta_stops.place-smary",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-smary.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "5 min"
+    },
+    {
+      "output_key": "mbta_stops.place-hwsst",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-hwsst.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "8 min"
+    },
+    {
+      "output_key": "mbta_stops.place-kntst",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-kntst.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "12 min"
+    },
+    {
+      "output_key": "mbta_stops.place-stpul",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-stpul.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "15 min"
+    },
+    {
+      "output_key": "mbta_stops.place-fenwy",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green D"
+    },
+    {
+      "output_key": "mbta_stops.place-fenwy.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "3 min"
+    },
+    {
+      "output_key": "mbta_stops.place-longw",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green D"
+    },
+    {
+      "output_key": "mbta_stops.place-longw.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "8 min"
+    },
+    {
+      "output_key": "mbta_stops.place-lngmd",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green E"
+    },
+    {
+      "output_key": "mbta_stops.place-lngmd.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "15 min"
+    },
+    {
+      "output_key": "mbta_stops.place-masta",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Orange"
+    },
+    {
+      "output_key": "mbta_stops.place-masta.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "18 min"
+    },
+    {
+      "output_key": "mbta_stops.place-brdwy",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Red"
+    },
+    {
+      "output_key": "mbta_stops.place-brdwy.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "23 min"
+    },
+    {
+      "output_key": "mbta_stops.(verify: place-WML-0025)",
+      "label": "MEASURED",
+      "source": "Coordinates approximate - run scripts/fetch_mbta.py",
+      "value_summary": "lines=Framingham/Worcester Line"
+    },
+    {
+      "output_key": "mbta_stops.(verify: place-WML-0025).walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "4 min"
+    },
+    {
+      "output_key": "bus_routes.57",
+      "label": "MEASURED",
+      "source": "https://www.mbta.com/stops/place-bucen",
+      "value_summary": "Watertown Yard - Kenmore via Newton Corner & Brighton Center"
+    },
+    {
+      "output_key": "bus_routes.47",
+      "label": "MEASURED",
+      "source": "https://www.cambridgema.gov/-/media/Files/CDD/Transportation/transitcommittee/2026/07jul/tacimplementationplan_2026_07_active.pdf",
+      "value_summary": "Central Sq (Cambridge) - Broadway via BU Bridge & BU Medical"
+    },
+    {
+      "output_key": "bus_routes.85",
+      "label": "MEASURED",
+      "source": "https://www.mbta.com/service-changes/spring-2026-better-bus-network-service-changes",
+      "value_summary": "Assembly - Ruggles via Kendall/MIT (replaced CT2)"
+    },
+    {
+      "output_key": "bus_routes.8",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Harbor Point/UMass - Kenmore via BU Medical Campus"
+    },
+    {
+      "output_key": "bus_routes.19",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Fields Corner - Kenmore"
+    },
+    {
+      "output_key": "bus_routes.60",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Chestnut Hill - Kenmore via Brookline Village"
+    },
+    {
+      "output_key": "bus_routes.65",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Brighton Center - Kenmore"
+    },
+    {
+      "output_key": "bus_routes.66",
+      "label": "MEASURED",
+      "source": "https://www.cambridgema.gov/-/media/Files/CDD/Transportation/transitcommittee/2026/04april/2025_04_08_tacslides_upload.pdf",
+      "value_summary": "Harvard - Nubian"
+    },
+    {
+      "output_key": "bus_routes.1",
+      "label": "MEASURED",
+      "source": "https://www.bumc.bu.edu/busm/about/contact-us",
+      "value_summary": "Harvard - Nubian via Mass Ave"
+    },
+    {
+      "output_key": "bus_routes.10",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/grad/grad-student-life/living-in-boston/transportation",
+      "value_summary": "City Point - Back Bay"
+    },
+    {
+      "output_key": "bus_routes.171",
+      "label": "MEASURED",
+      "source": "https://www.bumc.bu.edu/busm/about/contact-us",
+      "value_summary": "Verify terminals"
+    },
+    {
+      "output_key": "bus_routes.SL4/SL5",
+      "label": "MEASURED",
+      "source": "https://www.bumc.bu.edu/busm/about/contact-us",
+      "value_summary": "Silver Line - Washington St"
+    },
+    {
+      "output_key": "parking.A",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/",
+      "value_summary": "Agganis Arena Lot/Garage"
+    },
+    {
+      "output_key": "parking.B",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/",
+      "value_summary": "Langsam Garage"
+    },
+    {
+      "output_key": "parking.C",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "Harry Agganis Way Lot"
+    },
+    {
+      "output_key": "parking.D",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Buick Street Garage & Lot"
+    },
+    {
+      "output_key": "parking.E",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "CFA Lot"
+    },
+    {
+      "output_key": "parking.F",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "Essex Street Garage & Lot"
+    },
+    {
+      "output_key": "parking.G",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Lower Bridge Lot"
+    },
+    {
+      "output_key": "parking.H",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Upper Bridge Lot"
+    },
+    {
+      "output_key": "parking.J",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "CAS Lot"
+    },
+    {
+      "output_key": "parking.K",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Warren Towers Garage"
+    },
+    {
+      "output_key": "parking.L",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "575 Commonwealth Ave Lot"
+    },
+    {
+      "output_key": "parking.M",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Hariri Building Garage"
+    },
+    {
+      "output_key": "parking.O",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/",
+      "value_summary": "Kenmore Lot"
+    },
+    {
+      "output_key": "parking.Q",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "730/750 Commonwealth Ave Garage"
+    },
+    {
+      "output_key": "parking.R",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "766 Commonwealth Ave Lot"
+    },
+    {
+      "output_key": "parking.S",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "890 Commonwealth Ave Garage"
+    },
+    {
+      "output_key": "parking.FEN-1",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "25 Pilgrim Road Lot"
+    },
+    {
+      "output_key": "parking.FEN-2",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "55 Pilgrim Road Garage"
+    },
+    {
+      "output_key": "parking.FEN-3",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "65 Pilgrim Road Garage"
+    },
+    {
+      "output_key": "parking.FEN-4",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/grad/grad-student-life/living-in-boston/transportation",
+      "value_summary": "85 Pilgrim Road Lot"
+    },
+    {
+      "output_key": "parking.FEN-5",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "43 Hawes Street Lot"
+    },
+    {
+      "output_key": "parking.MED-1",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "710 Albany Street Garage"
+    },
+    {
+      "output_key": "parking.MED-2",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "Crosstown Center Garage"
+    },
+    {
+      "output_key": "parking.MED-3",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "610 Albany Street Garage"
+    },
+    {
+      "output_key": "tech.consumption",
+      "label": "SIMULATED",
+      "source": "attendance Monte Carlo draws x per-device assumptions",
+      "value_summary": "peak devices p50=438, peak Mbps p50=2188, total kWh p50=425"
+    },
+    {
+      "output_key": "tech.per_device_params",
+      "label": "ASSUMED",
+      "source": "assumptions.yaml devices_per_person / mbps_per_device / watts_per_device",
+      "value_summary": "dpp=2.3, mbps=5.0, watts=65.0"
+    },
+    {
+      "output_key": "drill.disruption.planned",
+      "label": "MEASURED",
+      "source": "mbta_stations_bu.csv service_alert",
+      "value_summary": "Green Line closure; Route 57 shuttle (fare-free)"
+    },
+    {
+      "output_key": "drill.run",
+      "label": "SIMULATED",
+      "source": "15-min twin stepping (occupancy, power, getting-home)",
+      "value_summary": "worst=failing; disruptions=1"
+    },
+    {
+      "output_key": "drill.readiness",
+      "label": "SIMULATED",
+      "source": "weighted share of P0 systems ok (occupancy/power/getting-home)",
+      "value_summary": "69/100"
+    }
+  ],
+  "sensitivity": [
+    {
+      "driver": "half ventilation",
+      "readiness": 58,
+      "delta": -3
+    },
+    {
+      "driver": "turnout +30%",
+      "readiness": 61,
+      "delta": 0
+    },
+    {
+      "driver": "AP down",
+      "readiness": 61,
+      "delta": 0
+    }
+  ]
+}

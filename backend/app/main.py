@@ -32,6 +32,7 @@ from fastapi import UploadFile
 
 from . import brief as brief_pkg
 from .agent import explainer as explainer_mod
+from .agent import rag as rag_mod
 from .brief.models import EventBrief
 from .config import load_assumptions, settings
 from .data import loaders
@@ -120,6 +121,39 @@ def post_explain(req: PlanRequest) -> dict[str, Any]:
     return {"explanation": explainer_mod.explain(plan)}
 
 
+class AskRequest(BaseModel):
+    question: str
+    text: str | None = None          # optional brief text to ground numbers
+    brief: dict[str, Any] | None = None
+
+
+@app.post("/ask")
+def post_ask(req: AskRequest) -> dict[str, Any]:
+    """RAG explainer: answer a question, cite doc sources, ground numbers (task 22)."""
+    plan = None
+    if req.text or req.brief:
+        brief = _resolve_brief(req.text, req.brief)
+        plan = plan_mod.build(brief, draws=300).to_dict()
+    return rag_mod.answer(req.question, plan=plan).as_dict()
+
+
+@app.post("/people")
+def post_people(req: PlanRequest) -> dict[str, Any]:
+    """Judge/speaker recommendations from public OpenAlex data (task 18)."""
+    brief = _resolve_brief(req.text, req.brief)
+    return plan_mod.people_mod.recommend(brief).as_dict()
+
+
+@app.post("/sponsors")
+def post_sponsors(req: PlanRequest) -> dict[str, Any]:
+    """Sponsor-category suggestions covering the budget gap (task 19)."""
+    brief = _resolve_brief(req.text, req.brief)
+    att = plan_mod.attendance_mod.sample(brief, draws=req.draws)
+    bud = plan_mod.budget_mod.estimate(brief, att, draws=req.draws)
+    gap = max(0, bud.sponsorship_gap)
+    return plan_mod.sponsors_mod.recommend(brief, budget_gap=gap).as_dict()
+
+
 @app.post("/plan/options")
 def post_plan_options(req: PlanRequest) -> dict[str, Any]:
     """Lean/Balanced/Premium compare (task 17)."""
@@ -187,7 +221,35 @@ async def post_privacy_upload(file: UploadFile) -> dict[str, Any]:
         "findings": dict(counts),
         "residual_pii": residual,
         "preview": scrubbed_text[:2000],
+        "names_note": (
+            "Regex detection does not catch names; NER via Presidio is planned."
+        ),
     }
+
+
+class DetokenizeRequest(BaseModel):
+    value: str                      # a value to tokenize then detokenize (demo)
+
+
+@app.post("/privacy/detokenize-demo")
+def post_detokenize_demo(req: DetokenizeRequest) -> dict[str, Any]:
+    """Demo: deterministic HMAC tokenize -> detokenize round-trip with audit."""
+    from .privacy import Vault
+
+    vault = Vault(path=":memory:")
+    try:
+        token = vault.tokenize(req.value, entity="demo")
+        token2 = vault.tokenize(req.value, entity="demo")   # same input -> same token
+        recovered = vault.detokenize(token)
+        return {
+            "token": token,
+            "deterministic": token == token2,
+            "recovered": recovered,
+            "ephemeral_key": vault.ephemeral,
+            "audit_entries": len(vault.audit_log()),
+        }
+    finally:
+        vault.close()
 
 
 # --------------------------------------------------------------------------- #
@@ -236,4 +298,24 @@ def get_provenance() -> dict[str, Any]:
     return {
         "label_counts": store.label_counts(),
         "rows": store.all(),
+    }
+
+
+@app.post("/trust")
+def post_trust(req: PlanRequest) -> dict[str, Any]:
+    """Trust-page data: the label mix for a brief's plan + a sensitivity tornado."""
+    brief = _resolve_brief(req.text, req.brief)
+    plan = plan_mod.build(brief, draws=req.draws).to_dict()
+    counts: dict[str, int] = {"MEASURED": 0, "ASSUMED": 0, "PLACEHOLDER": 0, "SIMULATED": 0}
+    for row in plan.get("provenance", []):
+        lbl = row.get("label")
+        if lbl in counts:
+            counts[lbl] += 1
+    # Sensitivity tornado from the drill.
+    ctx = plan_mod.drill_context_for(brief)
+    tornado = plan_mod.twin_mod.sensitivity(ctx) if hasattr(plan_mod, "twin_mod") else []
+    return {
+        "label_counts": counts,
+        "provenance": plan.get("provenance", []),
+        "sensitivity": tornado,
     }

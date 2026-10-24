@@ -2,6 +2,7 @@ import { useState } from "react";
 import { API_URL, fetchExplanation, fetchPlan } from "./api";
 import { BRIEF_TEXT } from "./demo";
 import { DrillPanel } from "./components/DrillPanel";
+import { Sections } from "./components/Sections";
 import { SummaryBar } from "./components/SummaryBar";
 import { Tiles } from "./components/Tiles";
 import { Badge, Card } from "./components/ui";
@@ -97,6 +98,7 @@ export default function App() {
             ) : null}
             <Tiles plan={plan} />
             <DrillPanel text={text} briefKey={briefKey} onSource={setSource} />
+            <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
           </div>
         ) : (
           <Card>

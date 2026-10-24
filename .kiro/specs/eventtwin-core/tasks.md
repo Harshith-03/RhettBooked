@@ -219,12 +219,12 @@ prior waves completing.
 
 ## Phase 2 - Overnight depth (P1)
 
-- [ ] 18. [P1] People recommendations
+- [x] 18. [P1] People recommendations
   - Topic embeddings; OpenAlex slice + cached API filtered to BU + nine campuses; aggregate by author;
     rank similarity*log(citations)*recency; public fields only; institution-diversity check; no demographics.
   - _Requirements: 7.1-7.5_
 
-- [ ] 19. [P1] Sponsors
+- [x] 19. [P1] Sponsors
   - topics->O*NET occupations->industries->sponsors_placeholder categories by embedding similarity;
     rank by fit + typical ask; suggested ask level covering the budget gap.
   - _Requirements: 7.6, 7.7_
@@ -233,17 +233,17 @@ prior waves completing.
   - Add network load and food/restroom queues to twin.run. Add the air/CO2 mass-balance helper (air.co2, dC/dt = (N*G - Q*(C - C_out))/V, G=0.0052 L/s/person, C_out=420, amber 1000, red 1400) and wire air quality into twin.run; add sensitivity/tornado inputs.
   - _Requirements: 9.2, 9.3, 9.4 (extended), sensitivity_
 
-- [ ] 21. [P1] Privacy risk report + Trust UI
+- [x] 21. [P1] Privacy risk report + Trust UI
   - risk_report: entities/column, residual scan target 0, k-anonymity on quasi-identifiers, utility check.
   - Trust page: provenance, label counts, privacy report, sensitivity tornado chart.
   - _Requirements: 10.4, 13.6_
 
-- [ ] 22. [P1] RAG explainer
+- [x] 22. [P1] RAG explainer
   - Build corpus over METHODS.md, ETHICS.md, dataset caveats, MBTA alert texts, placeholder README;
     MiniLM embeddings + NumPy cosine search; cite source ids; numbers only from tool outputs.
   - _Requirements: 11.3, 11.4, 11.5_
 
-- [ ] 23. [P1] Compare and Export pages + polish
+- [x] 23. [P1] Compare and Export pages + polish
   - Compare: Lean/Balanced/Premium columns (cost, readiness, trade-offs).
   - Export: one-page printable plan + run-of-show + budget CSV. General UI polish.
   - _Requirements: 13.5, 13.7_

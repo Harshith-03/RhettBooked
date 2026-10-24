@@ -100,4 +100,18 @@ export async function fetchDrillCompare(
   }
 }
 
+export async function fetchExtra(
+  kind: "plan/options" | "people" | "sponsors" | "trust",
+  text: string,
+  briefKey: BriefKey | null
+): Promise<Fetched<any>> {
+  const demoField = kind === "plan/options" ? "options" : kind;
+  try {
+    const data = await post<any>(`/${kind}`, { text, draws: 500 });
+    return { data, source: "live" };
+  } catch {
+    return { data: (demoBundle(briefKey, text) as any)[demoField], source: "demo" };
+  }
+}
+
 export { API_URL };

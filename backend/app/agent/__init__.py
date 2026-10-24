@@ -1,5 +1,5 @@
 """Agent layer: named tools + the grounded template explainer (P0)."""
 
-from . import explainer, tools
+from . import explainer, rag, tools
 
-__all__ = ["explainer", "tools"]
+__all__ = ["explainer", "rag", "tools"]

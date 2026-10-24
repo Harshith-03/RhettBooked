@@ -28,13 +28,27 @@ fallback when no fit data is present).
   normalized to [0, 1]; blended 70/30 with the Numina pedestrian profile; smoothed
   with a 3-hour centered moving average and resampled to 15-minute blocks from a
   ~09:00 start.
-- **Fit error (weekend): RMSE = 0.0222** between the smoothed fitted curve and
-  the blended raw normalized hourly profile (presence on a 0–1 scale). (Bluebikes
-  alone, before the Numina blend, was RMSE 0.0275.)
 - Chart: `docs/arrival_fit.svg` (fitted vs raw vs trapezoid fallback).
 - The fitted curve is labelled **MEASURED-derived** in provenance
   (`attendance.arrival_shape`), since it is computed from real Bluebikes counts.
   When the fit file is absent, the shape falls back to the ASSUMED trapezoid.
+
+### Temporal holdout validation (the real test)
+The month is split in two: the shape is **fit on Nov 1–15** and tested against the
+**held-out Nov 16–30** presence profile. (An earlier in-sample "RMSE 0.022" number
+only measured how much the smoother changed the training curve — it was not a
+validation and has been removed.)
+
+| day type | fitted RMSE | fitted Spearman | trapezoid RMSE | trapezoid Spearman |
+|----------|-------------|-----------------|----------------|--------------------|
+| **weekend** (event case) | **0.107** | **0.974** | 0.499 | 0.006 |
+| weekday | 0.125 | 0.832 | 0.644 | 0.470 |
+
+On the weekend profile the fitted curve has ~4.6× lower error than the flat
+trapezoid and near-perfect rank correlation (0.97) with the held-out half, versus
+~0 for the trapezoid. The fit generalizes across halves of the month; the
+trapezoid does not track the real shape. Reproduce with
+`arrival_fit.holdout_validation("weekend")`.
 
 ### Caveats
 - **One month only.** November 2024 is a single month of Bluebikes data; seasonal
