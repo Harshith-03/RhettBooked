@@ -142,11 +142,16 @@ function Header({
       <div className="mx-auto flex w-full items-center justify-between" style={{ maxWidth: 800, padding: "12px 24px" }}>
         <div className="flex items-center gap-3">
           <div
-            className="flex items-center justify-center rounded-full"
-            style={{ width: 36, height: 36, background: "#ffffff", color: "var(--red)", fontWeight: 700 }}
-            aria-hidden
+            className="flex items-center justify-center overflow-hidden rounded-full"
+            style={{ width: 36, height: 36, background: "#ffffff" }}
           >
-            E
+            <img
+              src="/logo.png"
+              alt="EventTwin logo"
+              width={36}
+              height={36}
+              style={{ width: 36, height: 36, objectFit: "contain" }}
+            />
           </div>
           <div>
             <div style={{ color: "#ffffff", fontWeight: 700, fontSize: 18, lineHeight: 1 }}>EventTwin</div>
