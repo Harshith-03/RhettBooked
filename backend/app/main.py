@@ -122,18 +122,11 @@ def post_explain(req: PlanRequest) -> dict[str, Any]:
 
 @app.post("/plan/options")
 def post_plan_options(req: PlanRequest) -> dict[str, Any]:
-    """Lean/Balanced/Premium compare - deepened in P1 (task 17).
-
-    Returns the base plan plus a labelled placeholder note so the frontend has a
-    stable shape to render.
-    """
+    """Lean/Balanced/Premium compare (task 17)."""
     brief = _resolve_brief(req.text, req.brief)
-    plan = plan_mod.build(brief, draws=req.draws)
-    return {
-        "base": plan.to_dict(),
-        "options": {"lean": None, "balanced": None, "premium": None},
-        "note": "Lean/Balanced/Premium compare is P1 (task 17); base plan shown.",
-    }
+    att = plan_mod.attendance_mod.sample(brief, draws=req.draws)
+    result = plan_mod.options_mod.build(brief, att, draws=req.draws)
+    return result.as_dict()
 
 
 # --------------------------------------------------------------------------- #

@@ -27,6 +27,8 @@ from ..provenance import ProvenanceRow
 from . import attendance as attendance_mod
 from . import budget as budget_mod
 from . import food_water as food_mod
+from . import options as options_mod
+from . import tech as tech_mod
 from . import transport as transport_mod
 from . import venue_optimizer as venue_mod
 
@@ -98,6 +100,10 @@ def build(brief, db_path: Path | str | None = None, draws: int = 500) -> Plan:
     trans = transport_mod.plan(brief, db_path=db_path)
     prov.extend(trans.provenance)
 
+    # 3c. Tech consumption (Wi-Fi + power, no dollar cost)
+    tech_plan = tech_mod.size(brief, att)
+    prov.extend(tech_plan.provenance)
+
     # 4. Drill (occupancy + power + getting-home) -> readiness + top-3 risks
     drill_ctx = _build_drill_context(brief, att, rec)
     drill_result = twin_mod.run(drill_ctx, db_path=db_path)
@@ -119,7 +125,7 @@ def build(brief, db_path: Path | str | None = None, draws: int = 500) -> Plan:
         "top_risks": verdict.top_risks,
     }
 
-    venue_tile = _venue_tile(venue_res)
+    venue_tile = _venue_tile(venue_res, tech_plan)
     tiles = [
         venue_tile,
         Tile(name="Budget",
@@ -135,8 +141,7 @@ def build(brief, db_path: Path | str | None = None, draws: int = 500) -> Plan:
                      for li in bud.line_items
                  ],
              }),
-        # Stubs deepened later; present so the Plan assembles completely (task 12).
-        Tile(name="Tech", status="sized in task 14", details={}),
+        _tech_tile(tech_plan),
         _food_tile(fw),
         _getting_there_tile(trans, drill_result),
         Tile(name="People", status="P1 (task 18)", details={}),
@@ -349,8 +354,18 @@ def _getting_there_tile(trans, drill_result) -> Tile:
     )
 
 
-def _venue_tile(venue_res) -> Tile:
+def _tech_tile(tech_plan) -> Tile:
+    d = tech_plan.as_dict()
+    status = (
+        f"peak {d['peak_devices']['p50']:.0f} devices / "
+        f"{d['peak_mbps']['p50']:.0f} Mbps (p50); no $ cost"
+    )
+    return Tile(name="Tech", status=status, details=d)
+
+
+def _venue_tile(venue_res, tech_plan=None) -> Tile:
     rec = venue_res.recommended
+    consumption = tech_plan.as_dict() if tech_plan is not None else None
     if rec and rec.feasible:
         status = f"{rec.building_code} - {rec.reason}"
         return Tile(
@@ -364,8 +379,14 @@ def _venue_tile(venue_res) -> Tile:
                      "capacity": a.capacity, "utilization": a.utilization}
                     for a in rec.assignments
                 ],
+                # Wi-Fi + power consumption shown in the Venue tile (task 14).
+                "consumption": consumption,
             },
             action_items=rec.action_items,   # overnight + AV "Confirm with BU Reservations"
         )
     reason = rec.reason if rec else "no feasible building found"
-    return Tile(name="Venue", status=f"no feasible venue - {reason}", details={})
+    return Tile(
+        name="Venue",
+        status=f"no feasible venue - {reason}",
+        details={"consumption": consumption},
+    )

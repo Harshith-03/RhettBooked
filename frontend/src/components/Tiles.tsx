@@ -1,11 +1,58 @@
 import type { Plan, Tile } from "../types";
 import { Badge, TileCard, money } from "./ui";
 
+const CONSUMPTION_ROWS: [string, string][] = [
+  ["peak_devices", "Peak devices"],
+  ["peak_mbps", "Peak Mbps"],
+  ["total_gb", "Total GB"],
+  ["peak_circuits", "Peak circuits"],
+  ["total_kwh", "Total kWh"],
+];
+
+function ConsumptionTable({ c }: { c: any }) {
+  if (!c) return null;
+  return (
+    <table className="w-full text-left text-sm">
+      <thead className="text-xs uppercase text-gray-500 dark:text-gray-400">
+        <tr>
+          <th className="pb-1">Metric</th>
+          <th className="pb-1 text-right">p10</th>
+          <th className="pb-1 text-right">p50</th>
+          <th className="pb-1 text-right">p90</th>
+        </tr>
+      </thead>
+      <tbody>
+        {CONSUMPTION_ROWS.filter(([k]) => c[k]).map(([k, label]) => (
+          <tr key={k} className="border-t border-gray-100 dark:border-gray-700">
+            <td className="py-1">{label}</td>
+            <td className="py-1 text-right">{Math.round(c[k].p10)}</td>
+            <td className="py-1 text-right">{Math.round(c[k].p50)}</td>
+            <td className="py-1 text-right">{Math.round(c[k].p90)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function TechTile({ tile }: { tile?: Tile }) {
+  if (!tile) return null;
+  return (
+    <TileCard title="Tech (Wi-Fi + power)" status={tile.status}>
+      <ConsumptionTable c={tile.details} />
+      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+        Consumption only - Wi-Fi and power carry no dollar cost.
+      </p>
+    </TileCard>
+  );
+}
+
 export function Tiles({ plan }: { plan: Plan }) {
   const byName = Object.fromEntries(plan.tiles.map((t) => [t.name, t]));
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <VenueTile tile={byName["Venue"]} venue={plan.venue} />
+      <TechTile tile={byName["Tech"]} />
       <BudgetTile plan={plan} tile={byName["Budget"]} />
       <GettingThereTile tile={byName["Getting There"]} />
       <FoodWaterTile tile={byName["Food & Water"]} />
@@ -62,6 +109,14 @@ function VenueTile({ tile, venue }: { tile?: Tile; venue: Record<string, unknown
               <li key={i}>{a}</li>
             ))}
           </ul>
+        </div>
+      ) : null}
+      {(tile.details?.consumption as any) ? (
+        <div className="mt-3 border-t border-gray-100 pt-3 dark:border-gray-700">
+          <p className="mb-1 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+            Wi-Fi &amp; power consumption
+          </p>
+          <ConsumptionTable c={tile.details.consumption} />
         </div>
       ) : null}
     </TileCard>

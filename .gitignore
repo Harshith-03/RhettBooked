@@ -20,5 +20,8 @@ data/processed/*.duckdb
 # Cached external-API responses (regenerated at runtime)
 data/raw/live/
 
+# Large one-time Bluebikes trip download; only the small aggregated CSV is committed
+data/raw/v3/bluebikes/raw/
+
 # NOTE: data/raw/bu/ and data/raw/v3..v5/ ARE committed on purpose - they are
 # public datasets the Docker image needs at startup. Do not ignore them.

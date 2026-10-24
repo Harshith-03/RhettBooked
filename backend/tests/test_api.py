@@ -60,7 +60,8 @@ def test_plan_options_endpoint_shape():
     r = client.post("/plan/options", json={"text": BRIEF_A, "draws": 150})
     assert r.status_code == 200
     body = r.json()
-    assert "base" in body and "options" in body
+    assert "options" in body and len(body["options"]) == 3
+    assert {o["name"] for o in body["options"]} == {"Lean", "Balanced", "Premium"}
 
 
 def test_drill_run_endpoint_brief_b_includes_green_line():

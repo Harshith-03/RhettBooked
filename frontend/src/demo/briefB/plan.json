@@ -11,7 +11,7 @@
     "readiness": 70,
     "top_risks": [
       "Green Line closure; Route 57 shuttle (fare-free)",
-      "Power failing from 10:15"
+      "Power failing from 09:00"
     ]
   },
   "venue": {
@@ -20,10 +20,10 @@
       {
         "building_code": "GSU",
         "feasible": true,
-        "reason": "fits all 3 blocks; avg utilization 47%, room cost $1100/hr; 100% real BU event-space data",
+        "reason": "fits all 3 blocks; avg utilization 46%, room cost $1100/hr; 100% real BU event-space data",
         "measured_share": 1.0,
         "total_cost": 1100,
-        "avg_utilization": 0.47,
+        "avg_utilization": 0.468,
         "assignments": [
           {
             "block": "Main hall",
@@ -31,7 +31,7 @@
             "room_name": "Ziskind Lounge",
             "layout": "work",
             "capacity": 575,
-            "utilization": 0.421
+            "utilization": 0.419
           },
           {
             "block": "Meals",
@@ -39,7 +39,7 @@
             "room_name": "Metcalf Hall Large Ballroom",
             "layout": "meal",
             "capacity": 630,
-            "utilization": 0.384
+            "utilization": 0.383
           },
           {
             "block": "Opening keynote",
@@ -47,7 +47,7 @@
             "room_name": "Metcalf Hall Small Ballroom",
             "layout": "keynote",
             "capacity": 400,
-            "utilization": 0.605
+            "utilization": 0.603
           }
         ],
         "action_items": [
@@ -62,7 +62,7 @@
         "reason": "fits all 3 blocks; avg utilization 58%, room cost $800/hr; placeholder room data, verify with BU Reservations",
         "measured_share": 0.0,
         "total_cost": 800,
-        "avg_utilization": 0.589,
+        "avg_utilization": 0.587,
         "assignments": [
           {
             "block": "Main hall",
@@ -70,7 +70,7 @@
             "room_name": "959",
             "layout": "work",
             "capacity": 597,
-            "utilization": 0.405
+            "utilization": 0.404
           },
           {
             "block": "Meals",
@@ -78,7 +78,7 @@
             "room_name": "216",
             "layout": "meal",
             "capacity": 451,
-            "utilization": 0.537
+            "utilization": 0.534
           },
           {
             "block": "Opening keynote",
@@ -86,7 +86,7 @@
             "room_name": "868",
             "layout": "keynote",
             "capacity": 293,
-            "utilization": 0.826
+            "utilization": 0.823
           }
         ],
         "action_items": [
@@ -99,13 +99,13 @@
       {
         "building_code": "PHO",
         "feasible": false,
-        "reason": "infeasible - no room offers layout 'work' at capacity >= 266 for block 'Main hall'",
+        "reason": "infeasible - no room offers layout 'work' at capacity >= 265 for block 'Main hall'",
         "measured_share": 0.0,
         "total_cost": 0,
         "avg_utilization": 0.0,
         "assignments": [],
         "action_items": [],
-        "unmet_constraint": "no room offers layout 'work' at capacity >= 266 for block 'Main hall'"
+        "unmet_constraint": "no room offers layout 'work' at capacity >= 265 for block 'Main hall'"
       }
     ]
   },
@@ -211,13 +211,13 @@
   "attendance": {
     "turnout_p50": 183,
     "turnout_p90": 238,
-    "peak_p90": 242,
+    "peak_p90": 241,
     "blocks": 132
   },
   "tiles": [
     {
       "name": "Venue",
-      "status": "GSU - fits all 3 blocks; avg utilization 47%, room cost $1100/hr; 100% real BU event-space data",
+      "status": "GSU - fits all 3 blocks; avg utilization 46%, room cost $1100/hr; 100% real BU event-space data",
       "details": {
         "recommended": "GSU",
         "measured_share": 1.0,
@@ -227,21 +227,21 @@
             "room_id": "GSU-ZIS",
             "room_name": "Ziskind Lounge",
             "capacity": 575,
-            "utilization": 0.421
+            "utilization": 0.419
           },
           {
             "block": "Meals",
             "room_id": "GSU-219B",
             "room_name": "Metcalf Hall Large Ballroom",
             "capacity": 630,
-            "utilization": 0.384
+            "utilization": 0.383
           },
           {
             "block": "Opening keynote",
             "room_id": "GSU-219A",
             "room_name": "Metcalf Hall Small Ballroom",
             "capacity": 400,
-            "utilization": 0.605
+            "utilization": 0.603
           }
         ]
       },
@@ -681,7 +681,7 @@
           {
             "system": "power",
             "status": "failing",
-            "first_failure_clock": "10:15",
+            "first_failure_clock": "09:00",
             "note": "charging load vs 10 circuits"
           },
           {
@@ -693,7 +693,7 @@
         ],
         "top_risks": [
           "Green Line closure; Route 57 shuttle (fare-free)",
-          "Power failing from 10:15"
+          "Power failing from 09:00"
         ],
         "fixes": {
           "do_now": [
@@ -733,8 +733,14 @@
     {
       "output_key": "attendance.concurrency_curve",
       "label": "SIMULATED",
-      "source": "Monte Carlo 500 draws x trapezoidal shape + overnight decay",
-      "value_summary": "132 blocks of 15 min; peak p90=242"
+      "source": "Monte Carlo 500 draws x Bluebikes 202411 hourly trips within 600 m of BU (MEASURED-derived); blended 70/30 with Boston Numina sensor zones, 2020-21, not BU-specific + overnight decay",
+      "value_summary": "132 blocks of 15 min; peak p90=241"
+    },
+    {
+      "output_key": "attendance.arrival_shape",
+      "label": "MEASURED",
+      "source": "Bluebikes 202411 hourly trips within 600 m of BU (MEASURED-derived); blended 70/30 with Boston Numina sensor zones, 2020-21, not BU-specific",
+      "value_summary": "daytype=weekend"
     },
     {
       "output_key": "venue.recommended_building",

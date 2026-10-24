@@ -19,8 +19,12 @@ from typing import Any
 from ..provenance import Label, ProvenanceRow
 from . import twin as twin_mod
 
-# Weight each P0 system in the readiness score.
-SYSTEM_WEIGHTS = {"occupancy": 0.4, "power": 0.3, "getting_home": 0.3}
+# Weight each system in the readiness score. The P0 core (occupancy/power/
+# getting_home) dominates; the extended P1 systems add smaller weights when present.
+SYSTEM_WEIGHTS = {
+    "occupancy": 0.3, "power": 0.25, "getting_home": 0.25,
+    "network": 0.08, "queues": 0.06, "air": 0.06,
+}
 _STATUS_SCORE = {twin_mod.STATUS_OK: 1.0, twin_mod.STATUS_STRAINED: 0.5,
                  twin_mod.STATUS_FAILING: 0.0}
 
@@ -40,6 +44,21 @@ _FIXES = {
         "do_now": "Publish the shuttle plan and stagger the late-night departure",
         "plan_for": "Arrange a buddy-walk and extra rideshare pickup window",
         "improve_later": "Schedule the end time before the last reliable train",
+    },
+    "network": {
+        "do_now": "Rent additional Wi-Fi access points for the peak block",
+        "plan_for": "Put heavy downloads on a wired or scheduled window",
+        "improve_later": "Choose rooms with more built-in APs",
+    },
+    "queues": {
+        "do_now": "Add a serving line / open more restrooms at the peak",
+        "plan_for": "Stagger meal release by cohort to flatten the queue",
+        "improve_later": "Pick a venue with more fixtures per attendee",
+    },
+    "air": {
+        "do_now": "Increase ventilation / prop doors during the busiest blocks",
+        "plan_for": "Add CO2 monitors and a fresh-air break schedule",
+        "improve_later": "Choose rooms with higher ventilation per person",
     },
 }
 
@@ -168,7 +187,8 @@ def rerun(ctx: twin_mod.DrillContext, applied_fixes: dict[str, Any], db_path=Non
 
 def _label(system: str) -> str:
     return {"occupancy": "Occupancy", "power": "Power",
-            "getting_home": "Getting home"}.get(system, system)
+            "getting_home": "Getting home", "network": "Wi-Fi",
+            "queues": "Queues", "air": "Air quality"}.get(system, system)
 
 
 def _dedup(items: list[str]) -> list[str]:

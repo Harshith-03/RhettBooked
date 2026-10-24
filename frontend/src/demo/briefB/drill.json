@@ -16,7 +16,7 @@
     {
       "system": "power",
       "status": "failing",
-      "first_failure_clock": "10:15",
+      "first_failure_clock": "09:00",
       "note": "charging load vs 10 circuits",
       "fixes": {
         "do_now": "Rent additional power stations / distribute charging across rooms",
@@ -38,7 +38,7 @@
   ],
   "top_risks": [
     "Green Line closure; Route 57 shuttle (fare-free)",
-    "Power failing from 10:15"
+    "Power failing from 09:00"
   ],
   "fixes": {
     "do_now": [

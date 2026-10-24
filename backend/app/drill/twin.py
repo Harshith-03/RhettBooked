@@ -59,6 +59,9 @@ class DrillContext:
     event_end: date | None
     overnight: bool
     event_type: str = "hackathon"
+    assigned_access_points: int = 4     # APs in the assigned room(s)
+    room_volume_l: float = 0.0          # assigned room air volume (litres)
+    ventilation_lps: float = 0.0        # assigned room ventilation (L/s)
 
 
 @dataclass
@@ -95,7 +98,8 @@ def planned_disruptions_for(
 # --------------------------------------------------------------------------- #
 # Run
 # --------------------------------------------------------------------------- #
-def run(ctx: DrillContext, disruptions: list[str] | None = None, db_path=None) -> DrillResult:
+def run(ctx: DrillContext, disruptions: list[str] | None = None, db_path=None,
+        extended: bool = False) -> DrillResult:
     assumptions = load_assumptions()
     disruptions = list(disruptions or [])
     prov: list[ProvenanceRow] = []
@@ -139,6 +143,12 @@ def run(ctx: DrillContext, disruptions: list[str] | None = None, db_path=None) -
         _power_timeline(ctx, assumptions, turnout_mult),
         _mobility_timeline(ctx, mobility_stress, turnout_mult),
     ]
+
+    # Extended P1 systems: network load, food/restroom queues, air/CO2.
+    if extended:
+        systems.append(_network_timeline(ctx, assumptions, turnout_mult))
+        systems.append(_queue_timeline(ctx, turnout_mult))
+        systems.append(_air_timeline(ctx, turnout_mult))
 
     prov.append(
         ProvenanceRow(
@@ -230,6 +240,69 @@ def _mobility_timeline(ctx: DrillContext, stress: float, turnout_mult: float) ->
     if stress > 1.0:
         note += " (planned rail closure in effect)"
     return _summarize("getting_home", series, ctx.per_block_clock, note=note)
+
+
+def _network_timeline(ctx: DrillContext, assumptions: dict, turnout_mult: float) -> SystemTimeline:
+    """AP client load vs the comfortable per-AP limit across the assigned APs."""
+    dpp = _assume(assumptions, ["devices_per_person", "by_type", ctx.event_type, "value"], 2.0)
+    ap_limit = _assume(assumptions, ["ap_comfortable_clients", "value"], 40.0)
+    aps = max(1, ctx.assigned_access_points)
+    capacity_clients = ap_limit * aps
+    series = [(occ * turnout_mult * dpp) / capacity_clients for occ in ctx.per_block_occupancy]
+    return _summarize("network", series, ctx.per_block_clock,
+                      note=f"Wi-Fi clients vs {aps} AP x {int(ap_limit)} comfortable")
+
+
+def _queue_timeline(ctx: DrillContext, turnout_mult: float) -> SystemTimeline:
+    """Food/restroom queue pressure at the occupancy peak (thin ratio model)."""
+    # Serving/fixture throughput can clear ~18% of the present crowd per block.
+    occ = [o * turnout_mult for o in ctx.per_block_occupancy]
+    clear = max(1.0, (max(occ) if occ else 1) * 0.18)
+    series = [o / (clear * 4) for o in occ]  # 4 blocks ~ one hour of demand
+    return _summarize("queues", series, ctx.per_block_clock,
+                      note="food/restroom queue pressure")
+
+
+def _air_timeline(ctx: DrillContext, turnout_mult: float) -> SystemTimeline:
+    """Indoor CO2 vs amber/red thresholds via the mass-balance model."""
+    from . import air as air_mod
+
+    occ = np.array([o * turnout_mult for o in ctx.per_block_occupancy], dtype=float)
+    # Default room geometry if not supplied: size volume to capacity.
+    volume = ctx.room_volume_l or max(1.0, ctx.assigned_capacity * 3000.0)  # ~3 m3/person
+    # Ventilation default: 7.5 L/s/person at capacity (ASHRAE-ish).
+    q = ctx.ventilation_lps or max(1.0, ctx.assigned_capacity * 7.5)
+    ppm = air_mod.co2_series(occ, q_lps=q, volume_l=volume)
+    # Convert ppm to a 0-1-ish ratio against the red threshold for the shared
+    # status summarizer (amber 1000 -> ~0.71, red 1400 -> 1.0).
+    series = [p / air_mod.RED for p in ppm]
+    return _summarize("air", series, ctx.per_block_clock,
+                      note=f"CO2 ppm (amber {int(air_mod.AMBER)}, red {int(air_mod.RED)})")
+
+
+def sensitivity(ctx: DrillContext, db_path=None) -> list[dict]:
+    """Tornado inputs: readiness delta from +/- shocks on key drivers (P1)."""
+    from .verdict import assess
+
+    base = assess(run(ctx, extended=True, db_path=db_path)).readiness
+    out: list[dict] = []
+    import copy
+
+    scenarios = {
+        "turnout +30%": {"disruptions": ["turnout+30"]},
+        "AP down": {"_aps": max(1, ctx.assigned_access_points - 1)},
+        "half ventilation": {"_vent": (ctx.ventilation_lps or ctx.assigned_capacity * 7.5) / 2},
+    }
+    for name, cfg in scenarios.items():
+        c2 = copy.deepcopy(ctx)
+        if "_aps" in cfg:
+            c2.assigned_access_points = cfg["_aps"]
+        if "_vent" in cfg:
+            c2.ventilation_lps = cfg["_vent"]
+        r = assess(run(c2, disruptions=cfg.get("disruptions"), extended=True, db_path=db_path)).readiness
+        out.append({"driver": name, "readiness": r, "delta": r - base})
+    out.sort(key=lambda d: d["delta"])
+    return out
 
 
 def _assume(assumptions: dict, path: list[str], default: float) -> float:

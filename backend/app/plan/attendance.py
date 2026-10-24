@@ -26,6 +26,7 @@ import numpy as np
 from ..brief.models import EventBrief, EventType
 from ..config import load_assumptions
 from ..provenance import Label, ProvenanceRow
+from . import arrival_fit
 
 BLOCK_MINUTES = 15
 DEFAULT_DRAWS = 500
@@ -146,13 +147,28 @@ def concurrency_shape(n_blocks: int, overnight: bool, is_hackathon: bool) -> np.
     shape[-ramp:] = np.linspace(1.0, 0.10, ramp)
 
     if overnight and is_hackathon:
-        # Overnight decay: a smooth dip centred ~70% through the span (night),
-        # bottoming around 45% presence, then recovering.
-        night_center = 0.72
-        width = 0.16
-        dip = 0.55 * np.exp(-((x - night_center) ** 2) / (2 * width ** 2))
-        shape = shape * (1.0 - dip)
+        shape = _apply_overnight_decay(shape)
     return np.clip(shape, 0.0, 1.0)
+
+
+def _apply_overnight_decay(shape: np.ndarray) -> np.ndarray:
+    """Dip presence through the overnight hours (~70% through the span)."""
+    n = len(shape)
+    if n == 0:
+        return shape
+    x = np.linspace(0.0, 1.0, n)
+    night_center = 0.72
+    width = 0.16
+    dip = 0.55 * np.exp(-((x - night_center) ** 2) / (2 * width ** 2))
+    return np.clip(shape * (1.0 - dip), 0.0, 1.0)
+
+
+def _event_daytype(brief: EventBrief) -> str:
+    """weekend when the event starts Sat/Sun, else weekday."""
+    d = _parse_date(brief.start)
+    if d is None:
+        return "weekend"  # the acceptance events are weekend; safe default
+    return "weekend" if d.weekday() >= 5 else "weekday"
 
 
 # --------------------------------------------------------------------------- #
@@ -175,7 +191,22 @@ def sample(
     n_blocks = max(1, total_minutes // BLOCK_MINUTES)
 
     is_hack = brief.type == EventType.hackathon
-    shape = concurrency_shape(n_blocks, brief.overnight, is_hack)
+
+    # Prefer the data-fitted arrival/departure shape (Bluebikes near BU); fall
+    # back to the trapezoid when no fit data is available.
+    daytype = _event_daytype(brief)
+    fitted = arrival_fit.shape_for_blocks(n_blocks, daytype=daytype)
+    if fitted is not None:
+        shape = fitted
+        if brief.overnight and is_hack:
+            shape = _apply_overnight_decay(shape)
+        shape_source = arrival_fit.fit(daytype)
+        shape_label = Label.MEASURED
+        shape_desc = (shape_source.source if shape_source else "Bluebikes fit")
+    else:
+        shape = concurrency_shape(n_blocks, brief.overnight, is_hack)
+        shape_label = Label.ASSUMED
+        shape_desc = "trapezoidal fallback shape (no fit data)"
 
     # Draw show-up rates; turnout = registrations * rate.
     rates = rng.beta(alpha, beta, size=draws)
@@ -223,10 +254,16 @@ def sample(
         ProvenanceRow(
             output_key="attendance.concurrency_curve",
             label=Label.SIMULATED,
-            source=f"Monte Carlo {draws} draws x trapezoidal shape"
+            source=f"Monte Carlo {draws} draws x {shape_desc}"
                    + (" + overnight decay" if (brief.overnight and is_hack) else ""),
             value_summary=f"{n_blocks} blocks of {BLOCK_MINUTES} min; peak p90="
                           f"{int(round(float(p90.max()))) if n_blocks else 0}",
+        ),
+        ProvenanceRow(
+            output_key="attendance.arrival_shape",
+            label=shape_label,
+            source=shape_desc,
+            value_summary=f"daytype={daytype}",
         ),
     ]
 

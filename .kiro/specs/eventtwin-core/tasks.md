@@ -184,12 +184,12 @@ prior waves completing.
 
 ## Phase 1 - Deepen each P0 section
 
-- [ ] 13. [P1] Attendance fit from live data
+- [x] 13. [P1] Attendance fit from live data
   - Fit arrival/departure shape from Bluebikes Nov-2024 hourly trips near the building + Numina profiles;
     cache responses; feed samples to all models.
   - _Requirements: 2.4, 2.5_
 
-- [ ] 14. [P1] Tech, Wi-Fi/network and power sizing (Wi-Fi detail)
+- [x] 14. [P1] Tech, Wi-Fi/network and power sizing (Wi-Fi detail)
   - Poisson devices/person; clients per room/block; APs needed vs access_points -> rental APs; Mbps peak +
     GB/day; power circuits via load/(0.8*20*120) -> stations.
   - Also covers the sensor logger (device/occupancy telemetry ingest) deferred from P0.
@@ -213,7 +213,7 @@ prior waves completing.
     crash-density KDE risk band + recommendation + caveats.
   - _Requirements: 6.1-6.8, 15.5_
 
-- [ ] 17. [P1] Plan options (Lean/Balanced/Premium compare)
+- [x] 17. [P1] Plan options (Lean/Balanced/Premium compare)
   - options.build varies catering tier, rental APs, AV, security for the Compare view.
   - _Requirements: 8.3_
 
@@ -229,7 +229,7 @@ prior waves completing.
     rank by fit + typical ask; suggested ask level covering the budget gap.
   - _Requirements: 7.6, 7.7_
 
-- [ ] 20. [P1] Drill extended systems
+- [x] 20. [P1] Drill extended systems
   - Add network load and food/restroom queues to twin.run. Add the air/CO2 mass-balance helper (air.co2, dC/dt = (N*G - Q*(C - C_out))/V, G=0.0052 L/s/person, C_out=420, amber 1000, red 1400) and wire air quality into twin.run; add sensitivity/tornado inputs.
   - _Requirements: 9.2, 9.3, 9.4 (extended), sensitivity_
 

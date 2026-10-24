@@ -45,6 +45,7 @@ class BudgetResult:
     sponsorship_gap: int           # p50 total - budget (positive = shortfall)
     budget_usd: int | None
     draws: int
+    tier: str = DEFAULT_TIER
     provenance: list[ProvenanceRow] = field(default_factory=list)
 
 
@@ -72,8 +73,14 @@ def estimate(
     draws: int = DEFAULT_DRAWS,
     seed: int = 7,
     rate_cards: dict | None = None,
+    tier: str = DEFAULT_TIER,
+    service_scale: float = 1.0,
 ) -> BudgetResult:
-    """Monte Carlo budget over turnout + rate-card ranges."""
+    """Monte Carlo budget over turnout + rate-card ranges.
+
+    tier selects the catering_per_head tier (lean/balanced/premium);
+    service_scale scales staffing hours (AV/security/custodial) for the plan tier.
+    """
     cards = rate_cards if rate_cards is not None else _load_rate_cards()
     rng = np.random.default_rng(seed)
 
@@ -86,7 +93,6 @@ def estimate(
     turnout = np.clip(rng.normal(t_p50, sd, size=draws), 0, None)
 
     meals = list(getattr(brief, "meals", []) or [])
-    tier = DEFAULT_TIER
     line_cols: dict[str, np.ndarray] = {}
     prov: list[ProvenanceRow] = []
 
@@ -123,8 +129,8 @@ def estimate(
     line_cols["Power stations"] = _tri(rng, float(power["low"]), float(power["high"]), draws) * n_power
     prov.append(_assumed("budget.power", "rate_cards.yaml power_strip_station_rental_each", f"{n_power} stations"))
 
-    # --- AV tech + security + custodial (hourly, thin fixed hours) ---
-    hours = 12
+    # --- AV tech + security + custodial (hourly; tier scales staffing hours) ---
+    hours = int(round(12 * service_scale))
     for key, label_name, default in (
         ("av_tech_per_hour", "AV tech", {"low": 45, "high": 110}),
         ("security_police_detail_per_hour", "Security", {"low": 55, "high": 95}),
@@ -201,6 +207,7 @@ def estimate(
         sponsorship_gap=gap,
         budget_usd=budget_usd,
         draws=draws,
+        tier=tier,
         provenance=prov,
     )
 
