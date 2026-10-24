@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { API_URL, fetchPlan } from "./api";
+import { API_URL, fetchExplanation, fetchPlan } from "./api";
 import { BRIEF_TEXT } from "./demo";
 import { DrillPanel } from "./components/DrillPanel";
 import { SummaryBar } from "./components/SummaryBar";
@@ -11,15 +11,20 @@ export default function App() {
   const [text, setText] = useState("");
   const [briefKey, setBriefKey] = useState<BriefKey | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [explanation, setExplanation] = useState<string>("");
   const [source, setSource] = useState<Source>("live");
   const [loading, setLoading] = useState(false);
 
   async function runPlan(inputText: string, key: BriefKey | null) {
     if (!inputText.trim()) return;
     setLoading(true);
-    const { data, source } = await fetchPlan(inputText, key);
-    setPlan(data);
-    setSource(source);
+    const [planRes, explainRes] = await Promise.all([
+      fetchPlan(inputText, key),
+      fetchExplanation(inputText, key),
+    ]);
+    setPlan(planRes.data);
+    setExplanation(explainRes.data);
+    setSource(planRes.source === "demo" || explainRes.source === "demo" ? "demo" : "live");
     setLoading(false);
   }
 
@@ -82,6 +87,14 @@ export default function App() {
         {plan ? (
           <div className="space-y-6">
             <SummaryBar summary={plan.summary} />
+            {explanation ? (
+              <Card>
+                <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  Summary
+                </p>
+                <p className="mt-1 text-sm text-gray-800 dark:text-gray-200">{explanation}</p>
+              </Card>
+            ) : null}
             <Tiles plan={plan} />
             <DrillPanel text={text} briefKey={briefKey} onSource={setSource} />
           </div>

@@ -63,6 +63,27 @@ export async function fetchDrill(
   }
 }
 
+export async function fetchExplanation(
+  text: string,
+  briefKey: BriefKey | null
+): Promise<Fetched<string>> {
+  try {
+    const data = await post<{ explanation: string }>("/explain", { text, draws: 500 });
+    return { data: data.explanation, source: "live" };
+  } catch {
+    // Derive a short grounded sentence from the demo plan summary.
+    const s = demoBundle(briefKey, text).plan.summary;
+    const risks = s.top_risks.length ? ` Top risks: ${s.top_risks.join("; ")}.` : "";
+    return {
+      data:
+        `Recommended venue: ${s.recommended_building}. ` +
+        `Estimated cost $${s.cost_p10.toLocaleString()} to $${s.cost_p90.toLocaleString()} ` +
+        `(p50 $${s.cost_p50.toLocaleString()}). Drill readiness: ${s.readiness}/100.${risks}`,
+      source: "demo",
+    };
+  }
+}
+
 export async function fetchDrillCompare(
   text: string,
   briefKey: BriefKey | null,

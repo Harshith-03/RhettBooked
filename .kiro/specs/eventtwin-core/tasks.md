@@ -162,7 +162,7 @@ prior waves completing.
     Apply fixes & re-run. Status by colour AND text; light/dark.
   - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.8_
 
-- [ ] 10. [P0 if <30 min, else P1] Privacy scrubber core + tests
+- [x] 10. [P0 if <30 min, else P1] Privacy scrubber core + tests
   - Scope kept P0 ONLY if deliverable in under 30 minutes: scrubber (Presidio + BU_ID/MAC/BSSID
     recognizers) + unit tests. If it runs over 30 minutes, drop the whole task to P1.
   - Deferred to P1 regardless: tokenizer (HMAC-SHA256), vault (SQLite + audit), redact/mask/generalize
@@ -170,12 +170,12 @@ prior waves completing.
   - Privacy upload UI is P1 (see frontend notes).
   - _Requirements: 1.7, 1.8, 1.9, 10.1, 10.2, 10.3, 10.5_
 
-- [ ] 11. [P0] Agent tools + template explainer
+- [x] 11. [P0] Agent tools + template explainer
   - tools: parse_brief, build_plan, compare_options, run_drill, get_live_alerts, get_provenance.
   - Template explainer uses only tool-output numbers and cites source ids.
   - _Requirements: 11.1, 11.2, 11.4, 11.5_
 
-- [ ] 12. [P0] Thin end-to-end acceptance checkpoint
+- [x] 12. [P0] Thin end-to-end acceptance checkpoint
   - Automated test: the 300-person overnight AI hackathon brief returns an end-to-end plan (recommended
     building + room assignments, budget p10-p90, drill verdict with fixes + re-run) with LLM_PROVIDER=none.
   - tech/food/transport may be stubs that return labelled default values (provenance ASSUMED/PLACEHOLDER);
@@ -195,7 +195,7 @@ prior waves completing.
   - Also covers the sensor logger (device/occupancy telemetry ingest) deferred from P0.
   - _Requirements: 4.1-4.5_
 
-- [ ] 15. [P0] Food & water (BU dining first, then OSM)
+- [x] 15. [P0] Food & water (BU dining first, then OSM)
   - Per meal, prefer BU dining halls (table dining, MEASURED) OPEN during the meal window first, then fall
     back to Overpass restaurants/cafes <=800 m (cached). Dining rows with blank/unknown hours are never
     assumed open and carry a "check hours" flag.
@@ -203,7 +203,7 @@ prior waves completing.
     recommendation; water litres/person/hr refill-vs-bottled; Overpass drinking_water.
   - _Requirements: 5.1-5.7_
 
-- [ ] 16. [P0] Getting there (real stops/bus/parking + planned disruptions)
+- [x] 16. [P0] Getting there (real stops/bus/parking + planned disruptions)
   - Real mbta_stops <=800 m (MEASURED, walk_min ASSUMED) + nearby bus_routes (MEASURED) + service window.
   - Parse service_alert into PlannedDisruption; when event dates overlap one, add to plan top risks and
     signal the drill to auto-include it (e.g. Green Line Oct 31-Nov 1 2026, Route 57 shuttle, fare-free).
@@ -250,7 +250,7 @@ prior waves completing.
 
 ## Phase 3 - Acceptance
 
-- [ ] 24. [P0] End-to-end acceptance test (two briefs)
+- [x] 24. [P0] End-to-end acceptance test (two briefs)
   - Brief A (main demo): the 300-person overnight AI hackathon on Oct 24-25 returns within 10 s (cached
     APIs, LLM_PROVIDER=none) a plan with recommended building, room assignments, tech/power/water numbers,
     3 vendor options per meal, transit + parking, p10-p90 budget, and a drill verdict with fixes + re-run.

@@ -362,16 +362,246 @@
     },
     {
       "name": "Food & Water",
-      "status": "planned in task 15",
-      "details": {},
+      "status": "4 meals; est $12,138-$19,516; 8 BU hall openings matched",
+      "details": {
+        "meals": [
+          {
+            "meal": "breakfast",
+            "window": "07:00-09:30",
+            "headcount": 238,
+            "cost_low": 2142,
+            "cost_high": 3332,
+            "serving_lines": 4,
+            "note": "No BU hall confirmed open; verify the 'check hours' halls.",
+            "open_halls": [],
+            "check_hours_halls": [
+              {
+                "name": "GSU Food Court",
+                "building_code": "GSU",
+                "flags": [
+                  "check hours"
+                ]
+              }
+            ]
+          },
+          {
+            "meal": "lunch",
+            "window": "11:30-13:30",
+            "headcount": 238,
+            "cost_low": 3570,
+            "cost_high": 5712,
+            "serving_lines": 4,
+            "note": "",
+            "open_halls": [
+              {
+                "name": "Warren Towers Dining Hall",
+                "building_code": "RES-WTW",
+                "hours": "10:00-21:00"
+              },
+              {
+                "name": "Marciano Commons",
+                "building_code": "YAW",
+                "hours": "10:00-21:00"
+              },
+              {
+                "name": "West Campus Dining Hall",
+                "building_code": "RES-RICH",
+                "hours": "10:00-21:00"
+              },
+              {
+                "name": "Fenway Campus Dining",
+                "building_code": "FCC",
+                "hours": "10:00-21:00"
+              }
+            ],
+            "check_hours_halls": [
+              {
+                "name": "GSU Food Court",
+                "building_code": "GSU",
+                "flags": [
+                  "check hours"
+                ]
+              }
+            ]
+          },
+          {
+            "meal": "snack",
+            "window": "23:30-23:59",
+            "headcount": 238,
+            "cost_low": 1190,
+            "cost_high": 2142,
+            "serving_lines": 4,
+            "note": "No BU hall confirmed open; verify the 'check hours' halls.",
+            "open_halls": [],
+            "check_hours_halls": [
+              {
+                "name": "GSU Food Court",
+                "building_code": "GSU",
+                "flags": [
+                  "check hours"
+                ]
+              }
+            ]
+          },
+          {
+            "meal": "dinner",
+            "window": "17:30-19:30",
+            "headcount": 238,
+            "cost_low": 5236,
+            "cost_high": 8330,
+            "serving_lines": 4,
+            "note": "",
+            "open_halls": [
+              {
+                "name": "Warren Towers Dining Hall",
+                "building_code": "RES-WTW",
+                "hours": "10:00-21:00"
+              },
+              {
+                "name": "Marciano Commons",
+                "building_code": "YAW",
+                "hours": "10:00-21:00"
+              },
+              {
+                "name": "West Campus Dining Hall",
+                "building_code": "RES-RICH",
+                "hours": "10:00-21:00"
+              },
+              {
+                "name": "Fenway Campus Dining",
+                "building_code": "FCC",
+                "hours": "10:00-21:00"
+              }
+            ],
+            "check_hours_halls": [
+              {
+                "name": "GSU Food Court",
+                "building_code": "GSU",
+                "flags": [
+                  "check hours"
+                ]
+              }
+            ]
+          }
+        ],
+        "water": {
+          "total_litres": 2142,
+          "bottled_cost": [
+            1499,
+            3856
+          ],
+          "refill_cost": [
+            300,
+            800
+          ],
+          "recommendation": "Refill stations are cheaper and lower-waste"
+        }
+      },
       "action_items": []
     },
     {
       "name": "Getting There",
       "status": "Green Line closure; Route 57 shuttle (fare-free)",
       "details": {
+        "stops": [
+          {
+            "name": "Blandford Street",
+            "lines": [
+              "Green B"
+            ],
+            "walk_min": 1,
+            "accessible": false,
+            "accessibility_note": "Not accessible; MBTA lists it as a consolidation candidate",
+            "disrupted": true
+          },
+          {
+            "name": "Boston University Central",
+            "lines": [
+              "Green B"
+            ],
+            "walk_min": 1,
+            "accessible": true,
+            "accessibility_note": "Mini high-level platform; portable boarding lift",
+            "disrupted": true
+          },
+          {
+            "name": "Boston University East",
+            "lines": [
+              "Green B"
+            ],
+            "walk_min": 3,
+            "accessible": true,
+            "accessibility_note": "Portable boarding lift",
+            "disrupted": true
+          },
+          {
+            "name": "Fenway",
+            "lines": [
+              "Green D"
+            ],
+            "walk_min": 3,
+            "accessible": true,
+            "accessibility_note": "",
+            "disrupted": false
+          },
+          {
+            "name": "Amory Street",
+            "lines": [
+              "Green B"
+            ],
+            "walk_min": 4,
+            "accessible": true,
+            "accessibility_note": "Rebuilt accessible station, opened Nov 2021",
+            "disrupted": true
+          },
+          {
+            "name": "Babcock Street",
+            "lines": [
+              "Green B"
+            ],
+            "walk_min": 4,
+            "accessible": true,
+            "accessibility_note": "Rebuilt accessible station, opened Nov 2021",
+            "disrupted": true
+          }
+        ],
+        "bus_routes": [
+          {
+            "route": "57",
+            "name": "Watertown Yard - Kenmore via Newton Corner & Brighton Center"
+          },
+          {
+            "route": "47",
+            "name": "Central Sq (Cambridge) - Broadway via BU Bridge & BU Medical Campus"
+          },
+          {
+            "route": "85",
+            "name": "Assembly - Ruggles via Kendall/MIT (replaced CT2)"
+          },
+          {
+            "route": "8",
+            "name": "Harbor Point/UMass - Kenmore via BU Medical Campus"
+          },
+          {
+            "route": "19",
+            "name": "Fields Corner - Kenmore"
+          },
+          {
+            "route": "60",
+            "name": "Chestnut Hill - Kenmore via Brookline Village"
+          },
+          {
+            "route": "65",
+            "name": "Brighton Center - Kenmore"
+          },
+          {
+            "route": "66",
+            "name": "Harvard - Nubian"
+          }
+        ],
         "planned_disruptions": [
           {
+            "label": "Green Line closure; Route 57 shuttle (fare-free)",
             "lines": [
               "Green Line"
             ],
@@ -379,11 +609,55 @@
             "end_date": "2026-11-01",
             "shuttle_note": "Route 57 shuttle",
             "fare_free": true,
-            "label": "Green Line closure; Route 57 shuttle (fare-free)"
+            "overlaps_event": true
+          }
+        ],
+        "shuttle_note": "Route 57 shuttle (fare-free)",
+        "accessibility_flags": [
+          "Blandford Street is not step-free (Not accessible; MBTA lists it as a consolidation candidate)"
+        ],
+        "parking": [
+          {
+            "name": "Agganis Arena Lot/Garage",
+            "type": "garage+lot",
+            "public_or_visitor": "yes",
+            "notes": "Enter via Buick St or Agganis Way. Visitors and FitRec members can park on non-event dates. Arena controls 1,400+ event spaces."
+          },
+          {
+            "name": "Langsam Garage",
+            "type": "garage",
+            "public_or_visitor": "yes",
+            "notes": "Some sources list 278 Babcock St"
+          },
+          {
+            "name": "Kenmore Lot",
+            "type": "lot",
+            "public_or_visitor": "yes",
+            "notes": "Visitors pay via PayByPhone #41962 until 6 pm; closed during Red Sox and other blackouts"
+          },
+          {
+            "name": "710 Albany Street Garage",
+            "type": "garage",
+            "public_or_visitor": "yes",
+            "notes": "Day parking available"
+          },
+          {
+            "name": "Harry Agganis Way Lot",
+            "type": "lot",
+            "public_or_visitor": "no",
+            "notes": "Enter behind building"
+          },
+          {
+            "name": "Buick Street Garage & Lot",
+            "type": "garage+lot",
+            "public_or_visitor": "no",
+            "notes": ""
           }
         ]
       },
-      "action_items": []
+      "action_items": [
+        "Plan around: Green Line closure; Route 57 shuttle (fare-free)"
+      ]
     },
     {
       "name": "People",
@@ -575,6 +849,498 @@
       "label": "SIMULATED",
       "source": "p50 total minus stated budget",
       "value_summary": "gap=10782"
+    },
+    {
+      "output_key": "dining.DIN-WTW",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "dining.DIN-MAR",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "dining.DIN-WCA",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "dining.DIN-GSU",
+      "label": "MEASURED",
+      "source": "not provided - check GSU hours",
+      "value_summary": "hours unknown"
+    },
+    {
+      "output_key": "dining.DIN-FEN",
+      "label": "MEASURED",
+      "source": "team-provided (Oct 2026)",
+      "value_summary": "hours parsed"
+    },
+    {
+      "output_key": "food.breakfast.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.breakfast",
+      "value_summary": "$2142-3332 for 238"
+    },
+    {
+      "output_key": "food.lunch.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.lunch",
+      "value_summary": "$3570-5712 for 238"
+    },
+    {
+      "output_key": "food.snack.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.snack",
+      "value_summary": "$1190-2142 for 238"
+    },
+    {
+      "output_key": "food.dinner.cost",
+      "label": "ASSUMED",
+      "source": "rate_cards.yaml catering_per_head.balanced.dinner",
+      "value_summary": "$5236-8330 for 238"
+    },
+    {
+      "output_key": "water.demand",
+      "label": "ASSUMED",
+      "source": "assumptions.yaml water_litres_per_person_per_hour",
+      "value_summary": "2142 L total"
+    },
+    {
+      "output_key": "mbta_stops.place-kencl",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B,C,D"
+    },
+    {
+      "output_key": "mbta_stops.place-kencl.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "6 min"
+    },
+    {
+      "output_key": "mbta_stops.place-bland",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-bland.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "1 min"
+    },
+    {
+      "output_key": "mbta_stops.place-buest",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-buest.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "3 min"
+    },
+    {
+      "output_key": "mbta_stops.place-bucen",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-bucen.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "1 min"
+    },
+    {
+      "output_key": "mbta_stops.place-amory",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-amory.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "4 min"
+    },
+    {
+      "output_key": "mbta_stops.place-babck",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-babck.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "4 min"
+    },
+    {
+      "output_key": "mbta_stops.place-brico",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B"
+    },
+    {
+      "output_key": "mbta_stops.place-brico.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "10 min"
+    },
+    {
+      "output_key": "mbta_stops.place-hymnl",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green B,C,D"
+    },
+    {
+      "output_key": "mbta_stops.place-hymnl.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "15 min"
+    },
+    {
+      "output_key": "mbta_stops.place-smary",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-smary.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "5 min"
+    },
+    {
+      "output_key": "mbta_stops.place-hwsst",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-hwsst.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "8 min"
+    },
+    {
+      "output_key": "mbta_stops.place-kntst",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-kntst.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "12 min"
+    },
+    {
+      "output_key": "mbta_stops.place-stpul",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green C"
+    },
+    {
+      "output_key": "mbta_stops.place-stpul.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "15 min"
+    },
+    {
+      "output_key": "mbta_stops.place-fenwy",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green D"
+    },
+    {
+      "output_key": "mbta_stops.place-fenwy.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "3 min"
+    },
+    {
+      "output_key": "mbta_stops.place-longw",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green D"
+    },
+    {
+      "output_key": "mbta_stops.place-longw.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "8 min"
+    },
+    {
+      "output_key": "mbta_stops.place-lngmd",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Green E"
+    },
+    {
+      "output_key": "mbta_stops.place-lngmd.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "15 min"
+    },
+    {
+      "output_key": "mbta_stops.place-masta",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Orange"
+    },
+    {
+      "output_key": "mbta_stops.place-masta.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "18 min"
+    },
+    {
+      "output_key": "mbta_stops.place-brdwy",
+      "label": "MEASURED",
+      "source": "MBTA GTFS stops (MassDOT Rapid Transit Stops, Dec 2023); accessibility cross-checked with MBTA Green Line accessible station list",
+      "value_summary": "lines=Red"
+    },
+    {
+      "output_key": "mbta_stops.place-brdwy.walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "23 min"
+    },
+    {
+      "output_key": "mbta_stops.(verify: place-WML-0025)",
+      "label": "MEASURED",
+      "source": "Coordinates approximate - run scripts/fetch_mbta.py",
+      "value_summary": "lines=Framingham/Worcester Line"
+    },
+    {
+      "output_key": "mbta_stops.(verify: place-WML-0025).walk_min",
+      "label": "ASSUMED",
+      "source": "walk_min_ASSUMED column (estimated walking time)",
+      "value_summary": "4 min"
+    },
+    {
+      "output_key": "bus_routes.57",
+      "label": "MEASURED",
+      "source": "https://www.mbta.com/stops/place-bucen",
+      "value_summary": "Watertown Yard - Kenmore via Newton Corner & Brighton Center"
+    },
+    {
+      "output_key": "bus_routes.47",
+      "label": "MEASURED",
+      "source": "https://www.cambridgema.gov/-/media/Files/CDD/Transportation/transitcommittee/2026/07jul/tacimplementationplan_2026_07_active.pdf",
+      "value_summary": "Central Sq (Cambridge) - Broadway via BU Bridge & BU Medical"
+    },
+    {
+      "output_key": "bus_routes.85",
+      "label": "MEASURED",
+      "source": "https://www.mbta.com/service-changes/spring-2026-better-bus-network-service-changes",
+      "value_summary": "Assembly - Ruggles via Kendall/MIT (replaced CT2)"
+    },
+    {
+      "output_key": "bus_routes.8",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Harbor Point/UMass - Kenmore via BU Medical Campus"
+    },
+    {
+      "output_key": "bus_routes.19",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Fields Corner - Kenmore"
+    },
+    {
+      "output_key": "bus_routes.60",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Chestnut Hill - Kenmore via Brookline Village"
+    },
+    {
+      "output_key": "bus_routes.65",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/sthlibrary/about/map-directions",
+      "value_summary": "Brighton Center - Kenmore"
+    },
+    {
+      "output_key": "bus_routes.66",
+      "label": "MEASURED",
+      "source": "https://www.cambridgema.gov/-/media/Files/CDD/Transportation/transitcommittee/2026/04april/2025_04_08_tacslides_upload.pdf",
+      "value_summary": "Harvard - Nubian"
+    },
+    {
+      "output_key": "bus_routes.1",
+      "label": "MEASURED",
+      "source": "https://www.bumc.bu.edu/busm/about/contact-us",
+      "value_summary": "Harvard - Nubian via Mass Ave"
+    },
+    {
+      "output_key": "bus_routes.10",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/grad/grad-student-life/living-in-boston/transportation",
+      "value_summary": "City Point - Back Bay"
+    },
+    {
+      "output_key": "bus_routes.171",
+      "label": "MEASURED",
+      "source": "https://www.bumc.bu.edu/busm/about/contact-us",
+      "value_summary": "Verify terminals"
+    },
+    {
+      "output_key": "bus_routes.SL4/SL5",
+      "label": "MEASURED",
+      "source": "https://www.bumc.bu.edu/busm/about/contact-us",
+      "value_summary": "Silver Line - Washington St"
+    },
+    {
+      "output_key": "parking.A",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/",
+      "value_summary": "Agganis Arena Lot/Garage"
+    },
+    {
+      "output_key": "parking.B",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/",
+      "value_summary": "Langsam Garage"
+    },
+    {
+      "output_key": "parking.C",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "Harry Agganis Way Lot"
+    },
+    {
+      "output_key": "parking.D",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Buick Street Garage & Lot"
+    },
+    {
+      "output_key": "parking.E",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "CFA Lot"
+    },
+    {
+      "output_key": "parking.F",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "Essex Street Garage & Lot"
+    },
+    {
+      "output_key": "parking.G",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Lower Bridge Lot"
+    },
+    {
+      "output_key": "parking.H",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Upper Bridge Lot"
+    },
+    {
+      "output_key": "parking.J",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "CAS Lot"
+    },
+    {
+      "output_key": "parking.K",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Warren Towers Garage"
+    },
+    {
+      "output_key": "parking.L",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "575 Commonwealth Ave Lot"
+    },
+    {
+      "output_key": "parking.M",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "Hariri Building Garage"
+    },
+    {
+      "output_key": "parking.O",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/charles-river-campus-parking/crc-guests-visitors/",
+      "value_summary": "Kenmore Lot"
+    },
+    {
+      "output_key": "parking.Q",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "730/750 Commonwealth Ave Garage"
+    },
+    {
+      "output_key": "parking.R",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/commencement/family-guest-parking",
+      "value_summary": "766 Commonwealth Ave Lot"
+    },
+    {
+      "output_key": "parking.S",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "890 Commonwealth Ave Garage"
+    },
+    {
+      "output_key": "parking.FEN-1",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "25 Pilgrim Road Lot"
+    },
+    {
+      "output_key": "parking.FEN-2",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "55 Pilgrim Road Garage"
+    },
+    {
+      "output_key": "parking.FEN-3",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "65 Pilgrim Road Garage"
+    },
+    {
+      "output_key": "parking.FEN-4",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/grad/grad-student-life/living-in-boston/transportation",
+      "value_summary": "85 Pilgrim Road Lot"
+    },
+    {
+      "output_key": "parking.FEN-5",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "43 Hawes Street Lot"
+    },
+    {
+      "output_key": "parking.MED-1",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "710 Albany Street Garage"
+    },
+    {
+      "output_key": "parking.MED-2",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "Crosstown Center Garage"
+    },
+    {
+      "output_key": "parking.MED-3",
+      "label": "MEASURED",
+      "source": "https://www.bu.edu/transportation/parking/lots-locations/",
+      "value_summary": "610 Albany Street Garage"
     },
     {
       "output_key": "drill.disruption.planned",

@@ -102,35 +102,109 @@ function BudgetTile({ plan, tile }: { plan: Plan; tile?: Tile }) {
 
 function GettingThereTile({ tile }: { tile?: Tile }) {
   if (!tile) return null;
+  const stops = (tile.details?.stops as any[]) ?? [];
   const planned = (tile.details?.planned_disruptions as any[]) ?? [];
+  const parking = (tile.details?.parking as any[]) ?? [];
+  const flags = (tile.details?.accessibility_flags as string[]) ?? [];
+  const shuttle = tile.details?.shuttle_note as string | undefined;
   return (
     <TileCard title="Getting There" status={tile.status}>
-      {planned.length ? (
-        <ul className="space-y-2 text-sm">
-          {planned.map((p, i) => (
-            <li key={i} className="rounded border border-amber-200 bg-amber-50 p-2 dark:border-amber-800 dark:bg-amber-950">
-              <p className="font-medium text-amber-900 dark:text-amber-200">{p.label}</p>
-              <p className="text-xs text-amber-800 dark:text-amber-300">
-                {p.start_date} to {p.end_date}
-                {p.fare_free ? " - fare-free" : ""}
-              </p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-sm text-gray-600 dark:text-gray-300">No planned transit disruptions overlap the event dates.</p>
-      )}
+      {planned.filter((p) => p.overlaps_event).map((p, i) => (
+        <div key={i} className="mb-3 rounded border border-amber-200 bg-amber-50 p-2 dark:border-amber-800 dark:bg-amber-950">
+          <p className="font-medium text-amber-900 dark:text-amber-200">{p.label}</p>
+          <p className="text-xs text-amber-800 dark:text-amber-300">
+            {p.start_date} to {p.end_date}
+            {p.fare_free ? " - fare-free" : ""}
+            {shuttle ? ` - ${shuttle}` : ""}
+          </p>
+        </div>
+      ))}
+
+      <p className="mb-1 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Nearest stops</p>
+      <ul className="mb-3 space-y-1 text-sm">
+        {stops.slice(0, 5).map((s, i) => (
+          <li key={i} className="flex items-center justify-between">
+            <span>
+              {s.name}{" "}
+              <span className="text-xs text-gray-400">{(s.lines ?? []).join(", ")}</span>
+            </span>
+            <span className="flex items-center gap-2 text-xs">
+              {s.walk_min != null ? <span>{s.walk_min} min</span> : null}
+              <Badge tone={s.accessible ? "blue" : "amber"}>
+                {s.accessible ? "step-free" : "not step-free"}
+              </Badge>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      {flags.length ? (
+        <p className="mb-3 text-xs text-amber-700 dark:text-amber-300">
+          Accessibility: {flags.join("; ")}
+        </p>
+      ) : null}
+
+      {parking.length ? (
+        <>
+          <p className="mb-1 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Parking</p>
+          <ul className="space-y-0.5 text-sm">
+            {parking.slice(0, 4).map((p, i) => (
+              <li key={i} className="flex items-center justify-between">
+                <span>{p.name}</span>
+                <span className="text-xs text-gray-400">
+                  {p.type}
+                  {p.public_or_visitor === "yes" ? " - visitor" : ""}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </TileCard>
   );
 }
 
 function FoodWaterTile({ tile }: { tile?: Tile }) {
   if (!tile) return null;
+  const meals = (tile.details?.meals as any[]) ?? [];
+  const water = tile.details?.water as any;
   return (
     <TileCard title="Food & Water" status={tile.status}>
-      <p className="text-sm text-gray-600 dark:text-gray-300">
-        BU dining halls open during each meal window are preferred, then nearby restaurants. Full plan arrives in a later task.
-      </p>
+      <div className="space-y-3">
+        {meals.map((m, i) => (
+          <div key={i} className="rounded border border-gray-100 p-2 dark:border-gray-700">
+            <div className="flex items-center justify-between">
+              <span className="font-medium capitalize">{m.meal}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {m.window} - {m.serving_lines} line{m.serving_lines === 1 ? "" : "s"}
+              </span>
+            </div>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              Est. ${m.cost_low.toLocaleString()} - ${m.cost_high.toLocaleString()} for {m.headcount}
+            </p>
+            {m.open_halls?.length ? (
+              <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">
+                Open: {m.open_halls.map((h: any) => h.name).join(", ")}
+              </p>
+            ) : null}
+            {m.check_hours_halls?.length ? (
+              <p className="mt-1 text-xs text-amber-700 dark:text-amber-300">
+                Check hours: {m.check_hours_halls.map((h: any) => h.name).join(", ")}
+              </p>
+            ) : null}
+            {m.note ? <p className="mt-1 text-xs italic text-gray-500">{m.note}</p> : null}
+          </div>
+        ))}
+        {water ? (
+          <div className="rounded border border-gray-100 p-2 text-sm dark:border-gray-700">
+            <p className="font-medium">Water</p>
+            <p className="text-gray-700 dark:text-gray-300">
+              ~{water.total_litres.toLocaleString()} L - bottled ${water.bottled_cost[0]}-${water.bottled_cost[1]}, refill ${water.refill_cost[0]}-${water.refill_cost[1]}
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{water.recommendation}</p>
+          </div>
+        ) : null}
+      </div>
     </TileCard>
   );
 }

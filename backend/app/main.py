@@ -26,13 +26,20 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from collections import Counter
+
+from fastapi import UploadFile
+
 from . import brief as brief_pkg
+from .agent import explainer as explainer_mod
 from .brief.models import EventBrief
 from .config import load_assumptions, settings
 from .data import loaders
 from .drill import twin as twin_mod
 from .drill import verdict as verdict_mod
 from .plan import plan as plan_mod
+from .privacy import detect as privacy_detect
+from .privacy import scrub as privacy_scrub
 from .provenance import ProvenanceStore
 
 app = FastAPI(title="EventTwin", version="0.1.0")
@@ -105,6 +112,14 @@ def post_plan(req: PlanRequest) -> dict[str, Any]:
     return plan.to_dict()
 
 
+@app.post("/explain")
+def post_explain(req: PlanRequest) -> dict[str, Any]:
+    """Return a grounded, source-cited narrative for a brief's plan (task 11)."""
+    brief = _resolve_brief(req.text, req.brief)
+    plan = plan_mod.build(brief, draws=req.draws).to_dict()
+    return {"explanation": explainer_mod.explain(plan)}
+
+
 @app.post("/plan/options")
 def post_plan_options(req: PlanRequest) -> dict[str, Any]:
     """Lean/Balanced/Premium compare - deepened in P1 (task 17).
@@ -157,11 +172,28 @@ def post_drill_compare(req: DrillCompareRequest) -> dict[str, Any]:
 # Privacy (task 10 - stub that preserves the response shape)
 # --------------------------------------------------------------------------- #
 @app.post("/privacy/upload")
-def post_privacy_upload() -> dict[str, Any]:
+async def post_privacy_upload(file: UploadFile) -> dict[str, Any]:
+    """Scrub PII from an uploaded CSV and return per-entity counts + a preview.
+
+    The scrubber core (task 10) redacts emails, BU IDs, MAC/BSSID, and phones.
+    The aggregate-only retention + <5-cell suppression path is P1 (task 10 notes).
+    """
+    raw = (await file.read()).decode("utf-8", errors="replace")
+    counts: Counter[str] = Counter()
+    scrubbed_lines: list[str] = []
+    for line in raw.splitlines():
+        for f in privacy_detect(line):
+            counts[f.entity] += 1
+        scrubbed_lines.append(privacy_scrub(line).scrubbed)
+    scrubbed_text = "\n".join(scrubbed_lines)
+    # Residual check: scrubbing again should find nothing.
+    residual = len(privacy_detect(scrubbed_text))
     return {
-        "status": "not_implemented",
-        "note": "Privacy scrubber + aggregate suppression is task 10.",
-        "aggregates": {},
+        "status": "scrubbed",
+        "filename": file.filename,
+        "findings": dict(counts),
+        "residual_pii": residual,
+        "preview": scrubbed_text[:2000],
     }
 
 

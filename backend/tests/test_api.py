@@ -37,7 +37,12 @@ def test_brief_parse_endpoint():
 def test_all_endpoints_exist_and_respond():
     for path in ("/assumptions", "/provenance", "/live/alerts", "/health"):
         assert client.get(path).status_code == 200
-    assert client.post("/privacy/upload").status_code == 200
+    # /privacy/upload requires a file upload (multipart).
+    r = client.post(
+        "/privacy/upload",
+        files={"file": ("x.csv", b"name,email\nJane,j@bu.edu\n", "text/csv")},
+    )
+    assert r.status_code == 200
 
 
 def test_plan_endpoint_returns_full_plan():
@@ -91,3 +96,22 @@ def test_live_alerts_has_green_line_closure():
     gl = next(a for a in alerts if "Green Line" in " ".join(a["lines"]))
     assert gl["start_date"] == "2026-10-31"
     assert gl["fare_free"] is True
+
+
+def test_privacy_upload_scrubs_csv():
+    csv_bytes = (
+        "name,email,bu_id,device\n"
+        "Jane,jane@bu.edu,U12345678,00:1A:2B:3C:4D:5E\n"
+    ).encode("utf-8")
+    r = client.post(
+        "/privacy/upload",
+        files={"file": ("reg.csv", csv_bytes, "text/csv")},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["status"] == "scrubbed"
+    assert body["residual_pii"] == 0
+    assert body["findings"].get("EMAIL", 0) >= 1
+    assert body["findings"].get("BU_ID", 0) >= 1
+    assert "jane@bu.edu" not in body["preview"]
+    assert "U12345678" not in body["preview"]

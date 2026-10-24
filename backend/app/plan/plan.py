@@ -26,6 +26,8 @@ from ..drill import verdict as verdict_mod
 from ..provenance import ProvenanceRow
 from . import attendance as attendance_mod
 from . import budget as budget_mod
+from . import food_water as food_mod
+from . import transport as transport_mod
 from . import venue_optimizer as venue_mod
 
 
@@ -90,6 +92,12 @@ def build(brief, db_path: Path | str | None = None, draws: int = 500) -> Plan:
     bud = budget_mod.estimate(brief, att, venue_res, draws=draws)
     prov.extend(bud.provenance)
 
+    # 3b. Food & water + transport (committed data only)
+    fw = food_mod.plan(brief, attendance=att, db_path=db_path)
+    prov.extend(fw.provenance)
+    trans = transport_mod.plan(brief, db_path=db_path)
+    prov.extend(trans.provenance)
+
     # 4. Drill (occupancy + power + getting-home) -> readiness + top-3 risks
     drill_ctx = _build_drill_context(brief, att, rec)
     drill_result = twin_mod.run(drill_ctx, db_path=db_path)
@@ -129,11 +137,8 @@ def build(brief, db_path: Path | str | None = None, draws: int = 500) -> Plan:
              }),
         # Stubs deepened later; present so the Plan assembles completely (task 12).
         Tile(name="Tech", status="sized in task 14", details={}),
-        Tile(name="Food & Water", status="planned in task 15", details={}),
-        Tile(name="Getting There",
-             status=(drill_result.disruptions[0] if drill_result.disruptions
-                     else "no planned disruptions"),
-             details={"planned_disruptions": drill_result.planned_disruptions}),
+        _food_tile(fw),
+        _getting_there_tile(trans, drill_result),
         Tile(name="People", status="P1 (task 18)", details={}),
         Tile(name="Drill",
              status=f"readiness {verdict.readiness}/100 ({verdict.worst_status})",
@@ -258,6 +263,90 @@ def _as_date(value):
         return datetime.strptime(value, "%Y-%m-%d").date()
     except ValueError:
         return None
+
+
+def _food_tile(fw) -> Tile:
+    n_open = sum(len(m.bu_dining_open) for m in fw.meals)
+    total_low = sum(m.cost_low for m in fw.meals)
+    total_high = sum(m.cost_high for m in fw.meals)
+    status = (
+        f"{len(fw.meals)} meals; est ${total_low:,}-${total_high:,}; "
+        f"{n_open} BU hall openings matched"
+    )
+    return Tile(
+        name="Food & Water",
+        status=status,
+        details={
+            "meals": [
+                {
+                    "meal": m.meal,
+                    "window": m.window,
+                    "headcount": m.headcount,
+                    "cost_low": m.cost_low,
+                    "cost_high": m.cost_high,
+                    "serving_lines": m.serving_lines,
+                    "note": m.note,
+                    "open_halls": [
+                        {"name": o.name, "building_code": o.building_code,
+                         "hours": o.hours_window}
+                        for o in m.bu_dining_open
+                    ],
+                    "check_hours_halls": [
+                        {"name": o.name, "building_code": o.building_code,
+                         "flags": o.flags}
+                        for o in m.bu_dining_check_hours
+                    ],
+                }
+                for m in fw.meals
+            ],
+            "water": {
+                "total_litres": round(fw.water.total_litres),
+                "bottled_cost": [fw.water.bottled_cost_low, fw.water.bottled_cost_high],
+                "refill_cost": [fw.water.refill_cost_low, fw.water.refill_cost_high],
+                "recommendation": fw.water.recommendation,
+            },
+        },
+    )
+
+
+def _getting_there_tile(trans, drill_result) -> Tile:
+    overlapping = [d for d in trans.planned_disruptions if d.overlaps_event]
+    if overlapping:
+        status = overlapping[0].label
+    else:
+        status = f"{len(trans.stops)} stops within walking distance; no planned disruption"
+    return Tile(
+        name="Getting There",
+        status=status,
+        details={
+            "stops": [
+                {"name": s.name, "lines": s.lines, "walk_min": s.walk_min,
+                 "accessible": s.accessible, "accessibility_note": s.accessibility_note,
+                 "disrupted": s.disrupted}
+                for s in trans.stops
+            ],
+            "bus_routes": [
+                {"route": r.get("route"), "name": r.get("name")}
+                for r in trans.bus_routes
+            ],
+            "planned_disruptions": [
+                {"label": d.label, "lines": d.lines, "start_date": d.start_date,
+                 "end_date": d.end_date, "shuttle_note": d.shuttle_note,
+                 "fare_free": d.fare_free, "overlaps_event": d.overlaps_event}
+                for d in trans.planned_disruptions
+            ],
+            "shuttle_note": trans.shuttle_note,
+            "accessibility_flags": trans.accessibility_flags,
+            "parking": [
+                {"name": p.name, "type": p.type,
+                 "public_or_visitor": p.public_or_visitor, "notes": p.notes}
+                for p in trans.parking
+            ],
+        },
+        action_items=(
+            [f"Plan around: {overlapping[0].label}"] if overlapping else []
+        ),
+    )
 
 
 def _venue_tile(venue_res) -> Tile:
