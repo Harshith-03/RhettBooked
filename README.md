@@ -3,7 +3,7 @@
 An event-planning digital twin for Boston University. Backend: FastAPI (Render).
 Frontend: React + Vite (Vercel). See `.kiro/specs/` for the full specs.
 
-- **Live demo:** https://RhettBooked.vercel.app
+- **Live demo:** https://rhettbooked.vercel.app
 - **Repo:** https://github.com/Harshith-03/RhettBooked
 
 ## Backend deployment (Render)
@@ -42,7 +42,7 @@ the agent catches the error and falls back to estimates.
    `"llm_provider":"gemini"` and `"gemini":true`. If `"gemini":false`, the key
    isn't set on Render (it is NOT read from the local `.env`, which is never
    committed).
-3. If the frontend origin differs from `https://RhettBooked.vercel.app`, update
+3. If the frontend origin differs from `https://rhettbooked.vercel.app`, update
    `ALLOWED_ORIGINS` in the Render dashboard (or `render.yaml`) to match.
 
 ### Deploy checklist (Vercel, frontend)

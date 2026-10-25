@@ -29,4 +29,4 @@ services:
       # Comma-separated list of allowed CORS origins. localhost:5173 is always
       # allowed by the app; set your deployed frontend origin here.
       - key: ALLOWED_ORIGINS
-        value: https://RhettBooked.vercel.app,http://localhost:5173
+        value: https://rhettbooked.vercel.app,http://localhost:5173
