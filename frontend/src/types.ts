@@ -2,7 +2,7 @@
 
 export interface ProvenanceRow {
   output_key: string;
-  label: "MEASURED" | "ASSUMED" | "PLACEHOLDER" | "SIMULATED";
+  label: "MEASURED" | "ASSUMED" | "PLACEHOLDER" | "SIMULATED" | "RESEARCHED";
   source: string;
   value_summary: string;
 }
@@ -96,8 +96,34 @@ export interface Caterer {
   dietary: string[];
   catering_url: string;
   why_fits: string;
-  verification: "VERIFIED" | "WEB_ONLY";
+  verification: "VERIFIED" | "WEB_ONLY" | "CURATED";
   source_urls: string[];
+}
+
+export interface LineItem {
+  name: string;
+  p10: number;
+  p50: number;
+  p90: number;
+}
+
+// A Lean/Balanced/Premium plan option from /plan/options (enriched with the
+// per-tier line-item breakdown so the Compare columns differ by budget + menu).
+export interface PlanOption {
+  name: string;
+  tier: "lean" | "balanced" | "premium";
+  total_p10: number;
+  total_p50: number;
+  total_p90: number;
+  cost_per_attendee: number;
+  sponsorship_gap: number;
+  tradeoffs: string;
+  line_items: LineItem[];
+  budget_usd: number | null;
+}
+
+export interface OptionsResponse {
+  options: PlanOption[];
 }
 
 export interface CateringResult {

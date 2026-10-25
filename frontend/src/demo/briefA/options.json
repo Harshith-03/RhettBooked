@@ -8,7 +8,100 @@
       "total_p90": 25051,
       "cost_per_attendee": 114.05,
       "sponsorship_gap": 5871,
-      "tradeoffs": "Cheapest catering; minimal AV/security/custodial hours"
+      "tradeoffs": "Cheapest catering; minimal AV/security/custodial hours",
+      "line_items": [
+        {
+          "name": "Catering - breakfast",
+          "p10": 958,
+          "p50": 1384,
+          "p90": 1907
+        },
+        {
+          "name": "Catering - lunch",
+          "p10": 1612,
+          "p50": 2298,
+          "p90": 3053
+        },
+        {
+          "name": "Catering - snack",
+          "p10": 542,
+          "p50": 790,
+          "p90": 1085
+        },
+        {
+          "name": "Catering - dinner",
+          "p10": 2197,
+          "p50": 3187,
+          "p90": 4290
+        },
+        {
+          "name": "Water",
+          "p10": 226,
+          "p50": 324,
+          "p90": 456
+        },
+        {
+          "name": "Wi-Fi AP rental",
+          "p10": 375,
+          "p50": 497,
+          "p90": 623
+        },
+        {
+          "name": "Power stations",
+          "p10": 236,
+          "p50": 319,
+          "p90": 422
+        },
+        {
+          "name": "AV tech",
+          "p10": 515,
+          "p50": 675,
+          "p90": 845
+        },
+        {
+          "name": "Security",
+          "p10": 580,
+          "p50": 673,
+          "p90": 780
+        },
+        {
+          "name": "Custodial",
+          "p10": 324,
+          "p50": 408,
+          "p90": 480
+        },
+        {
+          "name": "Insurance",
+          "p10": 251,
+          "p50": 369,
+          "p90": 490
+        },
+        {
+          "name": "Prizes",
+          "p10": 2851,
+          "p50": 5475,
+          "p90": 8010
+        },
+        {
+          "name": "Printing",
+          "p10": 135,
+          "p50": 235,
+          "p90": 330
+        },
+        {
+          "name": "Swag",
+          "p10": 1325,
+          "p50": 2181,
+          "p90": 3110
+        },
+        {
+          "name": "Contingency",
+          "p10": 1262,
+          "p50": 1832,
+          "p90": 2590
+        }
+      ],
+      "budget_usd": 15000
     },
     {
       "name": "Balanced",
@@ -18,7 +111,100 @@
       "total_p90": 31320,
       "cost_per_attendee": 140.89,
       "sponsorship_gap": 10782,
-      "tradeoffs": "Mid catering; standard staffing"
+      "tradeoffs": "Mid catering; standard staffing",
+      "line_items": [
+        {
+          "name": "Catering - breakfast",
+          "p10": 1387,
+          "p50": 2009,
+          "p90": 2717
+        },
+        {
+          "name": "Catering - lunch",
+          "p10": 2418,
+          "p50": 3447,
+          "p90": 4579
+        },
+        {
+          "name": "Catering - snack",
+          "p10": 863,
+          "p50": 1233,
+          "p90": 1681
+        },
+        {
+          "name": "Catering - dinner",
+          "p10": 3469,
+          "p50": 5056,
+          "p90": 6799
+        },
+        {
+          "name": "Water",
+          "p10": 226,
+          "p50": 324,
+          "p90": 456
+        },
+        {
+          "name": "Wi-Fi AP rental",
+          "p10": 375,
+          "p50": 497,
+          "p90": 623
+        },
+        {
+          "name": "Power stations",
+          "p10": 236,
+          "p50": 319,
+          "p90": 422
+        },
+        {
+          "name": "AV tech",
+          "p10": 687,
+          "p50": 900,
+          "p90": 1126
+        },
+        {
+          "name": "Security",
+          "p10": 773,
+          "p50": 898,
+          "p90": 1040
+        },
+        {
+          "name": "Custodial",
+          "p10": 433,
+          "p50": 545,
+          "p90": 641
+        },
+        {
+          "name": "Insurance",
+          "p10": 251,
+          "p50": 369,
+          "p90": 490
+        },
+        {
+          "name": "Prizes",
+          "p10": 2851,
+          "p50": 5475,
+          "p90": 8010
+        },
+        {
+          "name": "Printing",
+          "p10": 135,
+          "p50": 235,
+          "p90": 330
+        },
+        {
+          "name": "Swag",
+          "p10": 1325,
+          "p50": 2181,
+          "p90": 3110
+        },
+        {
+          "name": "Contingency",
+          "p10": 1587,
+          "p50": 2304,
+          "p90": 3283
+        }
+      ],
+      "budget_usd": 15000
     },
     {
       "name": "Premium",
@@ -28,7 +214,100 @@
       "total_p90": 43736,
       "cost_per_attendee": 197.11,
       "sponsorship_gap": 21071,
-      "tradeoffs": "Top catering; extended AV/security/custodial"
+      "tradeoffs": "Top catering; extended AV/security/custodial",
+      "line_items": [
+        {
+          "name": "Catering - breakfast",
+          "p10": 2164,
+          "p50": 3145,
+          "p90": 4264
+        },
+        {
+          "name": "Catering - lunch",
+          "p10": 3921,
+          "p50": 5641,
+          "p90": 7550
+        },
+        {
+          "name": "Catering - snack",
+          "p10": 1364,
+          "p50": 1938,
+          "p90": 2634
+        },
+        {
+          "name": "Catering - dinner",
+          "p10": 6185,
+          "p50": 9133,
+          "p90": 12358
+        },
+        {
+          "name": "Water",
+          "p10": 226,
+          "p50": 324,
+          "p90": 456
+        },
+        {
+          "name": "Wi-Fi AP rental",
+          "p10": 375,
+          "p50": 497,
+          "p90": 623
+        },
+        {
+          "name": "Power stations",
+          "p10": 236,
+          "p50": 319,
+          "p90": 422
+        },
+        {
+          "name": "AV tech",
+          "p10": 1030,
+          "p50": 1351,
+          "p90": 1689
+        },
+        {
+          "name": "Security",
+          "p10": 1160,
+          "p50": 1347,
+          "p90": 1560
+        },
+        {
+          "name": "Custodial",
+          "p10": 649,
+          "p50": 817,
+          "p90": 961
+        },
+        {
+          "name": "Insurance",
+          "p10": 251,
+          "p50": 369,
+          "p90": 490
+        },
+        {
+          "name": "Prizes",
+          "p10": 2851,
+          "p50": 5475,
+          "p90": 8010
+        },
+        {
+          "name": "Printing",
+          "p10": 135,
+          "p50": 235,
+          "p90": 330
+        },
+        {
+          "name": "Swag",
+          "p10": 1325,
+          "p50": 2181,
+          "p90": 3110
+        },
+        {
+          "name": "Contingency",
+          "p10": 2184,
+          "p50": 3221,
+          "p90": 4552
+        }
+      ],
+      "budget_usd": 15000
     }
   ]
 }

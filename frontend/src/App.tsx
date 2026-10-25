@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchPlan } from "./api";
+import { motion } from "framer-motion";
+import { fetchOptions, fetchPlan } from "./api";
 import { BRIEF_TEXT } from "./demo";
+import { Compare } from "./components/Compare";
 import { DrillPanel } from "./components/DrillPanel";
 import { Sections } from "./components/Sections";
 import { SummaryCard, TwoUp } from "./components/cards";
@@ -8,23 +10,25 @@ import { BudgetCard, FoodWaterCard } from "./components/budgetfood";
 import {
   Chip,
   PrimaryButton,
-  SectionCard,
   Skeleton,
   Stagger,
   StaggerItem,
 } from "./components/ui";
-import { applyTheme, getInitialTheme, setTheme, type Theme } from "./theme";
-import type { BriefKey, Plan, Source } from "./types";
+import { applyTheme, getInitialTheme, setTheme, usePrefersReducedMotion, type Theme } from "./theme";
+import type { BriefKey, OptionsResponse, Plan, Source } from "./types";
+
+// Content is centered with generous side padding but stretches wide so the
+// 3-up Compare grid can breathe (Apple-style full-bleed with a max rail).
+const MAX_W = 1200;
 
 export default function App() {
   const [theme, setThemeState] = useState<Theme>("light");
   const [text, setText] = useState("");
   const [briefKey, setBriefKey] = useState<BriefKey | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [options, setOptions] = useState<OptionsResponse | null>(null);
   const [source, setSource] = useState<Source>("live");
   const [loading, setLoading] = useState(false);
-  // Researched per-head range discovered by the Food & water caterer research,
-  // lifted so the Budget card can offer "Use researched prices".
   const [researched, setResearched] = useState<{ low: number; high: number; n: number } | null>(null);
 
   useEffect(() => {
@@ -43,9 +47,13 @@ export default function App() {
     if (!inputText.trim()) return;
     setLoading(true);
     setResearched(null);
-    const { data, source } = await fetchPlan(inputText, key);
-    setPlan(data);
-    setSource(source);
+    const [planRes, optRes] = await Promise.all([
+      fetchPlan(inputText, key),
+      fetchOptions(inputText, key),
+    ]);
+    setPlan(planRes.data);
+    setOptions(optRes.data);
+    setSource(planRes.source === "demo" || optRes.source === "demo" ? "demo" : "live");
     setLoading(false);
   }
 
@@ -57,78 +65,157 @@ export default function App() {
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    // Enter builds the plan (Shift+Enter inserts a newline).
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       void runPlan(text, briefKey);
     }
   }
 
+  function newPlan() {
+    setPlan(null);
+    setOptions(null);
+  }
+
   return (
     <div style={{ minHeight: "100%", background: "var(--bg)", color: "var(--text)" }}>
-      <Header theme={theme} onToggle={toggleTheme} source={source} onNewPlan={() => setPlan(null)} />
+      <Header theme={theme} onToggle={toggleTheme} source={source} onNewPlan={newPlan} />
 
-      <div className="mx-auto w-full" style={{ maxWidth: 800, padding: 24 }}>
-        <div className="space-y-4">
-          {/* Describe your event */}
-          <SectionCard>
-            <label htmlFor="brief" className="caps-label">Describe your event</label>
-            <textarea
-              id="brief"
-              value={text}
-              onChange={(e) => { setText(e.target.value); setBriefKey(null); }}
-              onKeyDown={onKeyDown}
-              rows={3}
-              placeholder="e.g. 300-person overnight AI hackathon at BU, Oct 24-25, students, budget $15k, needs lunch, dinner, midnight snack, breakfast"
-              className="mt-2 w-full rounded-lg p-3 text-sm"
-              style={{ border: "1px solid var(--border)", background: "var(--card)", color: "var(--text)" }}
-            />
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <PrimaryButton onClick={() => void runPlan(text, briefKey)} disabled={loading || !text.trim()}>
-                {loading ? "Planning..." : "Build plan"}
-              </PrimaryButton>
-              <Chip label="Brief A · Oct 24-25" active={briefKey === "briefA"} onClick={() => useExample("briefA")} />
-              <Chip label="Brief B · Oct 31-Nov 1" active={briefKey === "briefB"} onClick={() => useExample("briefB")} />
-            </div>
-          </SectionCard>
+      <main className="mx-auto w-full px-5 sm:px-8" style={{ maxWidth: MAX_W, paddingTop: 32, paddingBottom: 64 }}>
+        {!plan ? <Hero /> : null}
 
-          {loading && !plan ? (
-            <div className="space-y-4">
-              <Skeleton height={100} />
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <Skeleton height={160} />
-                <Skeleton height={160} />
-              </div>
-              <Skeleton height={220} />
-            </div>
-          ) : plan ? (
-            <Stagger key={`${briefKey}-${source}`}>
-              <StaggerItem><SummaryCard plan={plan} /></StaggerItem>
-              <StaggerItem><TwoUp plan={plan} /></StaggerItem>
-              <StaggerItem><BudgetCard plan={plan} researched={researched} /></StaggerItem>
-              <StaggerItem>
-                <FoodWaterCard
-                  plan={plan}
-                  text={text}
-                  briefKey={briefKey}
-                  onSource={setSource}
-                  onResearchedPrices={setResearched}
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
-              </StaggerItem>
-              <StaggerItem><DrillPanel text={text} briefKey={briefKey} onSource={setSource} /></StaggerItem>
-            </Stagger>
-          ) : (
-            <SectionCard>
-              <p className="text-sm" style={{ color: "var(--muted)" }}>
-                Enter a brief or pick an example to generate a plan.
-              </p>
-            </SectionCard>
-          )}
-        </div>
+        {/* Intake */}
+        <IntakeCard
+          text={text}
+          setText={(t) => { setText(t); setBriefKey(null); }}
+          onKeyDown={onKeyDown}
+          onBuild={() => void runPlan(text, briefKey)}
+          loading={loading}
+          briefKey={briefKey}
+          onExample={useExample}
+        />
+
+        <div style={{ height: 24 }} />
+
+        {loading && !plan ? (
+          <LoadingSkeleton />
+        ) : plan ? (
+          <Stagger key={`${briefKey}-${source}`}>
+            {options?.options?.length ? (
+              <StaggerItem><Compare options={options.options} /></StaggerItem>
+            ) : null}
+            <StaggerItem><Divider label="The recommended plan in detail" /></StaggerItem>
+            <StaggerItem><SummaryCard plan={plan} /></StaggerItem>
+            <StaggerItem><TwoUp plan={plan} /></StaggerItem>
+            <StaggerItem><BudgetCard plan={plan} researched={researched} /></StaggerItem>
+            <StaggerItem>
+              <FoodWaterCard
+                plan={plan}
+                text={text}
+                briefKey={briefKey}
+                onSource={setSource}
+                onResearchedPrices={setResearched}
+              />
+            </StaggerItem>
+            <StaggerItem>
+              <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
+            </StaggerItem>
+            <StaggerItem><DrillPanel text={text} briefKey={briefKey} onSource={setSource} /></StaggerItem>
+          </Stagger>
+        ) : null}
+      </main>
+    </div>
+  );
+}
+
+function Hero() {
+  const reduced = usePrefersReducedMotion();
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: reduced ? 0 : 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduced ? 0 : 0.4 }}
+      className="mb-8 text-center"
+    >
+      <h1 className="hero-title mx-auto" style={{ maxWidth: 820 }}>
+        Describe your event.
+        <br />
+        <span style={{ color: "var(--red-text)" }}>Get a plan that holds up.</span>
+      </h1>
+      <p className="mx-auto mt-4 text-base sm:text-lg" style={{ maxWidth: 560, color: "var(--muted)" }}>
+        One sentence in, a complete BU event plan out — venue, budget, food, transit and a
+        stress-test. Three budgets, side by side.
+      </p>
+    </motion.div>
+  );
+}
+
+function IntakeCard({
+  text,
+  setText,
+  onKeyDown,
+  onBuild,
+  loading,
+  briefKey,
+  onExample,
+}: {
+  text: string;
+  setText: (t: string) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  onBuild: () => void;
+  loading: boolean;
+  briefKey: BriefKey | null;
+  onExample: (k: BriefKey) => void;
+}) {
+  return (
+    <div
+      className="rounded-2xl"
+      style={{ background: "var(--card)", border: "1px solid var(--border)", boxShadow: "var(--shadow-md)", padding: 24 }}
+    >
+      <label htmlFor="brief" className="caps-label">Describe your event</label>
+      <textarea
+        id="brief"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={onKeyDown}
+        rows={3}
+        placeholder="e.g. 300-person overnight AI hackathon at BU, Oct 24-25, students, budget $15k, needs lunch, dinner, midnight snack, breakfast"
+        className="mt-2 w-full rounded-xl p-4 text-base"
+        style={{ border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text)", resize: "vertical" }}
+      />
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <PrimaryButton onClick={onBuild} disabled={loading || !text.trim()}>
+          {loading ? "Planning…" : "Build plan"}
+        </PrimaryButton>
+        <span className="text-xs" style={{ color: "var(--muted)" }}>or try</span>
+        <Chip label="Brief A · Oct 24-25" active={briefKey === "briefA"} onClick={() => onExample("briefA")} />
+        <Chip label="Brief B · Oct 31-Nov 1" active={briefKey === "briefB"} onClick={() => onExample("briefB")} />
       </div>
+    </div>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="space-y-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        <Skeleton height={320} />
+        <Skeleton height={320} />
+        <Skeleton height={320} />
+      </div>
+      <Skeleton height={120} />
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <Skeleton height={180} />
+        <Skeleton height={180} />
+      </div>
+    </div>
+  );
+}
+
+function Divider({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-4 pt-2">
+      <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em" }}>{label}</span>
+      <span className="h-px flex-1" style={{ background: "var(--border)" }} />
     </div>
   );
 }
@@ -146,24 +233,19 @@ function Header({
 }) {
   return (
     <header
+      className="rb-header"
       style={{
         background: "var(--header-bg)",
         borderBottom: "3px solid var(--header-border)",
       }}
     >
-      <div className="mx-auto flex w-full items-center justify-between" style={{ maxWidth: 800, padding: "12px 24px" }}>
+      <div className="mx-auto flex w-full items-center justify-between px-5 py-3 sm:px-8" style={{ maxWidth: MAX_W }}>
         <div className="flex items-center gap-3">
           <div
             className="flex items-center justify-center overflow-hidden rounded-full"
             style={{ width: 36, height: 36, background: "#ffffff" }}
           >
-            <img
-              src="/logo.png"
-              alt="RhettBooked logo"
-              width={36}
-              height={36}
-              style={{ width: 36, height: 36, objectFit: "contain" }}
-            />
+            <img src="/logo.png" alt="RhettBooked logo" width={36} height={36} style={{ width: 36, height: 36, objectFit: "contain" }} />
           </div>
           <div>
             <div style={{ color: "#ffffff", fontWeight: 700, fontSize: 18, lineHeight: 1 }}>RhettBooked</div>
@@ -175,10 +257,7 @@ function Header({
 
         <div className="flex items-center gap-2">
           {source === "demo" ? (
-            <span
-              className="rounded-full px-2 py-0.5"
-              style={{ background: "#9ca3af", color: "#ffffff", fontSize: 11, fontWeight: 600 }}
-            >
+            <span className="rounded-full px-2 py-0.5" style={{ background: "#9ca3af", color: "#ffffff", fontSize: 11, fontWeight: 600 }}>
               Demo snapshot
             </span>
           ) : null}
