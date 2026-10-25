@@ -23,6 +23,9 @@ export default function App() {
   const [plan, setPlan] = useState<Plan | null>(null);
   const [source, setSource] = useState<Source>("live");
   const [loading, setLoading] = useState(false);
+  // Researched per-head range discovered by the Food & water caterer research,
+  // lifted so the Budget card can offer "Use researched prices".
+  const [researched, setResearched] = useState<{ low: number; high: number; n: number } | null>(null);
 
   useEffect(() => {
     const t = getInitialTheme();
@@ -39,6 +42,7 @@ export default function App() {
   async function runPlan(inputText: string, key: BriefKey | null) {
     if (!inputText.trim()) return;
     setLoading(true);
+    setResearched(null);
     const { data, source } = await fetchPlan(inputText, key);
     setPlan(data);
     setSource(source);
@@ -101,8 +105,16 @@ export default function App() {
             <Stagger key={`${briefKey}-${source}`}>
               <StaggerItem><SummaryCard plan={plan} /></StaggerItem>
               <StaggerItem><TwoUp plan={plan} /></StaggerItem>
-              <StaggerItem><BudgetCard plan={plan} /></StaggerItem>
-              <StaggerItem><FoodWaterCard plan={plan} /></StaggerItem>
+              <StaggerItem><BudgetCard plan={plan} researched={researched} /></StaggerItem>
+              <StaggerItem>
+                <FoodWaterCard
+                  plan={plan}
+                  text={text}
+                  briefKey={briefKey}
+                  onSource={setSource}
+                  onResearchedPrices={setResearched}
+                />
+              </StaggerItem>
               <StaggerItem>
                 <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
               </StaggerItem>

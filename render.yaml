@@ -3,7 +3,7 @@
 # offline cache, so no build step or external calls are needed at startup.
 services:
   - type: web
-    name: eventtwin-api
+    name: RhettBooked-api
     runtime: docker
     # Build context is the REPO ROOT so the Dockerfile can COPY config/, data/,
     # and deploy/ (which live outside backend/).

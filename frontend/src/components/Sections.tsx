@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchExtra } from "../api";
 import type { BriefKey, Plan, Source } from "../types";
 import { Drawer, SectionCard, money } from "./ui";
+import { PeopleResearch } from "./Research";
 
 // People & sponsors, Plan options, Trust & export - collapsed by default.
 export function Sections({
@@ -43,14 +44,32 @@ export function Sections({
 
   return (
     <>
-      <PeopleSponsorsCard people={people} sponsors={sponsors} />
+      <PeopleSponsorsCard
+        people={people}
+        sponsors={sponsors}
+        text={text}
+        briefKey={briefKey}
+        onSource={onSource}
+      />
       <OptionsCard options={options} />
       <TrustExportCard trust={trust} plan={plan} />
     </>
   );
 }
 
-function PeopleSponsorsCard({ people, sponsors }: { people: any; sponsors: any }) {
+function PeopleSponsorsCard({
+  people,
+  sponsors,
+  text,
+  briefKey,
+  onSource,
+}: {
+  people: any;
+  sponsors: any;
+  text: string;
+  briefKey: BriefKey | null;
+  onSource: (s: Source) => void;
+}) {
   const judges = people?.people ?? [];
   const cats = sponsors?.categories ?? [];
   return (
@@ -98,6 +117,7 @@ function PeopleSponsorsCard({ people, sponsors }: { people: any; sponsors: any }
             </p>
           </div>
         </div>
+        <PeopleResearch text={text} briefKey={briefKey} onSource={onSource} />
       </Drawer>
     </SectionCard>
   );
@@ -130,8 +150,10 @@ function TrustExportCard({ trust, plan }: { trust: any; plan: Plan }) {
   const tornado = trust?.sensitivity ?? [];
   const total = (Object.values(counts) as number[]).reduce((a, b) => a + b, 0) || 1;
   const colors: Record<string, string> = {
-    MEASURED: "#3b82f6", ASSUMED: "#f59e0b", PLACEHOLDER: "#9ca3af", SIMULATED: "#22c55e",
+    MEASURED: "#3b82f6", ASSUMED: "#f59e0b", PLACEHOLDER: "#9ca3af",
+    SIMULATED: "#22c55e", RESEARCHED: "#8b5cf6",
   };
+  const LABELS = ["MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED", "RESEARCHED"];
 
   function downloadCsv() {
     const rows = [["line_item", "p10", "p50", "p90"]];
@@ -150,12 +172,12 @@ function TrustExportCard({ trust, plan }: { trust: any; plan: Plan }) {
       <Drawer label="Show provenance, privacy & export →">
         <p className="caps-label">Provenance label mix</p>
         <div className="mb-2 mt-1 flex h-4 overflow-hidden rounded">
-          {["MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED"].map((l) => (
+          {LABELS.map((l) => (
             <div key={l} style={{ background: colors[l], width: `${((counts[l] ?? 0) / total) * 100}%` }} title={`${l}: ${counts[l] ?? 0}`} />
           ))}
         </div>
         <div className="mb-3 flex flex-wrap gap-3 text-xs">
-          {["MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED"].map((l) => (
+          {LABELS.map((l) => (
             <span key={l}>
               <span className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: colors[l] }} />
               {l} {counts[l] ?? 0}

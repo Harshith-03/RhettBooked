@@ -70,6 +70,20 @@ class _Caller:
         r.raise_for_status()
         return r.json()
 
+    def run_job(self, payload: dict) -> dict:
+        """Start a research job and poll until done; return the final job dict."""
+        import time as _time
+
+        job_id = self.post("/agent/research", payload)["job_id"]
+        for _ in range(100):
+            r = self._client.get(f"/agent/jobs/{job_id}")
+            r.raise_for_status()
+            job = r.json()
+            if job["status"] in ("done", "error"):
+                return job
+            _time.sleep(0.05)
+        return job
+
 
 def export(base_url: str | None = None) -> None:
     caller = _Caller(base_url)
@@ -100,7 +114,15 @@ def export(base_url: str | None = None) -> None:
         _write(out_dir / "trust.json",
                caller.post("/trust", {"brief": parse["brief"], "draws": 500}))
 
-        print(f"  {key}: parse, plan, drill, drill_fixes, options, people, sponsors, trust")
+        # Research agent results (catering + people). With no GEMINI_API_KEY these
+        # are the fallback shapes, which the demo UI renders without a key.
+        _write(out_dir / "agent_catering.json",
+               caller.run_job({"brief": parse["brief"], "task": "catering"}))
+        _write(out_dir / "agent_people.json",
+               caller.run_job({"brief": parse["brief"], "task": "people"}))
+
+        print(f"  {key}: parse, plan, drill, drill_fixes, options, people, sponsors, "
+              f"trust, agent_catering, agent_people")
 
     print(f"Demo snapshots written to {DEMO_DIR}")
 

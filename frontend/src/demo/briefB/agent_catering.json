@@ -1,0 +1,32 @@
+{
+  "job_id": "ee96b4db4bb6",
+  "task": "catering",
+  "status": "done",
+  "steps": [
+    "Reading your plan"
+  ],
+  "result": {
+    "label": "ASSUMED",
+    "meals": [
+      {
+        "meal": "breakfast",
+        "caterers": []
+      },
+      {
+        "meal": "lunch",
+        "caterers": []
+      },
+      {
+        "meal": "snack",
+        "caterers": []
+      },
+      {
+        "meal": "dinner",
+        "caterers": []
+      }
+    ],
+    "verified_count": 0,
+    "fallback_reason": "No GEMINI_API_KEY; showing estimates."
+  },
+  "error": null
+}

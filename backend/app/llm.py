@@ -33,7 +33,78 @@ class LLMUnavailable(RuntimeError):
 
 
 def provider() -> str:
-    return settings.llm_provider.lower()
+    from .config import get_settings
+    return get_settings().llm_provider.lower()
+
+
+def gemini_available() -> bool:
+    """True when a Gemini key is configured (never logs the key itself)."""
+    from .config import get_settings
+    return get_settings().gemini_enabled
+
+
+def _gemini_client():
+    """Lazily construct a google-genai client. Raises LLMUnavailable with no key."""
+    from .config import get_settings
+    s = get_settings()
+    if not s.gemini_enabled:
+        raise LLMUnavailable("GEMINI_API_KEY not set")
+    try:
+        from google import genai  # lazy import so the module loads without the SDK
+    except Exception as e:  # pragma: no cover - SDK missing
+        raise LLMUnavailable(f"google-genai SDK unavailable: {e}")
+    return genai.Client(api_key=s.gemini_api_key)
+
+
+def gemini_generate(
+    prompt: str,
+    *,
+    grounding: bool = False,
+    max_tokens: int | None = None,
+) -> dict[str, Any]:
+    """Generate text with Gemini, optionally with Google Search grounding.
+
+    Returns {"text": str, "sources": [{"url","title"}]}. Sources come ONLY from
+    the response's grounding metadata (never fabricated here). Raises
+    LLMUnavailable when no key / SDK. The API key is never included in the
+    return value and never logged.
+    """
+    from .config import get_settings
+    s = get_settings()
+    client = _gemini_client()
+    from google.genai import types  # type: ignore
+
+    config_kwargs: dict[str, Any] = {
+        "max_output_tokens": max_tokens or s.agent_max_output_tokens,
+    }
+    if grounding:
+        config_kwargs["tools"] = [types.Tool(google_search=types.GoogleSearch())]
+
+    resp = client.models.generate_content(
+        model=s.gemini_model,
+        contents=prompt,
+        config=types.GenerateContentConfig(**config_kwargs),
+    )
+    return {"text": getattr(resp, "text", "") or "", "sources": _grounding_sources(resp)}
+
+
+def _grounding_sources(resp: Any) -> list[dict[str, str]]:
+    """Extract {url,title} from Gemini grounding metadata, de-duped."""
+    out: list[dict[str, str]] = []
+    seen: set[str] = set()
+    try:
+        for cand in getattr(resp, "candidates", []) or []:
+            gm = getattr(cand, "grounding_metadata", None)
+            for chunk in (getattr(gm, "grounding_chunks", None) or []):
+                web = getattr(chunk, "web", None)
+                url = getattr(web, "uri", None) or getattr(web, "url", None)
+                title = getattr(web, "title", None) or ""
+                if url and url not in seen:
+                    seen.add(url)
+                    out.append({"url": url, "title": title})
+    except Exception:
+        pass
+    return out
 
 
 def parse_json(prompt: str, schema: dict[str, Any]) -> dict[str, Any]:
@@ -45,8 +116,10 @@ def parse_json(prompt: str, schema: dict[str, Any]) -> dict[str, Any]:
     p = provider()
     if p == "none":
         raise LLMUnavailable("LLM_PROVIDER=none: use the rule-based parser")
-    # bedrock | anthropic | ollama are not wired up in task 1.
-    raise LLMUnavailable(f"LLM provider {p!r} not configured yet")
+    # Gemini/bedrock/anthropic/ollama JSON parsing is not wired for the brief
+    # parser (the rule-based path is authoritative); the research agent uses
+    # gemini_generate directly.
+    raise LLMUnavailable(f"LLM provider {p!r} not configured for parse_json")
 
 
 def explain(context: dict[str, Any]) -> str:

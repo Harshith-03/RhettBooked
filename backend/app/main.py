@@ -30,9 +30,12 @@ from collections import Counter
 
 from fastapi import UploadFile
 
+from fastapi import HTTPException
+
 from . import brief as brief_pkg
 from .agent import explainer as explainer_mod
 from .agent import rag as rag_mod
+from .agent.jobs import STORE as JOB_STORE
 from .brief.models import EventBrief
 from .config import load_assumptions, settings
 from .data import loaders
@@ -164,6 +167,37 @@ def post_plan_options(req: PlanRequest) -> dict[str, Any]:
 
 
 # --------------------------------------------------------------------------- #
+# Research agent (async jobs)
+# --------------------------------------------------------------------------- #
+class AgentResearchRequest(BaseModel):
+    text: str | None = None
+    brief: dict[str, Any] | None = None
+    task: str                               # catering | people
+
+
+@app.post("/agent/research")
+def post_agent_research(req: AgentResearchRequest) -> dict[str, Any]:
+    """Start a research job (catering|people); returns a job_id to poll."""
+    if req.task not in ("catering", "people"):
+        raise HTTPException(status_code=400, detail="task must be catering|people")
+    brief = _resolve_brief(req.text, req.brief)
+    plan = plan_mod.build(brief, draws=300).to_dict()
+    # Attach the parsed brief so plan_context can read topics/dates.
+    plan["brief"] = brief.model_dump()
+    job = JOB_STORE.create(req.task)
+    JOB_STORE.start(job, plan)
+    return {"job_id": job.job_id}
+
+
+@app.get("/agent/jobs/{job_id}")
+def get_agent_job(job_id: str) -> dict[str, Any]:
+    job = JOB_STORE.get(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="job not found")
+    return job.to_dict()
+
+
+# --------------------------------------------------------------------------- #
 # Drill
 # --------------------------------------------------------------------------- #
 @app.post("/drill/run")
@@ -280,10 +314,13 @@ def get_live_alerts() -> dict[str, Any]:
 # --------------------------------------------------------------------------- #
 @app.get("/health")
 def health() -> dict[str, Any]:
+    from .config import get_settings
+    s = get_settings()
     return {
         "status": "ok",
-        "llm_provider": settings.llm_provider,
-        "llm_enabled": settings.llm_enabled,
+        "llm_provider": s.llm_provider,
+        "llm_enabled": s.llm_enabled,
+        "gemini": s.gemini_enabled,   # boolean only; never the key
     }
 
 
@@ -306,7 +343,8 @@ def post_trust(req: PlanRequest) -> dict[str, Any]:
     """Trust-page data: the label mix for a brief's plan + a sensitivity tornado."""
     brief = _resolve_brief(req.text, req.brief)
     plan = plan_mod.build(brief, draws=req.draws).to_dict()
-    counts: dict[str, int] = {"MEASURED": 0, "ASSUMED": 0, "PLACEHOLDER": 0, "SIMULATED": 0}
+    counts: dict[str, int] = {"MEASURED": 0, "ASSUMED": 0, "PLACEHOLDER": 0,
+                              "SIMULATED": 0, "RESEARCHED": 0}
     for row in plan.get("provenance", []):
         lbl = row.get("label")
         if lbl in counts:

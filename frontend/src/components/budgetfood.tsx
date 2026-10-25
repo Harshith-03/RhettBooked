@@ -1,5 +1,7 @@
-import type { Plan, Tile } from "../types";
+import { useState } from "react";
+import type { BriefKey, Plan, Source, Tile } from "../types";
 import { SectionCard, money } from "./ui";
+import { CatererResearch } from "./Research";
 
 // Cosmetic "basis" labels per budget line item (numbers all come from the model).
 const BASIS: Record<string, string> = {
@@ -24,7 +26,53 @@ function basisFor(name: string): string {
   return BASIS[name] ?? "from the budget model";
 }
 
-export function BudgetCard({ plan }: { plan: Plan }) {
+// Budget link: offer researched prices when >=3 verified caterers carry ranges.
+function ResearchedPricesToggle({
+  researched,
+  plan,
+}: {
+  researched: { low: number; high: number; n: number } | null;
+  plan: Plan;
+}) {
+  const [on, setOn] = useState(false); // off by default
+  if (!researched) return null;
+  const food = plan.tiles.find((t) => t.name === "Food & Water");
+  const head = ((food?.details as any)?.meals?.[0]?.headcount as number) ?? 0;
+  const mid = (researched.low + researched.high) / 2;
+  const recalculated = Math.round(mid * head);
+  return (
+    <div className="mb-3 rounded-lg p-2 text-sm" style={{ border: "1px solid var(--border)" }}>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={on} onChange={(e) => setOn(e.target.checked)} />
+        <span>
+          Use researched prices{" "}
+          <span className="rounded-full px-2 py-0.5 text-xs font-semibold"
+                style={{ background: "var(--red-soft)", color: "var(--red-text)" }}>
+            RESEARCHED
+          </span>
+        </span>
+      </label>
+      {on ? (
+        <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>
+          Catering recalculated from the median researched range {money(researched.low)}-{money(researched.high)}/head
+          ({researched.n} verified) → ~{money(recalculated)} per meal for {head}.
+        </p>
+      ) : (
+        <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>
+          {researched.n} verified caterers have prices. Off by default.
+        </p>
+      )}
+    </div>
+  );
+}
+
+export function BudgetCard({
+  plan,
+  researched,
+}: {
+  plan: Plan;
+  researched?: { low: number; high: number; n: number } | null;
+}) {
   const b = plan.budget;
   // The row-by-row total is the SUM of the line-item p50s so the table always
   // adds up exactly (p50-of-a-sum differs from the sum-of-p50s by rounding, so
@@ -37,6 +85,7 @@ export function BudgetCard({ plan }: { plan: Plan }) {
   return (
     <SectionCard>
       <h3 className="mb-3 font-semibold" style={{ fontSize: 17 }}>Budget, row by row</h3>
+      <ResearchedPricesToggle researched={researched ?? null} plan={plan} />
       {/* Horizontal scroll on small screens. */}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[480px] text-left text-sm">
@@ -92,8 +141,20 @@ export function BudgetCard({ plan }: { plan: Plan }) {
   );
 }
 
-// --- Food & water (real data).
-export function FoodWaterCard({ plan }: { plan: Plan }) {
+// --- Food & water (real data) + "Find real caterers" research.
+export function FoodWaterCard({
+  plan,
+  text,
+  briefKey,
+  onSource,
+  onResearchedPrices,
+}: {
+  plan: Plan;
+  text: string;
+  briefKey: BriefKey | null;
+  onSource: (s: Source) => void;
+  onResearchedPrices: (r: { low: number; high: number; n: number } | null) => void;
+}) {
   const tile = plan.tiles.find((t) => t.name === "Food & Water") as Tile | undefined;
   const meals = (tile?.details?.meals as any[]) ?? [];
   const water = tile?.details?.water as any;
@@ -135,6 +196,12 @@ export function FoodWaterCard({ plan }: { plan: Plan }) {
           </div>
         ) : null}
       </div>
+      <CatererResearch
+        text={text}
+        briefKey={briefKey}
+        onSource={onSource}
+        onResearchedPrices={onResearchedPrices}
+      />
     </SectionCard>
   );
 }

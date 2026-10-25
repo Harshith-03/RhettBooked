@@ -114,4 +114,35 @@ export async function fetchExtra(
   }
 }
 
+// Run a research job: start it, poll /agent/jobs/{id}, stream steps via onStep.
+// On any failure (no backend, no key path still returns via backend; network
+// error here) falls back to the bundled agent demo snapshot's result.
+export async function runResearch(
+  task: "catering" | "people",
+  text: string,
+  briefKey: BriefKey | null,
+  onStep: (steps: string[]) => void
+): Promise<Fetched<any>> {
+  const demoField = task === "catering" ? "agentCatering" : "agentPeople";
+  try {
+    const start = await post<{ job_id: string }>("/agent/research", { text, task });
+    const jobId = start.job_id;
+    for (let i = 0; i < 120; i++) {
+      const res = await fetch(`${API_URL}/agent/jobs/${jobId}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const job = await res.json();
+      onStep(job.steps ?? []);
+      if (job.status === "done") return { data: job.result, source: "live" };
+      if (job.status === "error") throw new Error(job.error ?? "job error");
+      await new Promise((r) => setTimeout(r, 500));
+    }
+    throw new Error("job timed out");
+  } catch {
+    const demo = (demoBundle(briefKey, text) as any)[demoField];
+    // The demo snapshot is the full job dict ({status, steps, result}).
+    onStep(demo?.steps ?? ["Loaded demo snapshot"]);
+    return { data: demo?.result ?? null, source: "demo" };
+  }
+}
+
 export { API_URL };

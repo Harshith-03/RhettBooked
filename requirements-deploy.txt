@@ -25,3 +25,8 @@ simpy>=4.1
 scikit-learn>=1.4
 PyYAML>=6.0
 httpx>=0.27
+
+# Research agent (task agent-research): Gemini + MCP. web_search needs a key;
+# the rest of the app runs without one (fallback to estimates).
+google-genai>=0.3
+mcp>=1.0

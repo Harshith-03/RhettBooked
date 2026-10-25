@@ -83,3 +83,55 @@ export interface Fetched<T> {
   data: T;
   source: Source;
 }
+
+// --- Research agent (agent-research spec) ---
+export interface Caterer {
+  name: string;
+  address: string;
+  distance_m: number;
+  cuisine: string;
+  price_per_head_low: number | null;
+  price_per_head_high: number | null;
+  price_note: string;
+  dietary: string[];
+  catering_url: string;
+  why_fits: string;
+  verification: "VERIFIED" | "WEB_ONLY";
+  source_urls: string[];
+}
+
+export interface CateringResult {
+  label: string;
+  meals: { meal: string; caterers: Caterer[] }[];
+  verified_count: number;
+  researched_per_head: { low: number; high: number; n: number } | null;
+  fallback_reason: string | null;
+}
+
+export interface ResearchPerson {
+  name: string;
+  role: string;
+  organization: string;
+  profile_url: string;
+  relevance: string;
+  source_urls: string[];
+  research_data: boolean;
+  note: string;
+}
+
+export interface PeopleResearchResult {
+  label: string;
+  judges: ResearchPerson[];
+  speakers: ResearchPerson[];
+  sponsors: ResearchPerson[];
+  fallback_reason: string | null;
+}
+
+export interface AgentJob {
+  job_id: string;
+  task: "catering" | "people";
+  status: "running" | "done" | "error";
+  steps: string[];
+  result: CateringResult | PeopleResearchResult | null;
+  error: string | null;
+}

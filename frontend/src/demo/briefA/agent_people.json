@@ -1,0 +1,77 @@
+{
+  "job_id": "6e034bc8cf28",
+  "task": "people",
+  "status": "done",
+  "steps": [
+    "Loaded cached research"
+  ],
+  "result": {
+    "label": "RESEARCHED",
+    "judges": [
+      {
+        "name": "Nick Cheney",
+        "role": "Researcher / potential judge",
+        "organization": "University of Vermont",
+        "profile_url": "https://openalex.org/A5112965505",
+        "relevance": "Artificial intelligence",
+        "source_urls": [
+          "https://openalex.org/A5112965505"
+        ],
+        "research_data": true,
+        "note": "Contact through official channels."
+      },
+      {
+        "name": "Donald L. Weaver",
+        "role": "Researcher / potential judge",
+        "organization": "University of Vermont",
+        "profile_url": "https://openalex.org/A5066330260",
+        "relevance": "Artificial intelligence",
+        "source_urls": [
+          "https://openalex.org/A5066330260"
+        ],
+        "research_data": true,
+        "note": "Contact through official channels."
+      },
+      {
+        "name": "Michael G. Levin",
+        "role": "Researcher / potential judge",
+        "organization": "Tufts University",
+        "profile_url": "https://openalex.org/A5085228887",
+        "relevance": "Artificial intelligence",
+        "source_urls": [
+          "https://openalex.org/A5085228887"
+        ],
+        "research_data": true,
+        "note": "Contact through official channels."
+      },
+      {
+        "name": "Donna M. Rizzo",
+        "role": "Researcher / potential judge",
+        "organization": "University of Vermont",
+        "profile_url": "https://openalex.org/A5074921180",
+        "relevance": "Artificial intelligence",
+        "source_urls": [
+          "https://openalex.org/A5074921180"
+        ],
+        "research_data": true,
+        "note": "Contact through official channels."
+      },
+      {
+        "name": "Douglas J. Blackiston",
+        "role": "Researcher / potential judge",
+        "organization": "Tufts University",
+        "profile_url": "https://openalex.org/A5011096047",
+        "relevance": "Artificial intelligence",
+        "source_urls": [
+          "https://openalex.org/A5011096047"
+        ],
+        "research_data": true,
+        "note": "Contact through official channels."
+      }
+    ],
+    "speakers": [],
+    "sponsors": [],
+    "fallback_reason": null
+  },
+  "error": null
+}
