@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "eventtwin-research": {
+      "command": "python",
+      "args": ["-m", "backend.app.mcp_server.server"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "GEMINI_MODEL": "${GEMINI_MODEL}"
+      },
+      "disabled": false,
+      "autoApprove": ["plan_context", "osm_places_near", "openalex_people"]
+    }
+  }
+}
