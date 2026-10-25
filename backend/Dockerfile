@@ -21,10 +21,12 @@ COPY data ./data
 COPY deploy ./deploy
 
 # Use the committed, personal-data-free demo DuckDB and offline cache so the
-# container needs no build step or external calls at startup.
+# container needs no build step or external calls at startup. LLM_PROVIDER and
+# GEMINI_* are set by Render (render.yaml / dashboard), not baked into the image,
+# so the deployed service can enable the research agent without a rebuild. The
+# app defaults to LLM_PROVIDER=none when unset, so this stays safe.
 ENV EVENTTWIN_DB=deploy/eventtwin_demo.duckdb \
-    EVENTTWIN_CACHE=deploy/cache \
-    LLM_PROVIDER=none
+    EVENTTWIN_CACHE=deploy/cache
 
 # Render provides $PORT. Default to 8000 for local `docker run`.
 ENV PORT=8000

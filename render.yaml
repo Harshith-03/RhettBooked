@@ -13,8 +13,15 @@ services:
     healthCheckPath: /health
     autoDeploy: true
     envVars:
+      # Use Gemini for the research agent. Without the key the app still runs
+      # (research falls back to estimates); with it, /health reports gemini:true.
       - key: LLM_PROVIDER
-        value: none
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
+      # Secret: set the actual key in the Render dashboard (never in git).
+      - key: GEMINI_API_KEY
+        sync: false
       - key: EVENTTWIN_DB
         value: deploy/eventtwin_demo.duckdb
       - key: EVENTTWIN_CACHE
@@ -22,4 +29,4 @@ services:
       # Comma-separated list of allowed CORS origins. localhost:5173 is always
       # allowed by the app; set your deployed frontend origin here.
       - key: ALLOWED_ORIGINS
-        value: https://eventtwin.vercel.app,http://localhost:5173
+        value: https://RhettBooked.vercel.app,http://localhost:5173
