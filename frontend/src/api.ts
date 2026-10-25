@@ -11,6 +11,7 @@ import type {
   DrillCompare,
   DrillResult,
   Fetched,
+  OptionsResponse,
   Plan,
 } from "./types";
 
@@ -97,6 +98,18 @@ export async function fetchDrillCompare(
     return { data, source: "live" };
   } catch {
     return { data: demoBundle(briefKey, text).drillFixes, source: "demo" };
+  }
+}
+
+export async function fetchOptions(
+  text: string,
+  briefKey: BriefKey | null
+): Promise<Fetched<OptionsResponse>> {
+  try {
+    const data = await post<OptionsResponse>("/plan/options", { text, draws: 500 });
+    return { data, source: "live" };
+  } catch {
+    return { data: demoBundle(briefKey, text).options as OptionsResponse, source: "demo" };
   }
 }
 

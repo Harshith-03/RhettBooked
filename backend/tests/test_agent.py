@@ -64,8 +64,12 @@ def test_explainer_uses_only_plan_numbers():
                 "readiness", "turnout_p50", "turnout_p90"):
         v = summary.get(key)
         if v is not None:
-            allowed.add(str(int(v)))
-            allowed.add(f"{int(v):,}")
+            # numbers_in() is sign-agnostic; the explainer may show a magnitude
+            # (a negative gap renders as "$X under budget"), so allow both the
+            # signed value and its absolute value.
+            for n in (int(v), abs(int(v))):
+                allowed.add(str(n))
+                allowed.add(f"{n:,}")
     # Risk strings and source citations are verbatim tool/plan content
     # (e.g. "Power failing from 10:15", "Monte Carlo 300 draws", "P0 systems"),
     # so any digits inside them trace to the plan and are grounded too.

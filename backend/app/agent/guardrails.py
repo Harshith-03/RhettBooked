@@ -32,6 +32,10 @@ OFFICIAL_CHANNELS_NOTE = "Contact through official channels."
 
 VERIFIED = "VERIFIED"
 WEB_ONLY = "WEB_ONLY"
+# A hand-picked real vendor shown when live web research is unavailable. Not
+# OSM-cross-checked (so not VERIFIED) and not pulled from a live search (so not
+# WEB_ONLY); the UI labels it as a curated real option to verify before booking.
+CURATED = "CURATED"
 
 
 class GuardrailError(Exception):

@@ -13,8 +13,9 @@ describe("agent demo snapshots", () => {
       const result = bundle.agentCatering.result;
       expect(result).toBeTruthy();
       expect(Array.isArray(result.meals)).toBe(true);
-      // Fallback (no key) uses the ASSUMED label; live would be RESEARCHED.
-      expect(["ASSUMED", "RESEARCHED"]).toContain(result.label);
+      // Fallback (no key / rate-limited) uses the PLACEHOLDER label with
+      // curated real caterers; live research would be RESEARCHED.
+      expect(["PLACEHOLDER", "RESEARCHED"]).toContain(result.label);
     });
 
     it(`${key}: every shown caterer cites a source`, () => {
@@ -22,7 +23,9 @@ describe("agent demo snapshots", () => {
       for (const m of result.meals) {
         for (const c of m.caterers) {
           expect(c.source_urls.length).toBeGreaterThan(0);
-          expect(["VERIFIED", "WEB_ONLY"]).toContain(c.verification);
+          // VERIFIED/WEB_ONLY from live research; CURATED from the hand-picked
+          // real-caterer fallback.
+          expect(["VERIFIED", "WEB_ONLY", "CURATED"]).toContain(c.verification);
         }
       }
     });

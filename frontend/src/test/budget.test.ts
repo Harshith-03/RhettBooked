@@ -23,8 +23,11 @@ describe("budget rows sum to the displayed total", () => {
     it(`${key}: row sum is within rounding of the model total_p50`, () => {
       const plan = DEMO[key].plan;
       const rowSum = budgetLineSum(plan);
-      // Percentile-of-sum differs from sum-of-percentiles by small rounding only.
-      expect(Math.abs(rowSum - plan.budget.total_p50)).toBeLessThanOrEqual(50);
+      // Sum-of-p50-line-items differs from the p50-of-total because a percentile
+      // of a sum is not the sum of percentiles; the gap is a small fraction of
+      // the total (scale-independent, so this survives rate-card retunes).
+      const diff = Math.abs(rowSum - plan.budget.total_p50);
+      expect(diff).toBeLessThanOrEqual(0.03 * plan.budget.total_p50);
     });
   });
 });

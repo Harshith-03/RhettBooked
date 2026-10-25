@@ -1,11 +1,11 @@
 {
   "summary": {
     "recommended_building": "GSU",
-    "cost_p10": 20557,
-    "cost_p50": 25782,
-    "cost_p90": 31320,
-    "cost_per_attendee": 140.89,
-    "sponsorship_gap": 10782,
+    "cost_p10": 4865,
+    "cost_p50": 6459,
+    "cost_p90": 8192,
+    "cost_per_attendee": 35.3,
+    "sponsorship_gap": -8541,
     "turnout_p50": 183,
     "turnout_p90": 238,
     "readiness": 69,
@@ -110,101 +110,101 @@
     ]
   },
   "budget": {
-    "total_p10": 20557,
-    "total_p50": 25782,
-    "total_p90": 31320,
-    "cost_per_attendee": 140.89,
-    "sponsorship_gap": 10782,
+    "total_p10": 4865,
+    "total_p50": 6459,
+    "total_p90": 8192,
+    "cost_per_attendee": 35.3,
+    "sponsorship_gap": -8541,
     "line_items": [
       {
         "name": "Catering - breakfast",
-        "p10": 1387,
-        "p50": 2009,
-        "p90": 2717
+        "p10": 567,
+        "p50": 821,
+        "p90": 1135
       },
       {
         "name": "Catering - lunch",
-        "p10": 2418,
-        "p50": 3447,
-        "p90": 4579
+        "p10": 942,
+        "p50": 1328,
+        "p90": 1768
       },
       {
         "name": "Catering - snack",
-        "p10": 863,
-        "p50": 1233,
-        "p90": 1681
+        "p10": 361,
+        "p50": 527,
+        "p90": 723
       },
       {
         "name": "Catering - dinner",
-        "p10": 3469,
-        "p50": 5056,
-        "p90": 6799
+        "p10": 1099,
+        "p50": 1594,
+        "p90": 2145
       },
       {
         "name": "Water",
-        "p10": 226,
-        "p50": 324,
-        "p90": 456
+        "p10": 167,
+        "p50": 234,
+        "p90": 322
       },
       {
         "name": "Wi-Fi AP rental",
-        "p10": 375,
-        "p50": 497,
-        "p90": 623
+        "p10": 0,
+        "p50": 0,
+        "p90": 0
       },
       {
         "name": "Power stations",
-        "p10": 236,
-        "p50": 319,
-        "p90": 422
+        "p10": 0,
+        "p50": 0,
+        "p90": 0
       },
       {
         "name": "AV tech",
-        "p10": 687,
-        "p50": 900,
-        "p90": 1126
+        "p10": 0,
+        "p50": 0,
+        "p90": 0
       },
       {
         "name": "Security",
-        "p10": 773,
-        "p50": 898,
-        "p90": 1040
+        "p10": 0,
+        "p50": 0,
+        "p90": 0
       },
       {
         "name": "Custodial",
-        "p10": 433,
-        "p50": 545,
-        "p90": 641
+        "p10": 0,
+        "p50": 0,
+        "p90": 0
       },
       {
         "name": "Insurance",
-        "p10": 251,
-        "p50": 369,
-        "p90": 490
+        "p10": 0,
+        "p50": 0,
+        "p90": 0
       },
       {
         "name": "Prizes",
-        "p10": 2851,
-        "p50": 5475,
-        "p90": 8010
+        "p10": 580,
+        "p50": 906,
+        "p90": 1241
       },
       {
         "name": "Printing",
-        "p10": 135,
-        "p50": 235,
-        "p90": 330
+        "p10": 42,
+        "p50": 67,
+        "p90": 97
       },
       {
         "name": "Swag",
-        "p10": 1325,
-        "p50": 2181,
-        "p90": 3110
+        "p10": 240,
+        "p50": 411,
+        "p90": 605
       },
       {
         "name": "Contingency",
-        "p10": 1587,
-        "p50": 2304,
-        "p90": 3283
+        "p10": 343,
+        "p50": 497,
+        "p90": 686
       }
     ]
   },
@@ -291,103 +291,103 @@
     },
     {
       "name": "Budget",
-      "status": "p50 $25,782 (p10 $20,557 - p90 $31,320)",
+      "status": "p50 $6,459 (p10 $4,865 - p90 $8,192)",
       "details": {
-        "total_p10": 20557,
-        "total_p50": 25782,
-        "total_p90": 31320,
-        "cost_per_attendee": 140.89,
-        "sponsorship_gap": 10782,
+        "total_p10": 4865,
+        "total_p50": 6459,
+        "total_p90": 8192,
+        "cost_per_attendee": 35.3,
+        "sponsorship_gap": -8541,
         "line_items": [
           {
             "name": "Catering - breakfast",
-            "p10": 1387,
-            "p50": 2009,
-            "p90": 2717
+            "p10": 567,
+            "p50": 821,
+            "p90": 1135
           },
           {
             "name": "Catering - lunch",
-            "p10": 2418,
-            "p50": 3447,
-            "p90": 4579
+            "p10": 942,
+            "p50": 1328,
+            "p90": 1768
           },
           {
             "name": "Catering - snack",
-            "p10": 863,
-            "p50": 1233,
-            "p90": 1681
+            "p10": 361,
+            "p50": 527,
+            "p90": 723
           },
           {
             "name": "Catering - dinner",
-            "p10": 3469,
-            "p50": 5056,
-            "p90": 6799
+            "p10": 1099,
+            "p50": 1594,
+            "p90": 2145
           },
           {
             "name": "Water",
-            "p10": 226,
-            "p50": 324,
-            "p90": 456
+            "p10": 167,
+            "p50": 234,
+            "p90": 322
           },
           {
             "name": "Wi-Fi AP rental",
-            "p10": 375,
-            "p50": 497,
-            "p90": 623
+            "p10": 0,
+            "p50": 0,
+            "p90": 0
           },
           {
             "name": "Power stations",
-            "p10": 236,
-            "p50": 319,
-            "p90": 422
+            "p10": 0,
+            "p50": 0,
+            "p90": 0
           },
           {
             "name": "AV tech",
-            "p10": 687,
-            "p50": 900,
-            "p90": 1126
+            "p10": 0,
+            "p50": 0,
+            "p90": 0
           },
           {
             "name": "Security",
-            "p10": 773,
-            "p50": 898,
-            "p90": 1040
+            "p10": 0,
+            "p50": 0,
+            "p90": 0
           },
           {
             "name": "Custodial",
-            "p10": 433,
-            "p50": 545,
-            "p90": 641
+            "p10": 0,
+            "p50": 0,
+            "p90": 0
           },
           {
             "name": "Insurance",
-            "p10": 251,
-            "p50": 369,
-            "p90": 490
+            "p10": 0,
+            "p50": 0,
+            "p90": 0
           },
           {
             "name": "Prizes",
-            "p10": 2851,
-            "p50": 5475,
-            "p90": 8010
+            "p10": 580,
+            "p50": 906,
+            "p90": 1241
           },
           {
             "name": "Printing",
-            "p10": 135,
-            "p50": 235,
-            "p90": 330
+            "p10": 42,
+            "p50": 67,
+            "p90": 97
           },
           {
             "name": "Swag",
-            "p10": 1325,
-            "p50": 2181,
-            "p90": 3110
+            "p10": 240,
+            "p50": 411,
+            "p90": 605
           },
           {
             "name": "Contingency",
-            "p10": 1587,
-            "p50": 2304,
-            "p90": 3283
+            "p10": 343,
+            "p50": 497,
+            "p90": 686
           }
         ]
       },
@@ -439,15 +439,15 @@
     },
     {
       "name": "Food & Water",
-      "status": "4 meals; est $12,138-$19,516; 8 BU hall openings matched",
+      "status": "4 meals; est $4,403-$7,140; 8 BU hall openings matched",
       "details": {
         "meals": [
           {
             "meal": "breakfast",
             "window": "07:00-09:30",
             "headcount": 238,
-            "cost_low": 2142,
-            "cost_high": 3332,
+            "cost_low": 833,
+            "cost_high": 1428,
             "serving_lines": 4,
             "note": "No BU hall confirmed open; verify the 'check hours' halls.",
             "open_halls": [],
@@ -465,8 +465,8 @@
             "meal": "lunch",
             "window": "11:30-13:30",
             "headcount": 238,
-            "cost_low": 3570,
-            "cost_high": 5712,
+            "cost_low": 1428,
+            "cost_high": 2142,
             "serving_lines": 4,
             "note": "",
             "open_halls": [
@@ -505,8 +505,8 @@
             "meal": "snack",
             "window": "23:30-23:59",
             "headcount": 238,
-            "cost_low": 1190,
-            "cost_high": 2142,
+            "cost_low": 476,
+            "cost_high": 952,
             "serving_lines": 4,
             "note": "No BU hall confirmed open; verify the 'check hours' halls.",
             "open_halls": [],
@@ -524,8 +524,8 @@
             "meal": "dinner",
             "window": "17:30-19:30",
             "headcount": 238,
-            "cost_low": 5236,
-            "cost_high": 8330,
+            "cost_low": 1666,
+            "cost_high": 2618,
             "serving_lines": 4,
             "note": "",
             "open_halls": [
@@ -564,12 +564,12 @@
         "water": {
           "total_litres": 2142,
           "bottled_cost": [
-            1499,
-            3856
+            1285,
+            2570
           ],
           "refill_cost": [
-            300,
-            800
+            0,
+            0
           ],
           "recommendation": "Refill stations are cheaper and lower-waste"
         }
@@ -835,25 +835,25 @@
       "output_key": "budget.catering.breakfast",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.breakfast (placeholder range)",
-      "value_summary": "$9-14/head"
+      "value_summary": "$3.5-6/head"
     },
     {
       "output_key": "budget.catering.lunch",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.lunch (placeholder range)",
-      "value_summary": "$15-24/head"
+      "value_summary": "$6-9/head"
     },
     {
       "output_key": "budget.catering.snack",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.snack (placeholder range)",
-      "value_summary": "$5-9/head"
+      "value_summary": "$2-4/head"
     },
     {
       "output_key": "budget.catering.dinner",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.dinner (placeholder range)",
-      "value_summary": "$22-35/head"
+      "value_summary": "$7-11/head"
     },
     {
       "output_key": "budget.water",
@@ -864,32 +864,32 @@
     {
       "output_key": "budget.wifi",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml temporary_wifi_ap_rental_per_ap_per_day",
-      "value_summary": "6 APs"
+      "source": "ASSUMED - BU resource (no charge): campus Wi-Fi / temporary APs via IS&T",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.power",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml power_strip_station_rental_each",
-      "value_summary": "20 stations"
+      "source": "ASSUMED - BU resource (no charge): existing building circuits",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.av_tech_per_hour",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml av_tech_per_hour",
-      "value_summary": "12 hrs"
+      "source": "ASSUMED - BU resource (no charge): AV tech provided by BU for registered events",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.security_police_detail_per_hour",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml security_police_detail_per_hour",
-      "value_summary": "12 hrs"
+      "source": "ASSUMED - BU resource (no charge): Security provided by BU for registered events",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.custodial_per_hour",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml custodial_per_hour",
-      "value_summary": "12 hrs"
+      "source": "ASSUMED - BU resource (no charge): Custodial provided by BU for registered events",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.event_insurance_flat",
@@ -925,13 +925,13 @@
       "output_key": "budget.total",
       "label": "SIMULATED",
       "source": "Monte Carlo 500 draws over turnout + rate-card ranges",
-      "value_summary": "p10=20557, p50=25782, p90=31320"
+      "value_summary": "p10=4865, p50=6459, p90=8192"
     },
     {
       "output_key": "budget.sponsorship_gap",
       "label": "SIMULATED",
       "source": "p50 total minus stated budget",
-      "value_summary": "gap=10782"
+      "value_summary": "gap=-8541"
     },
     {
       "output_key": "dining.DIN-WTW",
@@ -967,25 +967,25 @@
       "output_key": "food.breakfast.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.breakfast",
-      "value_summary": "$2142-3332 for 238"
+      "value_summary": "$833-1428 for 238"
     },
     {
       "output_key": "food.lunch.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.lunch",
-      "value_summary": "$3570-5712 for 238"
+      "value_summary": "$1428-2142 for 238"
     },
     {
       "output_key": "food.snack.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.snack",
-      "value_summary": "$1190-2142 for 238"
+      "value_summary": "$476-952 for 238"
     },
     {
       "output_key": "food.dinner.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.dinner",
-      "value_summary": "$5236-8330 for 238"
+      "value_summary": "$1666-2618 for 238"
     },
     {
       "output_key": "water.demand",

@@ -47,25 +47,25 @@
       "output_key": "budget.catering.breakfast",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.breakfast (placeholder range)",
-      "value_summary": "$9-14/head"
+      "value_summary": "$3.5-6/head"
     },
     {
       "output_key": "budget.catering.lunch",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.lunch (placeholder range)",
-      "value_summary": "$15-24/head"
+      "value_summary": "$6-9/head"
     },
     {
       "output_key": "budget.catering.snack",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.snack (placeholder range)",
-      "value_summary": "$5-9/head"
+      "value_summary": "$2-4/head"
     },
     {
       "output_key": "budget.catering.dinner",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.dinner (placeholder range)",
-      "value_summary": "$22-35/head"
+      "value_summary": "$7-11/head"
     },
     {
       "output_key": "budget.water",
@@ -76,32 +76,32 @@
     {
       "output_key": "budget.wifi",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml temporary_wifi_ap_rental_per_ap_per_day",
-      "value_summary": "6 APs"
+      "source": "ASSUMED - BU resource (no charge): campus Wi-Fi / temporary APs via IS&T",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.power",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml power_strip_station_rental_each",
-      "value_summary": "20 stations"
+      "source": "ASSUMED - BU resource (no charge): existing building circuits",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.av_tech_per_hour",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml av_tech_per_hour",
-      "value_summary": "12 hrs"
+      "source": "ASSUMED - BU resource (no charge): AV tech provided by BU for registered events",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.security_police_detail_per_hour",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml security_police_detail_per_hour",
-      "value_summary": "12 hrs"
+      "source": "ASSUMED - BU resource (no charge): Security provided by BU for registered events",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.custodial_per_hour",
       "label": "ASSUMED",
-      "source": "rate_cards.yaml custodial_per_hour",
-      "value_summary": "12 hrs"
+      "source": "ASSUMED - BU resource (no charge): Custodial provided by BU for registered events",
+      "value_summary": "$0 (in-kind)"
     },
     {
       "output_key": "budget.event_insurance_flat",
@@ -137,13 +137,13 @@
       "output_key": "budget.total",
       "label": "SIMULATED",
       "source": "Monte Carlo 500 draws over turnout + rate-card ranges",
-      "value_summary": "p10=20557, p50=25782, p90=31320"
+      "value_summary": "p10=4865, p50=6459, p90=8192"
     },
     {
       "output_key": "budget.sponsorship_gap",
       "label": "SIMULATED",
       "source": "p50 total minus stated budget",
-      "value_summary": "gap=10782"
+      "value_summary": "gap=-8541"
     },
     {
       "output_key": "dining.DIN-WTW",
@@ -179,25 +179,25 @@
       "output_key": "food.breakfast.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.breakfast",
-      "value_summary": "$2142-3332 for 238"
+      "value_summary": "$833-1428 for 238"
     },
     {
       "output_key": "food.lunch.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.lunch",
-      "value_summary": "$3570-5712 for 238"
+      "value_summary": "$1428-2142 for 238"
     },
     {
       "output_key": "food.snack.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.snack",
-      "value_summary": "$1190-2142 for 238"
+      "value_summary": "$476-952 for 238"
     },
     {
       "output_key": "food.dinner.cost",
       "label": "ASSUMED",
       "source": "rate_cards.yaml catering_per_head.balanced.dinner",
-      "value_summary": "$5236-8330 for 238"
+      "value_summary": "$1666-2618 for 238"
     },
     {
       "output_key": "water.demand",

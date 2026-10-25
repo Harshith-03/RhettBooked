@@ -1,5 +1,5 @@
 {
-  "job_id": "6995c22f097f",
+  "job_id": "145794a70dc2",
   "task": "catering",
   "status": "done",
   "steps": [
@@ -8,27 +8,288 @@
     "Searching caterers near GSU for breakfast"
   ],
   "result": {
-    "label": "ASSUMED",
+    "label": "PLACEHOLDER",
     "meals": [
       {
         "meal": "breakfast",
-        "caterers": []
+        "caterers": [
+          {
+            "name": "Catering on the Charles (BU Dining)",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "full-service event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/",
+            "why_fits": "BU's own event caterer; on-campus delivery and setup, handles large events",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/"
+            ]
+          },
+          {
+            "name": "BU Student Catering",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "student-group catering (budget-friendly)",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/student-catering/",
+            "why_fits": "designed for recognized BU student groups; made-to-order menus to fit a price range",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/student-catering/"
+            ]
+          },
+          {
+            "name": "The Catered Affair",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "New England corporate & event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.thecateredaffair.com/",
+            "why_fits": "established Boston-area caterer for corporate events and galas",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.thecateredaffair.com/"
+            ]
+          },
+          {
+            "name": "Gourmet Caterers",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "corporate & large-event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.gourmetcaterers.com/",
+            "why_fits": "Boston caterer (50+ years) handling conventions and events for large headcounts",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.gourmetcaterers.com/"
+            ]
+          }
+        ]
       },
       {
         "meal": "lunch",
-        "caterers": []
+        "caterers": [
+          {
+            "name": "Catering on the Charles (BU Dining)",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "full-service event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/",
+            "why_fits": "BU's own event caterer; on-campus delivery and setup, handles large events",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/"
+            ]
+          },
+          {
+            "name": "BU Student Catering",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "student-group catering (budget-friendly)",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/student-catering/",
+            "why_fits": "designed for recognized BU student groups; made-to-order menus to fit a price range",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/student-catering/"
+            ]
+          },
+          {
+            "name": "The Catered Affair",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "New England corporate & event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.thecateredaffair.com/",
+            "why_fits": "established Boston-area caterer for corporate events and galas",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.thecateredaffair.com/"
+            ]
+          },
+          {
+            "name": "Gourmet Caterers",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "corporate & large-event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.gourmetcaterers.com/",
+            "why_fits": "Boston caterer (50+ years) handling conventions and events for large headcounts",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.gourmetcaterers.com/"
+            ]
+          }
+        ]
       },
       {
         "meal": "snack",
-        "caterers": []
+        "caterers": [
+          {
+            "name": "Catering on the Charles (BU Dining)",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "full-service event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/",
+            "why_fits": "BU's own event caterer; on-campus delivery and setup, handles large events",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/"
+            ]
+          },
+          {
+            "name": "BU Student Catering",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "student-group catering (budget-friendly)",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/student-catering/",
+            "why_fits": "designed for recognized BU student groups; made-to-order menus to fit a price range",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/student-catering/"
+            ]
+          },
+          {
+            "name": "The Catered Affair",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "New England corporate & event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.thecateredaffair.com/",
+            "why_fits": "established Boston-area caterer for corporate events and galas",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.thecateredaffair.com/"
+            ]
+          },
+          {
+            "name": "Gourmet Caterers",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "corporate & large-event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.gourmetcaterers.com/",
+            "why_fits": "Boston caterer (50+ years) handling conventions and events for large headcounts",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.gourmetcaterers.com/"
+            ]
+          }
+        ]
       },
       {
         "meal": "dinner",
-        "caterers": []
+        "caterers": [
+          {
+            "name": "Catering on the Charles (BU Dining)",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "full-service event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/",
+            "why_fits": "BU's own event caterer; on-campus delivery and setup, handles large events",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/"
+            ]
+          },
+          {
+            "name": "BU Student Catering",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "student-group catering (budget-friendly)",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.bu.edu/dining/catering/student-catering/",
+            "why_fits": "designed for recognized BU student groups; made-to-order menus to fit a price range",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.bu.edu/dining/catering/student-catering/"
+            ]
+          },
+          {
+            "name": "The Catered Affair",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "New England corporate & event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.thecateredaffair.com/",
+            "why_fits": "established Boston-area caterer for corporate events and galas",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.thecateredaffair.com/"
+            ]
+          },
+          {
+            "name": "Gourmet Caterers",
+            "address": "",
+            "distance_m": 0,
+            "cuisine": "corporate & large-event catering",
+            "price_per_head_low": null,
+            "price_per_head_high": null,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": "https://www.gourmetcaterers.com/",
+            "why_fits": "Boston caterer (50+ years) handling conventions and events for large headcounts",
+            "verification": "CURATED",
+            "source_urls": [
+              "https://www.gourmetcaterers.com/"
+            ]
+          }
+        ]
       }
     ],
     "verified_count": 0,
-    "fallback_reason": "Web research is rate-limited right now; showing estimates."
+    "researched_per_head": null,
+    "fallback_reason": "Web research is rate-limited right now; showing estimates. These are curated real caterers near BU (verify before booking); prices use the estimate above."
   },
   "error": null
 }

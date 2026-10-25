@@ -40,6 +40,10 @@ class Option:
     cost_per_attendee: float
     sponsorship_gap: int
     tradeoffs: str
+    # Per-tier budget breakdown (so the Compare columns differ by budget AND
+    # catering menu). Each item: {name, p10, p50, p90}. SIMULATED like the total.
+    line_items: list[dict] = field(default_factory=list)
+    budget_usd: int | None = None
 
 
 @dataclass
@@ -57,6 +61,8 @@ class OptionsResult:
                     "cost_per_attendee": o.cost_per_attendee,
                     "sponsorship_gap": o.sponsorship_gap,
                     "tradeoffs": o.tradeoffs,
+                    "line_items": o.line_items,
+                    "budget_usd": o.budget_usd,
                 }
                 for o in self.options
             ]
@@ -71,6 +77,10 @@ def build(brief, attendance, venue=None, draws: int = 500) -> OptionsResult:
             brief, attendance, venue, draws=draws,
             tier=cfg["tier"], service_scale=cfg["service_scale"],
         )
+        line_items = [
+            {"name": li.name, "p10": li.p10, "p50": li.p50, "p90": li.p90}
+            for li in b.line_items
+        ]
         options.append(
             Option(
                 name=name.capitalize(),
@@ -81,15 +91,26 @@ def build(brief, attendance, venue=None, draws: int = 500) -> OptionsResult:
                 cost_per_attendee=b.cost_per_attendee_p50,
                 sponsorship_gap=b.sponsorship_gap,
                 tradeoffs=cfg["tradeoffs"],
+                line_items=line_items,
+                budget_usd=b.budget_usd,
             )
         )
-        # One representative provenance row per tier.
+        # Representative provenance rows per tier: the total and the per-tier
+        # line-item breakdown are both SIMULATED (same Monte Carlo as budget).
         prov.append(
             ProvenanceRow(
                 output_key=f"options.{name}.total",
                 label="SIMULATED",
                 source=f"budget Monte Carlo, tier={cfg['tier']}, service_scale={cfg['service_scale']}",
                 value_summary=f"p50={b.total_p50}",
+            )
+        )
+        prov.append(
+            ProvenanceRow(
+                output_key=f"options.{name}.line_items",
+                label="SIMULATED",
+                source=f"budget Monte Carlo line items, tier={cfg['tier']}, service_scale={cfg['service_scale']}",
+                value_summary=f"{len(line_items)} items",
             )
         )
     return OptionsResult(options=options, provenance=prov)

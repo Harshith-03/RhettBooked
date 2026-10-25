@@ -28,3 +28,20 @@ The LLM only parses the brief and explains results; it never invents numbers. Th
 template and RAG explainers cite source ids and surface only figures that appear in
 the tool outputs. Caveats (one month of Bluebikes data, citywide/older Numina,
 placeholder rate cards, unconfirmed overnight/AV) are stated, not hidden.
+
+## Cost realism and in-kind resources
+The budget rate cards are PLACEHOLDER figures tuned for a recognised BU **student**
+event, not corporate quotes. Resources BU provides at no cash charge for registered
+student events — the venue room, campus Wi-Fi, building power, AV support, BUPD
+coverage, and custodial — are shown as **$0, labelled "ASSUMED - BU resource (no
+charge)"** (listed under `bu_in_kind` in `data/placeholder/rate_cards.yaml`). Their
+in-kind nature is displayed, not silently dropped, so the lower total (~$5k–$10k for
+a 300-person overnight hackathon) is explainable rather than optimistic. Catering is
+the dominant cash line; prizes and swag are modest and typically sponsor-funded.
+
+## Research-agent caterers
+When live web research is unavailable (no key or rate-limited), the Food & Water card
+shows a small set of **curated real** Boston-area caterers with real public links,
+labelled PLACEHOLDER / "curated" — never presented as live-researched results, and
+never with fabricated prices. People suggestions remain OpenAlex-only (public
+scholarly metadata), with no curated-person fallback.

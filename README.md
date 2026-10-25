@@ -1,11 +1,47 @@
 # RhettBooked
 
 An event-planning digital twin for Boston University (formerly "EventTwin").
-Backend: FastAPI (Render).
-Frontend: React + Vite (Vercel). See `.kiro/specs/` for the full specs.
+An admin describes an event in one sentence; RhettBooked produces a complete,
+data-backed plan — venue & rooms (CP-SAT over real BU event spaces), turnout
+(Monte Carlo with a Bluebikes/Numina-fitted arrival curve), food & water, getting
+there (MBTA, parking), people & sponsors (OpenAlex + a guarded research agent),
+a probabilistic budget, three plan options (Lean/Balanced/Premium), and a
+digital-twin stress-test drill. Every number is labelled MEASURED, ASSUMED,
+PLACEHOLDER, SIMULATED, or RESEARCHED.
+
+Backend: FastAPI (Render). Frontend: React + Vite (Vercel). See `.kiro/specs/`
+for the full specs, `docs/METHODS.md` for the data science, `docs/NUMBERS.md`
+for every pitch figure recomputed, and `docs/ETHICS.md` for the commitments.
 
 - **Live demo:** https://rhettbooked.vercel.app
 - **Repo:** https://github.com/Harshith-03/RhettBooked
+
+## Project status
+
+Feature-complete for the DS+X submission. Backend **209 tests pass**, frontend
+**24 tests pass**, frontend build clean. The app works fully with
+`LLM_PROVIDER=none` (rule-based parser, curated/estimate fallbacks, bundled demo
+snapshots), so it demos even with no key and no backend.
+
+## Run it locally
+
+```powershell
+# Backend (FastAPI on :8000)
+python -m pip install -r requirements.txt
+$env:PYTHONPATH="."; python -m uvicorn backend.app.main:app --reload
+
+# Backend tests
+$env:PYTHONPATH="."; python -m pytest -p no:cacheprovider -q
+
+# Frontend (Vite on :5173)
+cd frontend; npm install; npm run dev
+
+# Frontend tests + production build
+cd frontend; npm test; npm run build
+
+# Regenerate the bundled demo snapshots after a backend output change
+$env:PYTHONPATH="."; python -m backend.scripts.export_demo
+```
 
 ## Backend deployment (Render)
 
@@ -22,14 +58,16 @@ are needed at startup.
 | `EVENTTWIN_CACHE` | cached-response dir | default `deploy/cache` |
 | `LLM_PROVIDER` | `gemini` \| `none` | `none` runs everything on estimates |
 | `GEMINI_API_KEY` | Gemini key for the research agent | **backend-only; never commit; never sent to the frontend or logged** |
-| `GEMINI_MODEL` | Gemini model id | e.g. `gemini-2.0-flash` (set a current model) |
+| `GEMINI_MODEL` | Gemini model id | set a current model (e.g. `gemini-2.5-flash`) |
 | `AGENT_MAX_TOOL_CALLS` | agent tool-call cap | default 12 |
 | `AGENT_TIMEOUT_S` | agent wall-clock limit | default 60 |
 
 Set `GEMINI_API_KEY` in Render → Environment (secret), never in git. Without a
-key, the research agent returns the existing estimate results (labelled) and the
-rest of the app is unaffected. If the configured `GEMINI_MODEL` is unavailable,
-the agent catches the error and falls back to estimates.
+key, the research agent falls back to labelled results — curated real caterers
+(PLACEHOLDER) for catering and OpenAlex judges for people — and the rest of the
+app is unaffected. If the configured `GEMINI_MODEL` is unavailable or
+rate-limited, the agent catches the error (sanitized, never leaking provider
+text) and falls back the same way.
 
 ### Deploy checklist (Render)
 

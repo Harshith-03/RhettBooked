@@ -5,12 +5,11 @@ export type Theme = "light" | "dark";
 const KEY = "eventtwin-theme";
 
 export function getInitialTheme(): Theme {
+  // Light is the default. We only honour a theme the user explicitly chose this
+  // session; OS dark preference no longer forces dark mode on first load.
   const stored = sessionStorage.getItem(KEY);
   if (stored === "light" || stored === "dark") return stored;
-  const prefersDark =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-  return prefersDark ? "dark" : "light";
+  return "light";
 }
 
 export function applyTheme(theme: Theme): void {
