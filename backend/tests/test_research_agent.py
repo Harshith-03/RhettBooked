@@ -54,11 +54,23 @@ def _fake_osm_fetch(_query: str):
 # --------------------------------------------------------------------------- #
 # No-key fallback (default test env forces LLM_PROVIDER=none, GEMINI_API_KEY="")
 # --------------------------------------------------------------------------- #
-def test_catering_no_key_returns_fallback():
+def test_catering_no_key_returns_curated_fallback():
     result = research_mod.research_catering(_plan_dict())
     assert result["fallback_reason"]
     assert "GEMINI_API_KEY" in result["fallback_reason"]
-    assert result["label"] == "ASSUMED"   # fallback, not RESEARCHED
+    # Fallback is PLACEHOLDER (curated real caterers), never RESEARCHED.
+    assert result["label"] == "PLACEHOLDER"
+    # Every requested meal is populated with hand-picked real caterers.
+    all_caterers = [c for m in result["meals"] for c in m["caterers"]]
+    assert all_caterers, "curated fallback should populate caterers, not empty lists"
+    # Curated items are tagged CURATED (not VERIFIED, not WEB_ONLY), carry a real
+    # URL, and never carry a fabricated price.
+    for c in all_caterers:
+        assert c["verification"] == "CURATED"
+        assert c["source_urls"] and c["catering_url"]
+        assert c["price_per_head_low"] is None and c["price_per_head_high"] is None
+    # No fabricated researched per-head range from a curated fallback.
+    assert result.get("researched_per_head") is None
 
 
 def test_people_no_key_still_returns_openalex_judges():
@@ -139,7 +151,7 @@ def test_provider_error_text_not_leaked_into_catering_fallback():
 
     res = research_mod.research_catering(_plan_dict(), generate=boom, osm_fetch=_fake_osm_fetch)
     reason = res["fallback_reason"] or ""
-    assert res["label"] == "ASSUMED"
+    assert res["label"] == "PLACEHOLDER"   # curated fallback on provider error
     # Clean, classified reason only - no raw provider dump, no braces/JSON/secret.
     assert "rate-limited" in reason.lower()
     assert "RESOURCE_EXHAUSTED" not in reason

@@ -254,14 +254,82 @@ def _median_per_head(meals_out: list[dict]) -> dict | None:
             "high": round(statistics.median(highs), 2), "n": len(lows)}
 
 
+# Hand-picked REAL Boston-area caterers near BU, used when live web research is
+# unavailable (no key / rate-limited). Each carries a real public URL that was
+# checked to resolve. These are NOT live-researched and NOT OSM-cross-checked,
+# so they are tagged verification="CURATED" and the whole result is labelled
+# PLACEHOLDER. Prices are intentionally omitted (None) - we never fabricate a
+# per-head figure; the rate-card estimate on the Food & Water tile stands.
+_CURATED_CATERERS: list[dict] = [
+    {
+        "name": "Catering on the Charles (BU Dining)",
+        "cuisine": "full-service event catering",
+        "catering_url": "https://www.bu.edu/dining/catering/",
+        "why_fits": "BU's own event caterer; on-campus delivery and setup, handles large events",
+        "source_urls": ["https://www.bu.edu/dining/catering/"],
+    },
+    {
+        "name": "BU Student Catering",
+        "cuisine": "student-group catering (budget-friendly)",
+        "catering_url": "https://www.bu.edu/dining/catering/student-catering/",
+        "why_fits": "designed for recognized BU student groups; made-to-order menus to fit a price range",
+        "source_urls": ["https://www.bu.edu/dining/catering/student-catering/"],
+    },
+    {
+        "name": "The Catered Affair",
+        "cuisine": "New England corporate & event catering",
+        "catering_url": "https://www.thecateredaffair.com/",
+        "why_fits": "established Boston-area caterer for corporate events and galas",
+        "source_urls": ["https://www.thecateredaffair.com/"],
+    },
+    {
+        "name": "Gourmet Caterers",
+        "cuisine": "corporate & large-event catering",
+        "catering_url": "https://www.gourmetcaterers.com/",
+        "why_fits": "Boston caterer (50+ years) handling conventions and events for large headcounts",
+        "source_urls": ["https://www.gourmetcaterers.com/"],
+    },
+]
+
+
+def _curated_caterers() -> list[dict]:
+    """Build curated caterer item dicts (real vendors, no fabricated prices)."""
+    out: list[dict] = []
+    for c in _CURATED_CATERERS:
+        out.append({
+            "name": c["name"], "address": "", "distance_m": 0,
+            "cuisine": c["cuisine"],
+            "price_per_head_low": None, "price_per_head_high": None,
+            "price_note": "contact for a quote",
+            "dietary": [],
+            "catering_url": c["catering_url"],
+            "why_fits": c["why_fits"],
+            "verification": G.CURATED,
+            "source_urls": list(c["source_urls"]),
+        })
+    return out
+
+
 def _catering_fallback(plan: dict, reason: str) -> dict:
-    """Fall back to the existing per-meal estimate from the Food & Water tile."""
+    """Fallback catering result shown when live research is unavailable.
+
+    Instead of empty lists, every requested meal is populated with a small set
+    of hand-picked REAL Boston-area caterers (verification=CURATED). The result
+    is labelled PLACEHOLDER (not RESEARCHED) and the reason explains these are
+    curated real options, not live-researched results. The rate-card $ estimate
+    on the Food & Water tile remains the source of pricing.
+    """
     food = next((t for t in plan.get("tiles", []) if t.get("name") == "Food & Water"), None)
-    meals_out = []
-    for m in ((food or {}).get("details", {}).get("meals") or []):
-        meals_out.append({"meal": m.get("meal"), "caterers": []})
-    return {"label": Label.ASSUMED.value, "meals": meals_out,
-            "verified_count": 0, "fallback_reason": reason}
+    requested_meals = [m.get("meal") for m in ((food or {}).get("details", {}).get("meals") or [])]
+    if not requested_meals:
+        requested_meals = ["lunch"]
+    curated = _curated_caterers()
+    meals_out = [{"meal": meal, "caterers": [dict(c) for c in curated]} for meal in requested_meals]
+    note = (reason + " These are curated real caterers near BU (verify before booking); "
+            "prices use the estimate above.")
+    return {"label": Label.PLACEHOLDER.value, "meals": meals_out,
+            "verified_count": 0, "researched_per_head": None,
+            "fallback_reason": note.strip()}
 
 
 # --------------------------------------------------------------------------- #

@@ -36,6 +36,7 @@ const PILL = {
   ok: { bg: "var(--ok-bg)", fg: "var(--ok-text)", label: "✓ ok" },
   strained: { bg: "var(--warn-bg)", fg: "var(--warn-text)", label: "! strained" },
   failing: { bg: "var(--red)", fg: "#ffffff", label: "× failing" },
+  curated: { bg: "var(--card-alt)", fg: "var(--muted)", label: "◆ curated" },
   "coming soon": { bg: "var(--card-alt)", fg: "var(--muted)", label: "coming soon" },
 } as const;
 

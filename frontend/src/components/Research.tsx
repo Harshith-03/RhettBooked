@@ -34,9 +34,11 @@ function Steps({ steps, running }: { steps: string[]; running: boolean }) {
   );
 }
 
-// Verified / Web-only as a design-v2 status pill (colour AND text).
+// Verified / Web-only / Curated as a design-v2 status pill (colour AND text).
 function VerificationPill({ v }: { v: string }) {
-  return <StatusPill status={v === "VERIFIED" ? "ok" : "strained"} />;
+  if (v === "VERIFIED") return <StatusPill status="ok" />;
+  if (v === "CURATED") return <StatusPill status="curated" />;
+  return <StatusPill status="strained" />;
 }
 
 function Chipish({ children }: { children: React.ReactNode }) {
