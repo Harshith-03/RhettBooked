@@ -1,5 +1,7 @@
-import type { Plan, Tile } from "../types";
+import { useState } from "react";
+import type { BriefKey, Plan, Source, Tile } from "../types";
 import { Badge, TileCard, money } from "./ui";
+import { CatererResearch } from "./Research";
 
 const CONSUMPTION_ROWS: [string, string][] = [
   ["peak_devices", "Peak devices"],
@@ -47,15 +49,33 @@ function TechTile({ tile }: { tile?: Tile }) {
   );
 }
 
-export function Tiles({ plan }: { plan: Plan }) {
+export function Tiles({
+  plan,
+  text,
+  briefKey,
+  onSource,
+}: {
+  plan: Plan;
+  text: string;
+  briefKey: BriefKey | null;
+  onSource: (s: Source) => void;
+}) {
   const byName = Object.fromEntries(plan.tiles.map((t) => [t.name, t]));
+  // Researched per-head range, lifted so the Budget tile can offer to use it.
+  const [researched, setResearched] = useState<{ low: number; high: number; n: number } | null>(null);
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <VenueTile tile={byName["Venue"]} venue={plan.venue} />
       <TechTile tile={byName["Tech"]} />
-      <BudgetTile plan={plan} tile={byName["Budget"]} />
+      <BudgetTile plan={plan} tile={byName["Budget"]} researched={researched} />
       <GettingThereTile tile={byName["Getting There"]} />
-      <FoodWaterTile tile={byName["Food & Water"]} />
+      <FoodWaterTile
+        tile={byName["Food & Water"]}
+        text={text}
+        briefKey={briefKey}
+        onSource={onSource}
+        onResearchedPrices={setResearched}
+      />
       <DrillSummaryTile tile={byName["Drill"]} />
     </div>
   );
@@ -123,7 +143,50 @@ function VenueTile({ tile, venue }: { tile?: Tile; venue: Record<string, unknown
   );
 }
 
-function BudgetTile({ plan, tile }: { plan: Plan; tile?: Tile }) {
+function ResearchedPricesToggle({
+  researched,
+  plan,
+}: {
+  researched: { low: number; high: number; n: number } | null;
+  plan: Plan;
+}) {
+  const [on, setOn] = useState(false);   // off by default
+  if (!researched) return null;
+  // Attendees from the food tile headcount (first meal), for the recalculation.
+  const food = plan.tiles.find((t) => t.name === "Food & Water");
+  const head = ((food?.details as any)?.meals?.[0]?.headcount as number) ?? 0;
+  const mid = (researched.low + researched.high) / 2;
+  const recalculated = Math.round(mid * head);
+  return (
+    <div className="mb-2 rounded border border-gray-200 p-2 text-sm dark:border-gray-700">
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={on} onChange={(e) => setOn(e.target.checked)} />
+        <span>
+          Use researched prices{" "}
+          <span className="rounded-full bg-purple-100 px-2 py-0.5 text-xs font-semibold text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+            RESEARCHED
+          </span>
+        </span>
+      </label>
+      {on ? (
+        <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">
+          Catering recalculated from the median researched range ${researched.low}-${researched.high}/head
+          ({researched.n} verified) → ~{money(recalculated)} per meal for {head}.
+        </p>
+      ) : (
+        <p className="mt-1 text-xs text-gray-400">
+          {researched.n} verified caterers have prices. Off by default.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function BudgetTile({ plan, tile, researched }: {
+  plan: Plan;
+  tile?: Tile;
+  researched: { low: number; high: number; n: number } | null;
+}) {
   if (!tile) return null;
   const b = plan.budget;
   return (
@@ -131,6 +194,7 @@ function BudgetTile({ plan, tile }: { plan: Plan; tile?: Tile }) {
       <p className="mb-2 text-sm text-gray-700 dark:text-gray-300">
         Sponsorship gap: <strong>{money(b.sponsorship_gap)}</strong> (p50 cost minus budget)
       </p>
+      <ResearchedPricesToggle researched={researched} plan={plan} />
       <table className="w-full text-left text-sm">
         <thead className="text-xs uppercase text-gray-500 dark:text-gray-400">
           <tr>
@@ -219,7 +283,19 @@ function GettingThereTile({ tile }: { tile?: Tile }) {
   );
 }
 
-function FoodWaterTile({ tile }: { tile?: Tile }) {
+function FoodWaterTile({
+  tile,
+  text,
+  briefKey,
+  onSource,
+  onResearchedPrices,
+}: {
+  tile?: Tile;
+  text: string;
+  briefKey: BriefKey | null;
+  onSource: (s: Source) => void;
+  onResearchedPrices: (r: { low: number; high: number; n: number } | null) => void;
+}) {
   if (!tile) return null;
   const meals = (tile.details?.meals as any[]) ?? [];
   const water = tile.details?.water as any;
@@ -260,6 +336,12 @@ function FoodWaterTile({ tile }: { tile?: Tile }) {
           </div>
         ) : null}
       </div>
+      <CatererResearch
+        text={text}
+        briefKey={briefKey}
+        onSource={onSource}
+        onResearchedPrices={onResearchedPrices}
+      />
     </TileCard>
   );
 }

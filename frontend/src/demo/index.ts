@@ -21,6 +21,11 @@ import bPeople from "./briefB/people.json";
 import bSponsors from "./briefB/sponsors.json";
 import bTrust from "./briefB/trust.json";
 
+import aAgentCatering from "./briefA/agent_catering.json";
+import aAgentPeople from "./briefA/agent_people.json";
+import bAgentCatering from "./briefB/agent_catering.json";
+import bAgentPeople from "./briefB/agent_people.json";
+
 interface DemoBundle {
   parse: unknown;
   plan: Plan;
@@ -30,6 +35,8 @@ interface DemoBundle {
   people: any;
   sponsors: any;
   trust: any;
+  agentCatering: any;
+  agentPeople: any;
 }
 
 export const DEMO: Record<BriefKey, DemoBundle> = {
@@ -42,6 +49,8 @@ export const DEMO: Record<BriefKey, DemoBundle> = {
     people: aPeople,
     sponsors: aSponsors,
     trust: aTrust,
+    agentCatering: aAgentCatering,
+    agentPeople: aAgentPeople,
   },
   briefB: {
     parse: bParse,
@@ -52,6 +61,8 @@ export const DEMO: Record<BriefKey, DemoBundle> = {
     people: bPeople,
     sponsors: bSponsors,
     trust: bTrust,
+    agentCatering: bAgentCatering,
+    agentPeople: bAgentPeople,
   },
 };
 

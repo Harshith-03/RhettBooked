@@ -96,7 +96,7 @@ export default function App() {
                 <p className="mt-1 text-sm text-gray-800 dark:text-gray-200">{explanation}</p>
               </Card>
             ) : null}
-            <Tiles plan={plan} />
+            <Tiles plan={plan} text={text} briefKey={briefKey} onSource={setSource} />
             <DrillPanel text={text} briefKey={briefKey} onSource={setSource} />
             <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
           </div>

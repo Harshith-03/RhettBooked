@@ -64,10 +64,20 @@ class Settings:
     allowed_origins: tuple[str, ...] = ("http://localhost:5173",)
     eventtwin_db: str = ""              # EVENTTWIN_DB override (e.g. deploy/eventtwin_demo.duckdb)
     cache_dir: str = ""                # EVENTTWIN_CACHE override for cached API responses
+    # Gemini + research agent (backend-only; keys never sent to the frontend/logs).
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.0-flash"
+    agent_max_tool_calls: int = 12
+    agent_timeout_s: int = 60
+    agent_max_output_tokens: int = 2048
 
     @property
     def llm_enabled(self) -> bool:
         return self.llm_provider.lower() != "none"
+
+    @property
+    def gemini_enabled(self) -> bool:
+        return bool(self.gemini_api_key) and not self.gemini_api_key.startswith("<")
 
     @property
     def cors_origin(self) -> str:
@@ -138,7 +148,25 @@ def get_settings() -> Settings:
         allowed_origins=_parse_origins(raw_origins),
         eventtwin_db=os.environ.get("EVENTTWIN_DB", "").strip(),
         cache_dir=os.environ.get("EVENTTWIN_CACHE", "").strip(),
+        gemini_api_key=os.environ.get("GEMINI_API_KEY", "").strip(),
+        gemini_model=os.environ.get("GEMINI_MODEL", "gemini-2.0-flash").strip() or "gemini-2.0-flash",
+        agent_max_tool_calls=_int_env("AGENT_MAX_TOOL_CALLS", 12),
+        agent_timeout_s=_int_env("AGENT_TIMEOUT_S", 60),
+        agent_max_output_tokens=_int_env("AGENT_MAX_OUTPUT_TOKENS", 2048),
     )
+
+
+def _int_env(name: str, default: int) -> int:
+    try:
+        return int(os.environ.get(name, "").strip() or default)
+    except ValueError:
+        return default
+
+
+def agent_cache_dir() -> Path:
+    """Directory for 24h cached completed research per (plan hash, task)."""
+    d = active_cache_dir() / "agent_cache"
+    return d
 
 
 settings = get_settings()

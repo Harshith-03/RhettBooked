@@ -17,8 +17,11 @@ from backend.app.provenance import (
 # --------------------------------------------------------------------------- #
 # Provenance labels and records
 # --------------------------------------------------------------------------- #
-def test_allowed_labels_are_the_four_canonical_ones():
-    assert ALLOWED_LABELS == {"MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED"}
+def test_allowed_labels_are_the_canonical_set():
+    # RESEARCHED was added for the research agent (AI web research, cited).
+    assert ALLOWED_LABELS == {
+        "MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED", "RESEARCHED",
+    }
 
 
 def test_provenance_row_rejects_bad_label():

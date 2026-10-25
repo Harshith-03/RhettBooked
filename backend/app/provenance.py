@@ -39,6 +39,7 @@ class Label(str, Enum):
     ASSUMED = "ASSUMED"
     PLACEHOLDER = "PLACEHOLDER"
     SIMULATED = "SIMULATED"
+    RESEARCHED = "RESEARCHED"   # AI web research, cited, verify
 
 
 ALLOWED_LABELS: frozenset[str] = frozenset(label.value for label in Label)

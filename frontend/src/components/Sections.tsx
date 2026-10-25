@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchExtra } from "../api";
 import type { BriefKey, Plan, Source } from "../types";
 import { Badge, Card, money } from "./ui";
+import { PeopleResearch } from "./Research";
 
 // Compare / People / Sponsors / Trust / Export panels (P1 tasks 17, 18, 19, 21, 23).
 export function Sections({
@@ -45,7 +46,9 @@ export function Sections({
     <div className="space-y-6">
       {options ? <ComparePanel options={options} /> : null}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {people ? <PeoplePanel people={people} /> : null}
+        {people ? (
+          <PeoplePanel people={people} text={text} briefKey={briefKey} onSource={onSource} />
+        ) : null}
         {sponsors ? <SponsorsPanel sponsors={sponsors} /> : null}
       </div>
       {trust ? <TrustPanel trust={trust} /> : null}
@@ -78,12 +81,22 @@ function ComparePanel({ options }: { options: any }) {
   );
 }
 
-function PeoplePanel({ people }: { people: any }) {
+function PeoplePanel({
+  people,
+  text,
+  briefKey,
+  onSource,
+}: {
+  people: any;
+  text: string;
+  briefKey: BriefKey | null;
+  onSource: (s: Source) => void;
+}) {
   const list = people.people ?? [];
   return (
     <Card>
       <div className="mb-2 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">People (judges / speakers)</h2>
+        <h2 className="text-lg font-semibold">People &amp; sponsors</h2>
         <Badge>{people.similarity_method}</Badge>
       </div>
       {list.length ? (
@@ -106,6 +119,7 @@ function PeoplePanel({ people }: { people: any }) {
       <p className="mt-2 text-xs text-gray-400">
         Public OpenAlex data only; no contact or demographic inference.
       </p>
+      <PeopleResearch text={text} briefKey={briefKey} onSource={onSource} />
     </Card>
   );
 }
@@ -137,8 +151,9 @@ function TrustPanel({ trust }: { trust: any }) {
   const total = Object.values(counts).reduce((a: number, b: any) => a + b, 0) || 1;
   const colors: Record<string, string> = {
     MEASURED: "bg-blue-500", ASSUMED: "bg-amber-500",
-    PLACEHOLDER: "bg-gray-400", SIMULATED: "bg-green-500",
+    PLACEHOLDER: "bg-gray-400", SIMULATED: "bg-green-500", RESEARCHED: "bg-purple-500",
   };
+  const LABELS = ["MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED", "RESEARCHED"];
   return (
     <Card>
       <h2 className="mb-2 text-lg font-semibold">Trust</h2>
@@ -146,12 +161,12 @@ function TrustPanel({ trust }: { trust: any }) {
         Provenance label mix
       </p>
       <div className="mb-2 flex h-4 overflow-hidden rounded">
-        {["MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED"].map((l) => (
+        {LABELS.map((l) => (
           <div key={l} className={colors[l]} style={{ width: `${((counts[l] ?? 0) / total) * 100}%` }} title={`${l}: ${counts[l] ?? 0}`} />
         ))}
       </div>
       <div className="mb-3 flex flex-wrap gap-2 text-xs">
-        {["MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED"].map((l) => (
+        {LABELS.map((l) => (
           <span key={l}>
             <span className={`mr-1 inline-block h-2 w-2 rounded-full ${colors[l]}`} />
             {l} {counts[l] ?? 0}

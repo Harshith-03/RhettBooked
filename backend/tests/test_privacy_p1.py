@@ -104,6 +104,6 @@ def test_trust_endpoint_label_mix_and_sensitivity():
     assert r.status_code == 200
     body = r.json()
     counts = body["label_counts"]
-    assert set(counts) == {"MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED"}
+    assert set(counts) == {"MEASURED", "ASSUMED", "PLACEHOLDER", "SIMULATED", "RESEARCHED"}
     assert sum(counts.values()) > 0
     assert isinstance(body["sensitivity"], list)
