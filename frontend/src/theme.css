@@ -26,6 +26,9 @@
   --shadow-md: 0 4px 12px rgba(20, 20, 20, 0.06), 0 2px 4px rgba(20, 20, 20, 0.04);
   --shadow-lg: 0 12px 32px rgba(20, 20, 20, 0.10), 0 4px 8px rgba(20, 20, 20, 0.05);
   --ring: rgba(204, 0, 0, 0.14);
+  /* Docked side panel (VS Code secondary-sidebar feel): a distinct surface */
+  --panel: #fbfaf8;
+  --panel-shadow: -8px 0 24px rgba(20, 20, 20, 0.04);
 }
 
 [data-theme="dark"] {
@@ -53,6 +56,8 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
   --ring: rgba(255, 107, 107, 0.22);
+  --panel: #181818;
+  --panel-shadow: -8px 0 24px rgba(0, 0, 0, 0.4);
 }
 
 html,

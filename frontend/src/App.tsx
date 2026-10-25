@@ -13,8 +13,6 @@ import { CATEGORIES } from "./lib/budget";
 import { applyTheme, getInitialTheme, setTheme, usePrefersReducedMotion, type Theme } from "./theme";
 import type { BriefKey, OptionsResponse, Plan, Source } from "./types";
 
-const MAX_W = 1280;
-
 export default function App() {
   const [theme, setThemeState] = useState<Theme>("light");
   const [text, setText] = useState("");
@@ -111,11 +109,11 @@ export default function App() {
             </motion.div>
           </main>
         ) : (
-          // ---------- Two-column working state ----------
-          <main className="relative mx-auto w-full px-5 sm:px-8" style={{ maxWidth: MAX_W, paddingTop: 28, paddingBottom: 72 }}>
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-              {/* Main pane */}
-              <div className="order-2 min-w-0 flex-1 lg:order-1">
+          // ---------- VS Code-style docked shell: scrolling main pane + fixed side panel ----------
+          <main className="relative flex w-full flex-col lg:h-[calc(100vh-60px)] lg:flex-row">
+            {/* Main pane: fills all width left of the panel, scrolls on its own */}
+            <section className="min-w-0 flex-1 lg:overflow-y-auto" style={{ scrollbarGutter: "stable" }}>
+              <div className="mx-auto w-full px-6 sm:px-10" style={{ maxWidth: 1180, paddingTop: 28, paddingBottom: 80 }}>
                 {loading ? (
                   <LoadingSkeleton />
                 ) : plan ? (
@@ -139,10 +137,33 @@ export default function App() {
                   </div>
                 ) : null}
               </div>
+            </section>
 
-              {/* Right rail: Customize (top) + chat-style intake (below), sticky. */}
-              <aside className="order-1 w-full lg:order-2 lg:w-[340px] lg:flex-none">
-                <div className="lg:sticky lg:top-[76px] space-y-4">
+            {/* Docked side panel (VS Code secondary sidebar): own surface + hard divider */}
+            <motion.aside
+              layout
+              initial={{ x: 40, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden shrink-0 flex-col lg:flex"
+              style={{
+                width: 380,
+                background: "var(--panel)",
+                borderLeft: "1px solid var(--border)",
+                boxShadow: "var(--panel-shadow)",
+              }}
+            >
+              {/* Panel header strip */}
+              <div
+                className="flex items-center justify-between px-4"
+                style={{ height: 40, borderBottom: "1px solid var(--border)", flex: "0 0 auto" }}
+              >
+                <span className="caps-label" style={{ letterSpacing: "0.1em" }}>Plan controls</span>
+              </div>
+
+              {/* Scrollable panel body */}
+              <div className="flex-1 overflow-y-auto p-4" style={{ scrollbarGutter: "stable" }}>
+                <div className="space-y-4">
                   {options?.options?.length ? (
                     <CustomizeCard
                       mult={mult}
@@ -165,8 +186,25 @@ export default function App() {
                     />
                   </motion.div>
                 </div>
-              </aside>
-            </div>
+              </div>
+            </motion.aside>
+
+            {/* Mobile: panel collapses below as a normal stack (no divider) */}
+            <aside className="block w-full lg:hidden">
+              <div className="mx-auto w-full px-6 pb-16" style={{ maxWidth: 1180 }}>
+                <div className="space-y-4">
+                  {options?.options?.length ? (
+                    <CustomizeCard
+                      mult={mult}
+                      setMult={setMult}
+                      budgetTarget={budgetTarget}
+                      setBudgetTarget={setBudgetTarget}
+                      defaultBudget={options.options[0]?.budget_usd ?? 15000}
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </aside>
           </main>
         )}
       </LayoutGroup>
@@ -312,7 +350,7 @@ function Header({
       className="rb-header"
       style={{ background: "var(--header-bg)", borderBottom: "3px solid var(--header-border)" }}
     >
-      <div className="mx-auto flex w-full items-center justify-between px-5 py-3 sm:px-8" style={{ maxWidth: MAX_W }}>
+      <div className="flex w-full items-center justify-between px-5 py-3 sm:px-8">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center overflow-hidden rounded-full" style={{ width: 36, height: 36, background: "#ffffff" }}>
             <img src="/logo.png" alt="RhettBooked logo" width={36} height={36} style={{ width: 36, height: 36, objectFit: "contain" }} />
