@@ -245,3 +245,81 @@ export function StaggerItem({ children }: { children: ReactNode }) {
     </motion.div>
   );
 }
+
+// --- v2 aesthetic primitives -------------------------------------------------
+
+// A card that lifts slightly on hover with a soft shadow (Apple-style).
+export function HoverCard({
+  children,
+  className = "",
+  style = {},
+  topAccent = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  topAccent?: boolean;
+}) {
+  const reduced = usePrefersReducedMotion();
+  return (
+    <motion.div
+      whileHover={reduced ? undefined : { y: -3 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className={`rounded-2xl ${className}`}
+      style={{
+        background: "var(--card)",
+        border: "1px solid var(--border)",
+        borderTop: topAccent ? "3px solid var(--red)" : undefined,
+        boxShadow: "var(--shadow-sm)",
+        padding: 22,
+        ...style,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Reveal on scroll: fade + rise once when it enters the viewport.
+export function Reveal({
+  children,
+  delay = 0,
+}: {
+  children: ReactNode;
+  delay?: number;
+}) {
+  const reduced = usePrefersReducedMotion();
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: reduced ? 0 : 0.4, ease: [0.22, 1, 0.36, 1], delay: reduced ? 0 : delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// A subtle animated label-value stat used in the restyled detail cards.
+export function GridStat({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string;
+  value: ReactNode;
+  accent?: boolean;
+}) {
+  return (
+    <div className="rounded-xl px-3 py-3" style={{ background: "var(--card-alt)" }}>
+      <p className="caps-label">{label}</p>
+      <p
+        className="mt-1 tnum"
+        style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.02em", color: accent ? "var(--red-text)" : "var(--text)" }}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}

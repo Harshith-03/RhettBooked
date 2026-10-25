@@ -1,25 +1,19 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { fetchOptions, fetchPlan } from "./api";
 import { BRIEF_TEXT } from "./demo";
 import { Compare } from "./components/Compare";
+import { CustomizeCard, type Multipliers } from "./components/Customize";
 import { DrillPanel } from "./components/DrillPanel";
 import { Sections } from "./components/Sections";
 import { SummaryCard, TwoUp } from "./components/cards";
 import { BudgetCard, FoodWaterCard } from "./components/budgetfood";
-import {
-  Chip,
-  PrimaryButton,
-  Skeleton,
-  Stagger,
-  StaggerItem,
-} from "./components/ui";
+import { Chip, PrimaryButton, Reveal, Skeleton } from "./components/ui";
+import { CATEGORIES } from "./lib/budget";
 import { applyTheme, getInitialTheme, setTheme, usePrefersReducedMotion, type Theme } from "./theme";
 import type { BriefKey, OptionsResponse, Plan, Source } from "./types";
 
-// Content is centered with generous side padding but stretches wide so the
-// 3-up Compare grid can breathe (Apple-style full-bleed with a max rail).
-const MAX_W = 1200;
+const MAX_W = 1280;
 
 export default function App() {
   const [theme, setThemeState] = useState<Theme>("light");
@@ -31,11 +25,23 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [researched, setResearched] = useState<{ low: number; high: number; n: number } | null>(null);
 
+  // Lifted customization state so the right-rail Customize card drives Compare.
+  const [mult, setMult] = useState<Multipliers>(
+    Object.fromEntries(CATEGORIES.map((c) => [c, 1]))
+  );
+  const [budgetTarget, setBudgetTarget] = useState<number>(15000);
+
   useEffect(() => {
     const t = getInitialTheme();
     setThemeState(t);
     applyTheme(t);
   }, []);
+
+  // When the first plan arrives, seed the budget target from the brief.
+  useEffect(() => {
+    const b = options?.options?.[0]?.budget_usd;
+    if (b) setBudgetTarget(b);
+  }, [options]);
 
   function toggleTheme() {
     const next: Theme = theme === "dark" ? "light" : "dark";
@@ -74,56 +80,113 @@ export default function App() {
   function newPlan() {
     setPlan(null);
     setOptions(null);
+    setText("");
+    setBriefKey(null);
+    setMult(Object.fromEntries(CATEGORIES.map((c) => [c, 1])));
   }
+
+  const built = Boolean(plan);
 
   return (
     <div style={{ minHeight: "100%", background: "var(--bg)", color: "var(--text)" }}>
-      <Header theme={theme} onToggle={toggleTheme} source={source} onNewPlan={newPlan} />
+      <AmbientBackground />
+      <Header theme={theme} onToggle={toggleTheme} source={source} onNewPlan={newPlan} built={built} />
 
-      <main className="mx-auto w-full px-5 sm:px-8" style={{ maxWidth: MAX_W, paddingTop: 32, paddingBottom: 64 }}>
-        {!plan ? <Hero /> : null}
-
-        {/* Intake */}
-        <IntakeCard
-          text={text}
-          setText={(t) => { setText(t); setBriefKey(null); }}
-          onKeyDown={onKeyDown}
-          onBuild={() => void runPlan(text, briefKey)}
-          loading={loading}
-          briefKey={briefKey}
-          onExample={useExample}
-        />
-
-        <div style={{ height: 24 }} />
-
-        {loading && !plan ? (
-          <LoadingSkeleton />
-        ) : plan ? (
-          <Stagger key={`${briefKey}-${source}`}>
-            {options?.options?.length ? (
-              <StaggerItem><Compare options={options.options} /></StaggerItem>
-            ) : null}
-            <StaggerItem><Divider label="The recommended plan in detail" /></StaggerItem>
-            <StaggerItem><SummaryCard plan={plan} /></StaggerItem>
-            <StaggerItem><TwoUp plan={plan} /></StaggerItem>
-            <StaggerItem><BudgetCard plan={plan} researched={researched} /></StaggerItem>
-            <StaggerItem>
-              <FoodWaterCard
-                plan={plan}
+      <LayoutGroup>
+        {!built ? (
+          // ---------- Centered hero state ----------
+          <main className="relative mx-auto w-full px-5 sm:px-8" style={{ maxWidth: 760, paddingTop: 72, paddingBottom: 64 }}>
+            <Hero />
+            <motion.div layoutId="intake-card" layout>
+              <IntakeCard
                 text={text}
+                setText={(t) => { setText(t); setBriefKey(null); }}
+                onKeyDown={onKeyDown}
+                onBuild={() => void runPlan(text, briefKey)}
+                loading={loading}
                 briefKey={briefKey}
-                onSource={setSource}
-                onResearchedPrices={setResearched}
+                onExample={useExample}
+                compact={false}
               />
-            </StaggerItem>
-            <StaggerItem>
-              <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
-            </StaggerItem>
-            <StaggerItem><DrillPanel text={text} briefKey={briefKey} onSource={setSource} /></StaggerItem>
-          </Stagger>
-        ) : null}
-      </main>
+            </motion.div>
+          </main>
+        ) : (
+          // ---------- Two-column working state ----------
+          <main className="relative mx-auto w-full px-5 sm:px-8" style={{ maxWidth: MAX_W, paddingTop: 28, paddingBottom: 72 }}>
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+              {/* Main pane */}
+              <div className="order-2 min-w-0 flex-1 lg:order-1">
+                {loading ? (
+                  <LoadingSkeleton />
+                ) : plan ? (
+                  <div className="space-y-6">
+                    {options?.options?.length ? (
+                      <Reveal>
+                        <Compare options={options.options} mult={mult} budgetTarget={budgetTarget} />
+                      </Reveal>
+                    ) : null}
+                    <Reveal delay={0.05}><Divider label="The recommended plan in detail" /></Reveal>
+                    <Reveal delay={0.05}><SummaryCard plan={plan} /></Reveal>
+                    <Reveal delay={0.08}><TwoUp plan={plan} /></Reveal>
+                    <Reveal delay={0.08}><BudgetCard plan={plan} researched={researched} /></Reveal>
+                    <Reveal delay={0.08}>
+                      <FoodWaterCard plan={plan} text={text} briefKey={briefKey} onSource={setSource} onResearchedPrices={setResearched} />
+                    </Reveal>
+                    <Reveal delay={0.08}>
+                      <Sections text={text} briefKey={briefKey} plan={plan} onSource={setSource} />
+                    </Reveal>
+                    <Reveal delay={0.08}><DrillPanel text={text} briefKey={briefKey} onSource={setSource} /></Reveal>
+                  </div>
+                ) : null}
+              </div>
+
+              {/* Right rail: Customize (top) + chat-style intake (below), sticky. */}
+              <aside className="order-1 w-full lg:order-2 lg:w-[340px] lg:flex-none">
+                <div className="lg:sticky lg:top-[76px] space-y-4">
+                  {options?.options?.length ? (
+                    <CustomizeCard
+                      mult={mult}
+                      setMult={setMult}
+                      budgetTarget={budgetTarget}
+                      setBudgetTarget={setBudgetTarget}
+                      defaultBudget={options.options[0]?.budget_usd ?? 15000}
+                    />
+                  ) : null}
+                  <motion.div layoutId="intake-card" layout>
+                    <IntakeCard
+                      text={text}
+                      setText={(t) => { setText(t); setBriefKey(null); }}
+                      onKeyDown={onKeyDown}
+                      onBuild={() => void runPlan(text, briefKey)}
+                      loading={loading}
+                      briefKey={briefKey}
+                      onExample={useExample}
+                      compact
+                    />
+                  </motion.div>
+                </div>
+              </aside>
+            </div>
+          </main>
+        )}
+      </LayoutGroup>
     </div>
+  );
+}
+
+// Soft BU-red radial glow behind the hero, fading as you scroll. Pure CSS.
+function AmbientBackground() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0"
+      style={{
+        zIndex: 0,
+        background:
+          "radial-gradient(900px 420px at 50% -120px, var(--ring), transparent 70%)",
+        opacity: 0.9,
+      }}
+    />
   );
 }
 
@@ -133,30 +196,30 @@ function Hero() {
     <motion.div
       initial={{ opacity: 0, y: reduced ? 0 : 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: reduced ? 0 : 0.4 }}
-      className="mb-8 text-center"
+      transition={{ duration: reduced ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className="relative mb-7 text-center"
     >
-      <h1 className="hero-title mx-auto" style={{ maxWidth: 820 }}>
+      <span
+        className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-medium"
+        style={{ background: "var(--red-soft)", color: "var(--red-text)", border: "1px solid var(--border)" }}
+      >
+        BU event planning, modelled end to end
+      </span>
+      <h1 className="hero-title mx-auto" style={{ maxWidth: 680 }}>
         Describe your event.
         <br />
         <span style={{ color: "var(--red-text)" }}>Get a plan that holds up.</span>
       </h1>
-      <p className="mx-auto mt-4 text-base sm:text-lg" style={{ maxWidth: 560, color: "var(--muted)" }}>
-        One sentence in, a complete BU event plan out — venue, budget, food, transit and a
-        stress-test. Three budgets, side by side.
+      <p className="mx-auto mt-4 text-base sm:text-lg" style={{ maxWidth: 520, color: "var(--muted)" }}>
+        One sentence in, a complete plan out — venue, budget, food, transit and a stress-test.
+        Three budgets, side by side.
       </p>
     </motion.div>
   );
 }
 
 function IntakeCard({
-  text,
-  setText,
-  onKeyDown,
-  onBuild,
-  loading,
-  briefKey,
-  onExample,
+  text, setText, onKeyDown, onBuild, loading, briefKey, onExample, compact,
 }: {
   text: string;
   setText: (t: string) => void;
@@ -165,30 +228,45 @@ function IntakeCard({
   loading: boolean;
   briefKey: BriefKey | null;
   onExample: (k: BriefKey) => void;
+  compact: boolean;
 }) {
+  const ref = useRef<HTMLTextAreaElement>(null);
   return (
     <div
       className="rounded-2xl"
-      style={{ background: "var(--card)", border: "1px solid var(--border)", boxShadow: "var(--shadow-md)", padding: 24 }}
+      style={{
+        background: "var(--card)",
+        border: "1px solid var(--border)",
+        boxShadow: compact ? "var(--shadow-sm)" : "var(--shadow-lg)",
+        padding: compact ? 16 : 24,
+      }}
     >
-      <label htmlFor="brief" className="caps-label">Describe your event</label>
+      <div className="flex items-center justify-between">
+        <label htmlFor="brief" className="caps-label">
+          {compact ? "Your brief" : "Describe your event"}
+        </label>
+        {compact ? (
+          <span className="text-xs" style={{ color: "var(--muted)" }}>edit &amp; rebuild ↻</span>
+        ) : null}
+      </div>
       <textarea
         id="brief"
+        ref={ref}
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={onKeyDown}
-        rows={3}
+        rows={compact ? 4 : 3}
         placeholder="e.g. 300-person overnight AI hackathon at BU, Oct 24-25, students, budget $15k, needs lunch, dinner, midnight snack, breakfast"
-        className="mt-2 w-full rounded-xl p-4 text-base"
+        className="mt-2 w-full rounded-xl p-3 text-sm"
         style={{ border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text)", resize: "vertical" }}
       />
-      <div className="mt-4 flex flex-wrap items-center gap-2">
+      <div className={`mt-3 flex flex-wrap items-center gap-2 ${compact ? "" : "sm:mt-4"}`}>
         <PrimaryButton onClick={onBuild} disabled={loading || !text.trim()}>
-          {loading ? "Planning…" : "Build plan"}
+          {loading ? "Planning…" : compact ? "Rebuild" : "Build plan"}
         </PrimaryButton>
-        <span className="text-xs" style={{ color: "var(--muted)" }}>or try</span>
-        <Chip label="Brief A · Oct 24-25" active={briefKey === "briefA"} onClick={() => onExample("briefA")} />
-        <Chip label="Brief B · Oct 31-Nov 1" active={briefKey === "briefB"} onClick={() => onExample("briefB")} />
+        {!compact ? <span className="text-xs" style={{ color: "var(--muted)" }}>or try</span> : null}
+        <Chip label={compact ? "A" : "Brief A · Oct 24-25"} active={briefKey === "briefA"} onClick={() => onExample("briefA")} />
+        <Chip label={compact ? "B" : "Brief B · Oct 31-Nov 1"} active={briefKey === "briefB"} onClick={() => onExample("briefB")} />
       </div>
     </div>
   );
@@ -196,11 +274,11 @@ function IntakeCard({
 
 function LoadingSkeleton() {
   return (
-    <div className="space-y-5">
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-        <Skeleton height={320} />
-        <Skeleton height={320} />
-        <Skeleton height={320} />
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        <Skeleton height={300} />
+        <Skeleton height={300} />
+        <Skeleton height={300} />
       </div>
       <Skeleton height={120} />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -213,7 +291,7 @@ function LoadingSkeleton() {
 
 function Divider({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-4 pt-2">
+    <div className="flex items-center gap-4 pt-1">
       <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em" }}>{label}</span>
       <span className="h-px flex-1" style={{ background: "var(--border)" }} />
     </div>
@@ -221,30 +299,22 @@ function Divider({ label }: { label: string }) {
 }
 
 function Header({
-  theme,
-  onToggle,
-  source,
-  onNewPlan,
+  theme, onToggle, source, onNewPlan, built,
 }: {
   theme: Theme;
   onToggle: () => void;
   source: Source;
   onNewPlan: () => void;
+  built: boolean;
 }) {
   return (
     <header
       className="rb-header"
-      style={{
-        background: "var(--header-bg)",
-        borderBottom: "3px solid var(--header-border)",
-      }}
+      style={{ background: "var(--header-bg)", borderBottom: "3px solid var(--header-border)" }}
     >
       <div className="mx-auto flex w-full items-center justify-between px-5 py-3 sm:px-8" style={{ maxWidth: MAX_W }}>
         <div className="flex items-center gap-3">
-          <div
-            className="flex items-center justify-center overflow-hidden rounded-full"
-            style={{ width: 36, height: 36, background: "#ffffff" }}
-          >
+          <div className="flex items-center justify-center overflow-hidden rounded-full" style={{ width: 36, height: 36, background: "#ffffff" }}>
             <img src="/logo.png" alt="RhettBooked logo" width={36} height={36} style={{ width: 36, height: 36, objectFit: "contain" }} />
           </div>
           <div>
@@ -256,11 +326,19 @@ function Header({
         </div>
 
         <div className="flex items-center gap-2">
-          {source === "demo" ? (
-            <span className="rounded-full px-2 py-0.5" style={{ background: "#9ca3af", color: "#ffffff", fontSize: 11, fontWeight: 600 }}>
-              Demo snapshot
-            </span>
-          ) : null}
+          <AnimatePresence>
+            {source === "demo" ? (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                className="rounded-full px-2 py-0.5"
+                style={{ background: "#9ca3af", color: "#ffffff", fontSize: 11, fontWeight: 600 }}
+              >
+                Demo snapshot
+              </motion.span>
+            ) : null}
+          </AnimatePresence>
           <button
             onClick={onToggle}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
@@ -269,13 +347,15 @@ function Header({
           >
             {theme === "dark" ? "☀" : "☾"}
           </button>
-          <button
-            onClick={onNewPlan}
-            className="rounded-full px-3 py-1 text-sm font-medium"
-            style={{ border: "1px solid #ffffff", color: "#ffffff" }}
-          >
-            New plan
-          </button>
+          {built ? (
+            <button
+              onClick={onNewPlan}
+              className="rounded-full px-3 py-1 text-sm font-medium"
+              style={{ border: "1px solid #ffffff", color: "#ffffff" }}
+            >
+              New plan
+            </button>
+          ) : null}
         </div>
       </div>
     </header>
