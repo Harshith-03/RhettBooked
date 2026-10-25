@@ -84,6 +84,20 @@ def estimate(
     cards = rate_cards if rate_cards is not None else _load_rate_cards()
     rng = np.random.default_rng(seed)
 
+    # Resources BU provides at no cash charge for recognised student events.
+    # Any line whose in-kind token is listed is zeroed in the cash budget and
+    # labelled "ASSUMED - BU resource (no charge)". Maps budget keys -> token.
+    bu_in_kind = set(cards.get("bu_in_kind") or [])
+    _IN_KIND_TOKEN = {
+        "wifi": "wifi", "power": "power",
+        "av_tech_per_hour": "av_tech",
+        "security_police_detail_per_hour": "security",
+        "custodial_per_hour": "custodial",
+    }
+
+    def _is_in_kind(budget_key: str) -> bool:
+        return _IN_KIND_TOKEN.get(budget_key, budget_key) in bu_in_kind
+
     # Turnout draws: reuse the attendance Monte Carlo turnout percentiles to form
     # a per-draw turnout vector (lognormal-ish around p50 with p90 spread).
     t_p50 = max(1, getattr(attendance, "turnout_p50", 0) or 1)
@@ -120,14 +134,22 @@ def estimate(
     # --- Wi-Fi AP rental (scaled by venue rooms if available, else a default) ---
     ap = cards.get("temporary_wifi_ap_rental_per_ap_per_day") or {"low": 45, "high": 120}
     n_aps = 6  # thin default; tech sizing (task 14) refines this
-    line_cols["Wi-Fi AP rental"] = _tri(rng, float(ap["low"]), float(ap["high"]), draws) * n_aps
-    prov.append(_assumed("budget.wifi", "rate_cards.yaml temporary_wifi_ap_rental_per_ap_per_day", f"{n_aps} APs"))
+    if _is_in_kind("wifi"):
+        line_cols["Wi-Fi AP rental"] = np.zeros(draws)
+        prov.append(_in_kind("budget.wifi", "campus Wi-Fi / temporary APs via IS&T"))
+    else:
+        line_cols["Wi-Fi AP rental"] = _tri(rng, float(ap["low"]), float(ap["high"]), draws) * n_aps
+        prov.append(_assumed("budget.wifi", "rate_cards.yaml temporary_wifi_ap_rental_per_ap_per_day", f"{n_aps} APs"))
 
     # --- Power stations ---
     power = cards.get("power_strip_station_rental_each") or {"low": 8, "high": 25}
     n_power = 20
-    line_cols["Power stations"] = _tri(rng, float(power["low"]), float(power["high"]), draws) * n_power
-    prov.append(_assumed("budget.power", "rate_cards.yaml power_strip_station_rental_each", f"{n_power} stations"))
+    if _is_in_kind("power"):
+        line_cols["Power stations"] = np.zeros(draws)
+        prov.append(_in_kind("budget.power", "existing building circuits"))
+    else:
+        line_cols["Power stations"] = _tri(rng, float(power["low"]), float(power["high"]), draws) * n_power
+        prov.append(_assumed("budget.power", "rate_cards.yaml power_strip_station_rental_each", f"{n_power} stations"))
 
     # --- AV tech + security + custodial (hourly; tier scales staffing hours) ---
     hours = int(round(12 * service_scale))
@@ -136,6 +158,10 @@ def estimate(
         ("security_police_detail_per_hour", "Security", {"low": 55, "high": 95}),
         ("custodial_per_hour", "Custodial", {"low": 30, "high": 60}),
     ):
+        if _is_in_kind(key):
+            line_cols[label_name] = np.zeros(draws)
+            prov.append(_in_kind(f"budget.{key}", f"{label_name} provided by BU for registered events"))
+            continue
         card = cards.get(key) or default
         line_cols[label_name] = _tri(rng, float(card["low"]), float(card["high"]), draws) * hours
         prov.append(_assumed(f"budget.{key}", f"rate_cards.yaml {key}", f"{hours} hrs"))
@@ -214,3 +240,13 @@ def estimate(
 
 def _assumed(key: str, source: str, summary: str) -> ProvenanceRow:
     return ProvenanceRow(output_key=key, label=Label.ASSUMED, source=source, value_summary=summary)
+
+
+def _in_kind(key: str, what: str) -> ProvenanceRow:
+    """A $0 line that BU provides in-kind for recognised student events."""
+    return ProvenanceRow(
+        output_key=key,
+        label=Label.ASSUMED,
+        source=f"ASSUMED - BU resource (no charge): {what}",
+        value_summary="$0 (in-kind)",
+    )

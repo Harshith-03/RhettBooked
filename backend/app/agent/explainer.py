@@ -60,7 +60,13 @@ def explain(plan: dict) -> str:
 
     gap = summary.get("sponsorship_gap")
     if gap:
-        lines.append(f"Sponsorship gap: {_money(gap)} (p50 cost minus budget).")
+        # Positive gap = shortfall (need sponsors); negative = under budget.
+        # Phrase with the magnitude so it reads naturally; the magnitude is the
+        # plan number (grounding tests allow the absolute value of each figure).
+        if gap > 0:
+            lines.append(f"Sponsorship gap: {_money(gap)} over the stated budget (p50 cost minus budget).")
+        else:
+            lines.append(f"Budget headroom: {_money(abs(gap))} under the stated budget (p50 cost minus budget).")
 
     readiness = summary.get("readiness")
     if readiness is not None:

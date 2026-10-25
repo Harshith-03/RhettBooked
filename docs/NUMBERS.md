@@ -141,10 +141,10 @@ All values below are read straight from the committed demo snapshot
 | Output | Verified value | Label |
 |---|---|---|
 | Recommended venue | **GSU** (fits all 3 blocks; avg util 46%; 100% real BU event-space data) | MEASURED (venue data) + SIMULATED (assignment) |
-| Cost p50 | **$25,782** | SIMULATED (Monte Carlo, 500 draws) |
-| Cost p10–p90 band | **$20,557 – $31,320** | SIMULATED |
-| Cost per attendee | **$140.89** | SIMULATED |
-| Budget / sponsorship gap | **$10,782** over the stated $15k | SIMULATED |
+| Cost p50 | **$6,459** | SIMULATED (Monte Carlo, 500 draws) |
+| Cost p10–p90 band | **$4,865 – $8,192** | SIMULATED |
+| Cost per attendee | **$35.30** | SIMULATED |
+| Budget headroom (sponsorship gap) | **$8,541 under** the stated $15k | SIMULATED |
 | Turnout p50 / p90 | **183 / 238** | SIMULATED (Beta show-up prior, 500 draws) |
 | Readiness (before fixes) | **69 / 100 (failing)** | SIMULATED (digital-twin drill) |
 | Top risk + time | **Power failing from 09:00** | SIMULATED |
@@ -152,6 +152,13 @@ All values below are read straight from the committed demo snapshot
 - The cost figures are **Monte Carlo over turnout × rate-card ranges (500
   draws)**, every line item labelled ASSUMED (rate cards are PLACEHOLDER) — the
   roll-up is honestly SIMULATED.
+- **Student-event cost model:** the rate cards are tuned for a recognised BU
+  student event, and BU-provided resources (venue room, Wi-Fi, power, AV,
+  security, custodial) are **$0, labelled "ASSUMED - BU resource (no charge)"**
+  via the `bu_in_kind` list in `data/placeholder/rate_cards.yaml`. That is why a
+  300-person overnight hackathon lands near $5k–$10k (Lean $5.1k / Balanced
+  $6.5k / Premium $8.7k) rather than a corporate-gala figure. Catering is the
+  dominant cash line; prizes/swag are modest and typically sponsor-funded.
 - Venue recommendation (GSU) is from the CP-SAT assignment over MEASURED event
   spaces.
 

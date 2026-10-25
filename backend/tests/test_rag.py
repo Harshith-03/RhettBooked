@@ -54,8 +54,12 @@ def test_answer_numbers_only_from_plan():
                 "readiness", "turnout_p50", "turnout_p90"):
         v = summary.get(key)
         if v is not None:
-            allowed.add(str(int(v)))
-            allowed.add(f"{int(v):,}")
+            # numbers_in() is sign-agnostic (strips '-'/'$'), and the explainer
+            # may present a magnitude (e.g. a negative gap shown as "$X under
+            # budget"), so allow both the signed value and its absolute value.
+            for n in (int(v), abs(int(v))):
+                allowed.add(str(n))
+                allowed.add(f"{n:,}")
     for risk in summary.get("top_risks", []):
         allowed |= numbers_in(str(risk))
     for row in plan.get("provenance", []):

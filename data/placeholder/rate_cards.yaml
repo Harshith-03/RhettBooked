@@ -1,52 +1,74 @@
 # PLACEHOLDER - illustrative values, not official BU data
-_note: PLACEHOLDER - illustrative ASSUMED unit costs, not official BU or vendor data.
+_note: >-
+  PLACEHOLDER - illustrative ASSUMED unit costs for a RECOGNISED BU STUDENT
+  EVENT, not official BU or vendor quotes. Tuned to student-event reality: BU
+  provides rooms, Wi-Fi, power, AV, security and custodial in-kind (see
+  bu_in_kind), and catering is student-tier (pizza/snacks), so a 300-person
+  overnight hackathon lands around $5k-$10k rather than a corporate gala budget.
 currency: USD
+
+# Resources BU provides at no cash charge for recognised student events. Any
+# budget line whose key is listed here is zeroed and labelled
+# "ASSUMED - BU resource (no charge)" (its in-kind value is still shown).
+bu_in_kind:
+  - venue_room          # BU event spaces, booked through Reservations
+  - wifi                # campus Wi-Fi / temporary APs via IS&T
+  - power               # existing building circuits
+  - av_tech             # GSU / classroom AV support
+  - security            # BUPD coverage for registered events
+  - custodial           # Facilities cleaning
+
 catering_per_head:
+  # Student-tier catering: pizza, bagels, snacks - not plated/catered meals.
   lean:
     breakfast:
-      low: 6
-      high: 10
+      low: 2.5
+      high: 4
     lunch:
-      low: 10
-      high: 16
+      low: 4
+      high: 7
     dinner:
-      low: 14
-      high: 22
+      low: 5
+      high: 8
+    snack:
+      low: 1.5
+      high: 3
+  balanced:
+    breakfast:
+      low: 3.5
+      high: 6
+    lunch:
+      low: 6
+      high: 9
+    dinner:
+      low: 7
+      high: 11
+    snack:
+      low: 2
+      high: 4
+  premium:
+    breakfast:
+      low: 5
+      high: 8
+    lunch:
+      low: 8
+      high: 13
+    dinner:
+      low: 11
+      high: 17
     snack:
       low: 3
       high: 6
-  balanced:
-    breakfast:
-      low: 9
-      high: 14
-    lunch:
-      low: 15
-      high: 24
-    dinner:
-      low: 22
-      high: 35
-    snack:
-      low: 5
-      high: 9
-  premium:
-    breakfast:
-      low: 14
-      high: 22
-    lunch:
-      low: 24
-      high: 40
-    dinner:
-      low: 38
-      high: 65
-    snack:
-      low: 8
-      high: 14
+
 bottled_water_each:
-  low: 0.35
-  high: 0.9
+  low: 0.3
+  high: 0.6
+
 water_refill_station_rental_per_day:
-  low: 75
-  high: 200
+  low: 0
+  high: 0
+
+# BU-provided via bu_in_kind -> zeroed in the budget, kept for the in-kind note.
 temporary_wifi_ap_rental_per_ap_per_day:
   low: 45
   high: 120
@@ -62,18 +84,22 @@ security_police_detail_per_hour:
 custodial_per_hour:
   low: 30
   high: 60
+
 event_insurance_flat:
-  low: 150
-  high: 600
+  low: 0
+  high: 0
+
+# Prizes + swag are typically sponsor-funded for student hackathons; kept modest
+# so the cash baseline stays realistic.
 swag_per_head:
-  low: 5
-  high: 20
+  low: 1
+  high: 4
 prizes_total:
-  low: 500
-  high: 10000
+  low: 300
+  high: 1500
 printing_flat:
-  low: 50
-  high: 400
+  low: 20
+  high: 120
 contingency_percent:
   low: 5
-  high: 15
+  high: 12
