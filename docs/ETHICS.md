@@ -1,6 +1,6 @@
 # Ethics
 
-EventTwin is a planning aid, not an authority. These are the standing commitments
+RhettBooked is a planning aid, not an authority. These are the standing commitments
 the system is built to honor.
 
 ## Data provenance

@@ -159,14 +159,14 @@ function Header({
           >
             <img
               src="/logo.png"
-              alt="EventTwin logo"
+              alt="RhettBooked logo"
               width={36}
               height={36}
               style={{ width: 36, height: 36, objectFit: "contain" }}
             />
           </div>
           <div>
-            <div style={{ color: "#ffffff", fontWeight: 700, fontSize: 18, lineHeight: 1 }}>EventTwin</div>
+            <div style={{ color: "#ffffff", fontWeight: 700, fontSize: 18, lineHeight: 1 }}>RhettBooked</div>
             <div style={{ color: "#ffffff", opacity: 0.85, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase" }}>
               BU Event Planner
             </div>

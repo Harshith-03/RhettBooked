@@ -1,6 +1,6 @@
-# Kiro usage: EventTwin research MCP server
+# Kiro usage: RhettBooked research MCP server
 
-EventTwin ships a read-only MCP server (`backend/app/mcp_server/server.py`,
+RhettBooked ships a read-only MCP server (`backend/app/mcp_server/server.py`,
 FastMCP) so Kiro itself can call the research tools: `plan_context`,
 `osm_places_near`, `web_search` (Gemini + Google Search grounding), and
 `openalex_people`.

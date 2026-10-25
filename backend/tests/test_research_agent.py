@@ -125,3 +125,35 @@ def test_agent_research_rejects_bad_task():
 
 def test_agent_job_not_found():
     assert client.get("/agent/jobs/doesnotexist").status_code == 404
+
+
+# --------------------------------------------------------------------------- #
+# A provider error must NEVER leak into the serialized fallback reason
+# (operating rule: snapshots/results carry no API error text or secrets).
+# --------------------------------------------------------------------------- #
+def test_provider_error_text_not_leaked_into_catering_fallback():
+    def boom(_prompt):
+        raise RuntimeError(
+            "429 RESOURCE_EXHAUSTED {'error': {'message': 'quota', 'key': 'SECRET'}}"
+        )
+
+    res = research_mod.research_catering(_plan_dict(), generate=boom, osm_fetch=_fake_osm_fetch)
+    reason = res["fallback_reason"] or ""
+    assert res["label"] == "ASSUMED"
+    # Clean, classified reason only - no raw provider dump, no braces/JSON/secret.
+    assert "rate-limited" in reason.lower()
+    assert "RESOURCE_EXHAUSTED" not in reason
+    assert "{" not in reason and "SECRET" not in reason
+
+
+def test_provider_error_text_not_leaked_into_people_reason():
+    def boom(_prompt):
+        raise RuntimeError("403 PERMISSION_DENIED api_key=SECRET")
+
+    res = research_mod.research_people(_plan_dict(), generate=boom)
+    reason = res["fallback_reason"] or ""
+    # Judges (OpenAlex) are still real; the reason is sanitized.
+    assert len(res["judges"]) >= 1
+    assert "SECRET" not in reason
+    assert "api_key" not in reason
+    assert "{" not in reason

@@ -1,6 +1,7 @@
-# EventTwin (RhettBooked)
+# RhettBooked
 
-An event-planning digital twin for Boston University. Backend: FastAPI (Render).
+An event-planning digital twin for Boston University (formerly "EventTwin").
+Backend: FastAPI (Render).
 Frontend: React + Vite (Vercel). See `.kiro/specs/` for the full specs.
 
 - **Live demo:** https://rhettbooked.vercel.app

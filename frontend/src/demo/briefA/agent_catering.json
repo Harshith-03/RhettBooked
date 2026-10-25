@@ -1,9 +1,11 @@
 {
-  "job_id": "86aac63693e8",
+  "job_id": "3d6ea6db409b",
   "task": "catering",
   "status": "done",
   "steps": [
-    "Reading your plan"
+    "Reading your plan",
+    "Cross-checking with OpenStreetMap near GSU",
+    "Searching caterers near GSU for breakfast"
   ],
   "result": {
     "label": "ASSUMED",
@@ -26,7 +28,7 @@
       }
     ],
     "verified_count": 0,
-    "fallback_reason": "No GEMINI_API_KEY; showing estimates."
+    "fallback_reason": "Web research is rate-limited right now; showing estimates."
   },
   "error": null
 }

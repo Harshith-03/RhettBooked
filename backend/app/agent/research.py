@@ -34,6 +34,26 @@ from . import guardrails as G
 StepCb = Callable[[str], None]
 
 
+def _safe_reason(exc: Exception) -> str:
+    """Map a provider exception to a clean, user-facing fallback reason.
+
+    Never embeds raw provider error text (which can contain request details or
+    quota JSON) into a serialized/user-visible field. Classified by error class
+    / status code only, so demo snapshots stay free of error dumps and secrets.
+    """
+    text = f"{type(exc).__name__}: {exc}"
+    if "429" in text or "RESOURCE_EXHAUSTED" in text or "quota" in text.lower():
+        return "Web research is rate-limited right now; showing estimates."
+    if "401" in text or "403" in text or "PERMISSION" in text or "API key" in text:
+        return "Web research is unavailable (auth); showing estimates."
+    if "404" in text or "not found" in text.lower():
+        return "The configured model is unavailable; showing estimates."
+    if "timeout" in text.lower() or "deadline" in text.lower():
+        return "Web research timed out; showing estimates."
+    # Generic: name the error class only, never the message body.
+    return f"Web research unavailable ({type(exc).__name__}); showing estimates."
+
+
 # --------------------------------------------------------------------------- #
 # Result schemas (pydantic-validated final output)
 # --------------------------------------------------------------------------- #
@@ -156,7 +176,7 @@ def research_catering(plan: dict, steps: StepCb | None = None, generate=None, os
             ws = tools_impl.web_search(WebSearchIn(query=query, purpose="catering"),
                                        generate=generate)
         except Exception as e:
-            return _catering_fallback(plan, f"web_search failed: {e}")
+            return _catering_fallback(plan, _safe_reason(e))
         grounding_urls = [s.url for s in ws.sources]
 
         step("Checking sources")
@@ -179,8 +199,8 @@ def research_catering(plan: dict, steps: StepCb | None = None, generate=None, os
               "fallback_reason": None}
     try:
         CateringResult(**result)
-    except ValidationError as e:
-        return _catering_fallback(plan, f"validation failed: {e.errors()[:1]}")
+    except ValidationError:
+        return _catering_fallback(plan, "Result validation failed; showing estimates.")
     # Only cache successful RESEARCHED results from the live path (never fallbacks).
     if use_cache:
         _cache_put(key, result)
@@ -301,6 +321,7 @@ def research_people(plan: dict, steps: StepCb | None = None, generate=None) -> d
 
     speakers: list[dict] = []
     sponsors: list[dict] = []
+    web_error: str | None = None
     if s.gemini_enabled or generate is not None:
         budget = G.CallBudget(max_calls=s.agent_max_tool_calls, timeout_s=s.agent_timeout_s)
         for purpose, bucket in (("people", speakers), ("sponsors", sponsors)):
@@ -313,7 +334,8 @@ def research_people(plan: dict, steps: StepCb | None = None, generate=None) -> d
             try:
                 ws = tools_impl.web_search(WebSearchIn(query=query, purpose=purpose),
                                            generate=generate)
-            except Exception:
+            except Exception as e:
+                web_error = _safe_reason(e)
                 continue
             grounding_urls = [x.url for x in ws.sources]
             step("Checking sources")
@@ -327,16 +349,23 @@ def research_people(plan: dict, steps: StepCb | None = None, generate=None) -> d
 
     total = len(judges) + len(speakers) + len(sponsors)
     step(f"Done: {len(judges)} judges, {len(speakers)} speakers, {len(sponsors)} sponsors")
+    # Judges (OpenAlex) are always real RESEARCHED. Reason explains why the web
+    # portion (speakers/sponsors) may be empty - always a clean, sanitized string.
+    if not (s.gemini_enabled or generate is not None):
+        reason = "No GEMINI_API_KEY; speakers/sponsors from estimates."
+    elif web_error and not speakers and not sponsors:
+        reason = web_error
+    else:
+        reason = None
     result = {
         "label": Label.RESEARCHED.value,
         "judges": judges, "speakers": speakers, "sponsors": sponsors,
-        "fallback_reason": None if (s.gemini_enabled or generate is not None)
-                           else "No GEMINI_API_KEY; speakers/sponsors from estimates.",
+        "fallback_reason": reason,
     }
     try:
         PeopleResearchResult(**result)
-    except ValidationError as e:
-        result["fallback_reason"] = f"validation failed: {e.errors()[:1]}"
+    except ValidationError:
+        result["fallback_reason"] = "Result validation failed; showing estimates."
     if use_cache and not result.get("fallback_reason"):
         _cache_put(key, result)
     return result
